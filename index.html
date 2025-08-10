@@ -1,338 +1,315 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8" />
-  <title>Holyshot</title>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet" />
-  <link rel="icon" href="https://i.postimg.cc/BvNYZdcM/5820273963253742054.jpg" type="image/png" />
-  <style>
-    body {
-      font-family: 'Vazirmatn', sans-serif;
-      background-color: #0a0909;
-      color: #95917a;
-      margin: 0;
-      padding: 0;
-      direction: rtl;
-      overflow-x: hidden;
-    }
+<meta charset="UTF-8" />
+<title>Holyshot</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet" />
+<style>
+  body {
+    font-family: 'Vazirmatn', sans-serif;
+    background-color: #0a0909;
+    color: #95917a;
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+    overflow-x: hidden;
+  }
+  header {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  header img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 100vh;
+    object-fit: contain;
+    filter: brightness(0.6);
+  }
+  section {
+    padding: 40px 20px;
+    text-align: center;
+  }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    padding: 40px 20px;
+  }
+  .menu-item {
+    background-color: #95917a;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    transition: 0.3s;
+    color: black;
+    font-weight: bold;
+  }
+  .menu-item:hover {
+    background-color: #e7f6fc;
+  }
+  .cat-item-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-    header {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-    }
+  /* بخش صدای ما */
+  .voice-section {
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    width: 100%;
+    max-height: 65vh;
+    overflow-y: auto;
+    background-color: rgba(0,0,0,0.65);
+    color: #ddd;
+    box-sizing: border-box;
+    padding: 35px 60px 40px;
+    z-index: 9998;
+    font-family: 'Vazirmatn', sans-serif;
+    text-align: center;
+    border-top: 1px solid rgba(198,168,125,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: max-height 0.6s cubic-bezier(0.4,0,0.2,1), padding 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+  .voice-section.closed {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    border-top: none;
+  }
+  .voice-section p {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    color: #c6a87d;
+    font-weight: 600;
+  }
+  .voice-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+    width: 100%;
+    max-height: calc(65vh - 130px);
+    overflow-y: auto;
+    border-top: 1px solid rgba(198,168,125,0.3);
+  }
+  .voice-list li {
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(198,168,125,0.2);
+    padding-bottom: 20px;
+  }
+  .voice-list strong {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.4em;
+    color: #c6a87d;
+  }
 
-    header img {
-      width: 100%;
-      height: auto;
-      display: block;
-      max-height: 100vh;
-      object-fit: contain;
-      filter: brightness(0.6);
-    }
+  audio {
+    width: 100% !important;
+    cursor: pointer;
+    border-radius: 12px;
+    margin-top: 8px;
+    outline: none;
+    height: 75px;
+    box-sizing: border-box;
+    background-color: #222;
+    position: relative;
+  }
 
-    section {
-      padding: 40px 20px;
-      text-align: center;
-    }
+  audio::-webkit-media-controls-panel {
+    border-radius: 12px !important;
+    background-color: #222 !important;
+    padding: 0 5px !important;
+  }
 
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 20px;
-      padding: 40px 20px;
-    }
+  audio::-webkit-media-controls-play-button,
+  audio::-webkit-media-controls-volume-slider {
+    border-radius: 12px !important;
+  }
 
-    .menu-item {
-      background-color: #95917a;
-      border-radius: 8px;
-      padding: 15px;
-      text-align: center;
-      transition: 0.3s;
-      color: black;
-      font-weight: bold;
-    }
+  /* نوار پیشرفت پخش صدا */
+  audio::-webkit-media-controls-timeline {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    border-radius: 8px;
+    animation: pulseGlow 1.5s infinite;
+  }
+  audio::-moz-range-track {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    animation: pulseGlow 1.5s infinite;
+  }
+  audio::-webkit-slider-runnable-track {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    animation: pulseGlow 1.5s infinite;
+  }
 
-    .menu-item:hover {
-      background-color: #e7f6fc;
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 0 6px 2px rgba(198,168,125,0.4);
     }
-
-    .cat-item-img {
-      width: 60px;
-      height: 60px;
-      object-fit: contain;
-      margin-bottom: 10px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
+    50% {
+      box-shadow: 0 0 16px 6px rgba(198,168,125,0.8);
     }
+  }
 
-    /* بخش صدای ما */
-    .voice-section {
-      position: fixed;
-      bottom: 60px;
-      left: 0;
-      width: 100%;
-      max-height: 65vh;
-      overflow-y: auto;
-      background-color: rgba(0, 0, 0, 0.65);
-      color: #ddd;
-      box-sizing: border-box;
-      padding: 35px 60px 40px;
-      z-index: 9998;
-      font-family: 'Vazirmatn', sans-serif;
-      text-align: center;
-      border-top: 1px solid rgba(198, 168, 125, 0.3);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .voice-section.closed {
-      max-height: 0;
-      padding-top: 0;
-      padding-bottom: 0;
-      overflow: hidden;
-      border-top: none;
-    }
-
-    .voice-section p {
-      font-size: 1.5rem;
-      margin-top: 10px;
-      margin-bottom: 30px;
-      color: #c6a87d;
-      font-weight: 600;
-    }
-
-    .voice-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      text-align: right;
-      width: 100%;
-      max-height: calc(65vh - 130px);
-      overflow-y: auto;
-      border-top: 1px solid rgba(198, 168, 125, 0.3);
-    }
-
-    .voice-list li {
-      margin-bottom: 30px;
-      border-bottom: 1px solid rgba(198, 168, 125, 0.2);
-      padding-bottom: 20px;
-    }
-
-    .voice-list strong {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 1.4em;
-      color: #c6a87d;
-    }
-
-    audio {
-      width: 100% !important;
-      cursor: pointer;
-      border-radius: 12px;
-      margin-top: 8px;
-      outline: none;
-      height: 75px;
-      box-sizing: border-box;
-      background-color: #222;
-    }
-
-    audio::-webkit-media-controls-panel {
-      border-radius: 12px !important;
-      background-color: #222 !important;
-      padding: 0 5px !important;
-    }
-
-    audio::-webkit-media-controls-play-button,
-    audio::-webkit-media-controls-volume-slider {
-      border-radius: 12px !important;
-    }
-
-    /* نوار پیشرفت (Progress Bar) */
-    audio::-webkit-media-controls-timeline {
-      background-color: rgba(0, 0, 0, 0.6) !important;
-      border-radius: 8px;
-    }
-
-    audio::-moz-range-track {
-      background-color: rgba(0, 0, 0, 0.6);
-      border-radius: 8px;
-    }
-
-    audio::-webkit-slider-runnable-track {
-      background-color: rgba(0, 0, 0, 0.6);
-      border-radius: 8px;
-    }
-
-    footer {
-      background-color: #111;
-      color: #95917a;
-      padding: 20px 10px;
-      font-family: 'Vazirmatn', sans-serif;
-      direction: rtl;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    footer a {
-      color: #c6a87d;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    /* دکمه لامپ بالای صفحه */
-    .lamp-btn {
-      position: fixed;
-      top: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 10000;
-      padding: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: filter 0.3s ease;
-      animation: lampGlow 3s infinite alternate;
-    }
-
-    .lamp-btn svg {
-      width: 50px;
-      height: 50px;
-      fill: #95917a;
-      filter: drop-shadow(0 0 6px #95917a);
-      transition: filter 0.3s ease;
-    }
-
-    .lamp-btn:hover svg {
+  /* دکمه لامپ بالای صفحه با جهت رو به پایین */
+  .lamp-btn {
+    position: fixed;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg); /* چرخش ۱۸۰ درجه برای رو به پایین */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10000;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter 0.3s ease;
+    animation: lampGlow 2s infinite alternate;
+  }
+  .lamp-btn svg {
+    width: 60px;
+    height: 60px;
+    fill: #c6a87d;
+    filter: drop-shadow(0 0 12px #c6a87d);
+    transition: filter 0.3s ease;
+  }
+  .lamp-btn:hover svg {
+    filter: drop-shadow(0 0 18px #ffe7aa);
+  }
+  @keyframes lampGlow {
+    0%, 100% {
       filter: drop-shadow(0 0 10px #c6a87d);
     }
-
-    /* انیمیشن چشمک زدن لامپ */
-    @keyframes lampGlow {
-      0%, 100% {
-        filter: drop-shadow(0 0 6px #95917a);
-      }
-      50% {
-        filter: drop-shadow(0 0 18px #c6a87d);
-      }
+    50% {
+      filter: drop-shadow(0 0 25px #ffe7aa);
     }
+  }
 
-    /* فلش پایین صفحه وقتی بسته است */
+  /* فلش پایین صفحه وقتی بسته است (بزرگتر) */
+  .arrow-up-btn {
+    position: fixed;
+    bottom: 130px; /* خیلی بالاتر از کادر */
+    left: 50%;
+    transform: translateX(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10000;
+    padding: 8px;
+    display: none; /* اول مخفی */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter 0.3s ease;
+  }
+  .arrow-up-btn svg {
+    width: 50px;
+    height: 50px;
+    fill: #c6a87d;
+    filter: drop-shadow(0 0 10px #c6a87d);
+    transition: filter 0.3s ease;
+  }
+  .arrow-up-btn:hover svg {
+    filter: drop-shadow(0 0 22px #fff5b1);
+  }
+
+  /* فلش بالا صفحه وقتی باز است (بزرگتر) */
+  .arrow-down-btn {
+    position: fixed;
+    bottom: 70px; /* دقیقاً بالای کادر */
+    left: 50%;
+    transform: translateX(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10000;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter 0.3s ease;
+  }
+  .arrow-down-btn svg {
+    width: 50px;
+    height: 50px;
+    fill: #c6a87d;
+    filter: drop-shadow(0 0 10px #c6a87d);
+    transition: filter 0.3s ease;
+  }
+  .arrow-down-btn:hover svg {
+    filter: drop-shadow(0 0 22px #fff5b1);
+  }
+
+  /* وقتی پنل بسته است فلش بالا نمایش داده شود */
+  .voice-section.closed ~ .arrow-up-btn {
+    display: flex;
+  }
+  /* وقتی پنل باز است فلش پایین نمایش داده شود */
+  .voice-section:not(.closed) ~ .arrow-down-btn {
+    display: flex;
+  }
+
+  @media (max-width: 480px) {
+    .voice-section {
+      max-height: 55vh !important;
+      padding: 25px 25px 30px;
+      bottom: 60px;
+    }
+    .voice-list {
+      max-height: calc(55vh - 130px);
+      padding: 0 5px;
+    }
+    audio {
+      height: 70px;
+    }
+    .voice-list li {
+      margin-bottom: 20px;
+    }
+    .voice-list strong {
+      font-size: 1.2em;
+    }
+    header img {
+      filter: brightness(0.5);
+    }
+    .lamp-btn svg {
+      width: 45px;
+      height: 45px;
+    }
     .arrow-up-btn {
-      position: fixed;
-      bottom: 120px; /* خیلی بالاتر از کادر */
-      left: 50%;
-      transform: translateX(-50%);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 10000;
-      padding: 8px;
-      display: none; /* اول مخفی */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: filter 0.3s ease;
+      bottom: 90px;
     }
-
-    .arrow-up-btn svg {
-      width: 30px;
-      height: 30px;
-      fill: #95917a;
-      filter: drop-shadow(0 0 6px #95917a);
-      transition: filter 0.3s ease;
-    }
-
-    .arrow-up-btn:hover svg {
-      filter: drop-shadow(0 0 12px #c6a87d);
-    }
-
-    /* فلش بالا صفحه وقتی باز است */
-    .arrow-down-btn {
-      position: fixed;
-      bottom: 60px; /* دقیقاً بالای کادر */
-      left: 50%;
-      transform: translateX(-50%);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 10000;
-      padding: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: filter 0.3s ease;
-    }
-
+    .arrow-up-btn svg,
     .arrow-down-btn svg {
-      width: 30px;
-      height: 30px;
-      fill: #95917a;
-      filter: drop-shadow(0 0 6px #95917a);
-      transition: filter 0.3s ease;
+      width: 40px;
+      height: 40px;
     }
-
-    .arrow-down-btn:hover svg {
-      filter: drop-shadow(0 0 12px #c6a87d);
-    }
-
-    /* وقتی پنل بسته است فلش بالا نمایش داده شود */
-    .voice-section.closed ~ .arrow-up-btn {
-      display: flex;
-    }
-
-    /* وقتی پنل باز است فلش پایین نمایش داده شود */
-    .voice-section:not(.closed) ~ .arrow-down-btn {
-      display: flex;
-    }
-
-    @media (max-width: 480px) {
-      .voice-section {
-        max-height: 55vh !important;
-        padding: 25px 25px 30px;
-        bottom: 60px;
-      }
-      .voice-list {
-        max-height: calc(55vh - 130px);
-        padding: 0 5px;
-      }
-      audio {
-        height: 70px;
-      }
-      .voice-list li {
-        margin-bottom: 20px;
-      }
-      .voice-list strong {
-        font-size: 1.2em;
-      }
-      header img {
-        filter: brightness(0.5);
-      }
-      .lamp-btn svg {
-        width: 40px;
-        height: 40px;
-      }
-      .arrow-up-btn {
-        bottom: 90px;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
 
 <!-- دکمه لامپ بالای صفحه -->
 <button aria-label="باز و بسته کردن نوار صدا" class="lamp-btn" id="lampBtn" title="باز و بسته کردن نوار صدا">
-  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" >
     <path d="M32 2C21.6 2 13 10.6 13 21.6c0 6.1 3.1 11.7 7.7 15.3v7.6a3 3 0 0 0 3 3h7.6a3 3 0 0 0 3-3v-7.6c4.6-3.6 7.7-9.2 7.7-15.3C51 10.6 42.4 2 32 2Zm0 38c-3.4 0-6-2.6-6-6s2.6-6 6-6 6 2.6 6 6-2.6 6-6 6Z"/>
   </svg>
 </button>

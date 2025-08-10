@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="فا">
+<html lang="fa">
 <head>
   <meta charset="UTF-8" />
   <title>Holyshot</title>
@@ -14,9 +14,6 @@
       padding: 0;
       direction: rtl;
       overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
     }
 
     header {
@@ -44,7 +41,6 @@
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 20px;
       padding: 40px 20px;
-      flex-grow: 1;
     }
 
     .menu-item {
@@ -71,71 +67,84 @@
       margin-right: auto;
     }
 
-    /* بخش صدای ما - نوار ویس کشویی بالای صفحه */
+    /* بخش صدای ما - نوار ویس پیشرفته */
     .voice-section {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      max-height: 420px;
+      max-height: 0;
       overflow: hidden;
       background-color: #1a1a1a;
       color: #ddd;
       box-sizing: border-box;
-      padding: 20px;
+      padding: 0 20px;
+      transition: max-height 0.5s ease, padding 0.5s ease;
       z-index: 9999;
       font-family: 'Vazirmatn', sans-serif;
       text-align: center;
       border-bottom: 3px solid #c6a87d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .voice-section.open {
+      max-height: 45vh;
+      padding: 20px 40px;
     }
 
     .voice-section h2 {
       margin-top: 0;
       color: #c6a87d;
       font-size: 1.6em;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      width: 100%;
+      text-align: center;
     }
 
     .voice-list {
       list-style: none;
       padding: 0;
-      margin-top: 20px;
+      margin-top: 15px;
       text-align: right;
-      max-height: 320px;
+      width: 100%;
+      max-height: calc(45vh - 70px);
       overflow-y: auto;
     }
 
     .voice-list li {
-      margin-bottom: 12px;
-      color: #95917a;
-      font-size: 1em;
-      font-weight: normal;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #4a4a4a;
-    }
-
-    .voice-list li:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #3f3f3f;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .voice-list strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 1em;
-      color: #95917a;
-      font-weight: normal;
+      font-weight: 700;
+      color: #c6a87d;
+      font-size: 1.05em;
+    }
+
+    .voice-list span.date {
+      color: #7a7a7a;
+      font-size: 0.9em;
+      font-weight: 400;
+      margin-top: -4px;
     }
 
     audio {
       width: 100%;
+      height: 32px;
       border-radius: 6px;
       outline: none;
-      margin-top: 0;
+      box-sizing: border-box;
+      filter: drop-shadow(0 0 1px #c6a87d);
     }
 
-    /* دکمه باز/بسته کردن بخش صدا */
     .voice-toggle-btn {
       position: fixed;
       top: 12px;
@@ -160,10 +169,10 @@
     footer {
       background-color:#111;
       color:#95917a;
-      padding: 20px 10px;
-      text-align: center;
+      padding:20px 10px;
       font-family: 'Vazirmatn', sans-serif;
       direction: rtl;
+      text-align: center;
       margin-top: auto;
       margin-bottom: 15px;
     }
@@ -175,15 +184,25 @@
     }
 
     @media (max-width: 480px) {
-      .voice-section {
-        max-height: 300px !important;
-        padding: 15px;
+      .voice-section.open {
+        max-height: 40vh !important;
+        padding: 15px 20px;
       }
       .voice-list {
-        max-height: 220px;
+        max-height: calc(40vh - 70px);
+        padding: 0 5px;
+      }
+      audio {
+        width: 100% !important;
+        height: 28px !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+      }
+      .voice-list li {
+        margin-bottom: 15px;
       }
       .voice-list strong {
-        font-size: 1.1em;
+        font-size: 1em;
       }
       header img {
         filter: brightness(0.5);
@@ -200,7 +219,7 @@
 </head>
 <body>
 
-<!-- دکمه باز/بسته کردن بخش صدا -->
+<!-- دکمه باز/بسته کردن بخش صدای ما -->
 <button class="voice-toggle-btn" aria-expanded="true" aria-controls="voice-panel" onclick="toggleVoicePanel()">
   🎙️ صدای ما
 </button>
@@ -211,22 +230,25 @@
 
   <ul class="voice-list">
     <li>
-      <strong>متن ویس</strong> — ۱۰ مرداد ۱۴۰۴
-      <audio controls>
+      <strong>متن ویس اول</strong>
+      <span class="date">۱۰ مرداد ۱۴۰۴</span>
+      <audio controls preload="none" controlsList="nodownload noplaybackrate">
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
         مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
       </audio>
     </li>
     <li>
-      <strong>متن ویس</strong> — ۲۵ تیر ۱۴۰۴
-      <audio controls>
+      <strong>متن ویس دوم</strong>
+      <span class="date">۲۵ تیر ۱۴۰۴</span>
+      <audio controls preload="none" controlsList="nodownload noplaybackrate">
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
         مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
       </audio>
     </li>
     <li>
-      <strong>متن ویس</strong> — ۵ مرداد ۱۴۰۴
-      <audio controls>
+      <strong>متن ویس سوم</strong>
+      <span class="date">۵ مرداد ۱۴۰۴</span>
+      <audio controls preload="none" controlsList="nodownload noplaybackrate">
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg" />
         مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
       </audio>

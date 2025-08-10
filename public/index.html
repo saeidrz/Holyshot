@@ -167,13 +167,15 @@
       font-weight: bold;
     }
 
+    /* دکمه وسط بالا با انیمیشن نورانی */
     .voice-toggle-btn {
       position: fixed;
-      top: 12px;
-      left: 12px;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
       background-color: #c6a87d;
       border: none;
-      padding: 10px 18px;
+      padding: 10px 20px;
       border-radius: 30px;
       cursor: pointer;
       font-weight: bold;
@@ -181,11 +183,29 @@
       color: #111;
       z-index: 10000;
       box-shadow: 0 0 10px #c6a87d;
+      animation: glowing 2.5s infinite alternate;
       transition: background-color 0.3s;
+      white-space: nowrap;
     }
 
     .voice-toggle-btn:hover {
       background-color: #a88c5d;
+      animation-play-state: paused;
+    }
+
+    @keyframes glowing {
+      0% {
+        box-shadow: 0 0 5px #c6a87d;
+        background-color: #c6a87d;
+      }
+      50% {
+        box-shadow: 0 0 15px #e1d3a5;
+        background-color: #e1d3a5;
+      }
+      100% {
+        box-shadow: 0 0 5px #c6a87d;
+        background-color: #c6a87d;
+      }
     }
 
     @media (max-width: 480px) {
@@ -213,10 +233,8 @@
       }
       .voice-toggle-btn {
         top: 8px;
-        left: 8px;
         padding: 8px 14px;
         font-size: 1rem;
-        box-shadow: 0 0 8px #c6a87d;
       }
     }
   </style>
@@ -224,32 +242,56 @@
 <body>
 
 <!-- دکمه باز/بسته کردن بخش صدا -->
-<button class="voice-toggle-btn" aria-expanded="true" aria-controls="voice-panel" onclick="toggleVoicePanel()">
-  🎙️ صدای ما
+<button
+  class="voice-toggle-btn"
+  aria-expanded="false"
+  aria-controls="voice-panel"
+  onclick="toggleVoicePanel()"
+  title="اگه دلت برای صدای ما تنگ شده، بکش پایین!"
+>
+  🎙️ اگه دلت برای صدای ما تنگ شده، بکش پایین!
 </button>
 
-<section id="voice-panel" class="voice-section open" aria-hidden="false">
+<section id="voice-panel" class="voice-section" aria-hidden="true">
   <h2>🎙️ صدای ما</h2>
   <p>هر چند وقت یک‌بار، صدای ما رو بشنو!</p>
 
   <ul class="voice-list">
     <li>
       <strong>متن ویس</strong> — ۱۰ مرداد ۱۴۰۴
-      <audio controls preload="none" controlslist="nodownload" style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;">
-        <source src="https://dl.rozmusic.com/Music/1403/12/24/Sohrab%20Pakzad%20-%20110%20Ta%20%28128%29.mp3" type="audio/mpeg" />
+      <audio
+        controls
+        preload="none"
+        controlslist="nodownload"
+        style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;"
+      >
+        <source
+          src="https://dl.rozmusic.com/Music/1403/12/24/Sohrab%20Pakzad%20-%20110%20Ta%20%28128%29.mp3"
+          type="audio/mpeg"
+        />
         مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
       </audio>
     </li>
     <li>
       <strong>متن ویس</strong> — ۲۵ تیر ۱۴۰۴
-      <audio controls preload="none" controlslist="nodownload" style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;">
+      <audio
+        controls
+        preload="none"
+        controlslist="nodownload"
+        style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;"
+      >
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
         مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
       </audio>
     </li>
     <li>
       <strong>متن ویس</strong> — ۵ مرداد ۱۴۰۴
-      <audio controls preload="none" controlslist="nodownload" style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;">
+      <audio
+        controls
+        preload="none"
+        controlslist="nodownload"
+        style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;"
+      >
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg" />
         مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
       </audio>
@@ -267,50 +309,110 @@
 
 <section class="menu-grid">
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/vH9Vtfjs/3.png" class="cat-item-img" alt="قهوه دمی" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/vH9Vtfjs/3.png"
+      class="cat-item-img"
+      alt="قهوه دمی"
+    />
     قهوه دمی
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/4x2sKF5N/9.png" class="cat-item-img" alt="چای و دمنوش" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/4x2sKF5N/9.png"
+      class="cat-item-img"
+      alt="چای و دمنوش"
+    />
     چای و دمنوش
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/d1rYxQKL/10.png" class="cat-item-img" alt="کیک و دسر" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/d1rYxQKL/10.png"
+      class="cat-item-img"
+      alt="کیک و دسر"
+    />
     کیک و دسر
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سرد" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/pV3jjqsC/2.png"
+      class="cat-item-img"
+      alt="نوشیدنی سرد"
+    />
     نوشیدنی سرد
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/7ZKY3Lx4/8.png" class="cat-item-img" alt="بستنی" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/7ZKY3Lx4/8.png"
+      class="cat-item-img"
+      alt="بستنی"
+    />
     بستنی
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/nctzZ5dy/6.png" class="cat-item-img" alt="میلک‌شیک" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/nctzZ5dy/6.png"
+      class="cat-item-img"
+      alt="میلک‌شیک"
+    />
     میلک‌ شیک
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/FHVk2mNC/4.png" class="cat-item-img" alt="اسموتی" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/FHVk2mNC/4.png"
+      class="cat-item-img"
+      alt="اسموتی"
+    />
     اسموتی
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/GpStCmNK/5.png" class="cat-item-img" alt="ماکتیل" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/GpStCmNK/5.png"
+      class="cat-item-img"
+      alt="ماکتیل"
+    />
     ماکتیل
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سنتی" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/pV3jjqsC/2.png"
+      class="cat-item-img"
+      alt="نوشیدنی سنتی"
+    />
     نوشیدنی سنتی
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/qMCRdrXX/1.png" class="cat-item-img" alt="نوشیدنی گرم" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/qMCRdrXX/1.png"
+      class="cat-item-img"
+      alt="نوشیدنی گرم"
+    />
     نوشیدنی گرم
   </div>
 </section>
 
 <footer>
   <p>
-    آیدی اینستاگرام کافه: 
+    آیدی اینستاگرام کافه:
     <a href="https://www.instagram.com/cafe_holyshot/" target="_blank" rel="noopener noreferrer">cafe_holyshot</a>
   </p>
 </footer>

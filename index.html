@@ -73,12 +73,12 @@
       bottom: 60px; /* پایین‌تر از دکمه متن نورانی */
       left: 0;
       width: 100%;
-      max-height: 65vh;
-      overflow-y: auto;
+      max-height: 0;
+      overflow: hidden;
       background-color: rgba(0, 0, 0, 0.65); /* نیمه‌شفاف، مشکی محو */
       color: #ddd;
       box-sizing: border-box;
-      padding: 35px 60px 40px;
+      padding: 0 60px 0 60px;
       z-index: 9998; /* کمتر از دکمه */
       font-family: 'Vazirmatn', sans-serif;
       text-align: center;
@@ -89,9 +89,13 @@
       justify-content: flex-start;
       backdrop-filter: blur(8px); /* محوشدن پشت زمینه */
       -webkit-backdrop-filter: blur(8px);
-      /* حذف انیمیشن باز و بسته شدن */
-      transform: none !important;
-      transition: none !important;
+      transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .voice-section.open {
+      max-height: 65vh;
+      padding: 35px 60px 40px;
+      overflow-y: auto;
     }
 
     .voice-section p {
@@ -250,17 +254,18 @@
 </head>
 <body>
 
-<!-- دکمه باز/بسته کردن بخش صدا (الان فقط دکمه هست و نوار همیشه باز) -->
+<!-- دکمه باز/بسته کردن بخش صدا -->
 <button
   class="voice-toggle-btn"
   aria-expanded="true"
   aria-controls="voice-panel"
-  title="هولی چنل"
+  onclick="toggleVoicePanel()"
+  title="صدای ما"
 >
-  هولی چنل
+  صدای ما
 </button>
 
-<section id="voice-panel" class="voice-section" aria-hidden="false">
+<section id="voice-panel" class="voice-section open" aria-hidden="false">
 
   <ul class="voice-list">
     <li>
@@ -424,7 +429,21 @@
 </footer>
 
 <script>
-  // حذف تابع toggle چون نوار همیشه باز است
+  function toggleVoicePanel() {
+    const panel = document.getElementById('voice-panel');
+    const btn = document.querySelector('.voice-toggle-btn');
+    const isOpen = panel.classList.contains('open');
+
+    if (isOpen) {
+      panel.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      panel.setAttribute('aria-hidden', 'true');
+    } else {
+      panel.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      panel.setAttribute('aria-hidden', 'false');
+    }
+  }
 </script>
 
 </body>

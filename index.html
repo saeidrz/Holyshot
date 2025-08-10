@@ -33,10 +33,11 @@
 
     section { padding:40px 20px; text-align:center; }
 
-    /* منوی کافه 2 ستون 5 ردیف */
+    /* منوی کافه ۲ ردیف ۵ ستون */
     .menu-grid{
       display:grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(2, auto);
       gap:20px;
       padding:40px 20px;
     }
@@ -57,10 +58,10 @@
        ------------------------- */
     .lamp-btn{
       position: fixed;
-      top: -20px; /* بالاتر */
+      top: -20px;
       left: 50%;
       transform: translateX(-50%);
-      width: 160px;      /* کوچکتر */
+      width: 160px;
       height: 160px;
       padding: 0;
       border: none;
@@ -73,6 +74,20 @@
       pointer-events:auto;
       -webkit-tap-highlight-color: transparent;
       animation: lampFloat 6s ease-in-out infinite;
+
+      /* نور چشمک‌زن پرنور از زیر لامپ */
+      box-shadow: 0 0 60px 20px rgba(240,231,165,0.6);
+      animation-name: lampFloat, lampShadowGlow;
+      animation-duration: 6s, 2.2s;
+      animation-timing-function: ease-in-out, ease-in-out;
+      animation-iteration-count: infinite, infinite;
+    }
+
+    @keyframes lampShadowGlow {
+      0%   { box-shadow: 0 0 40px 10px rgba(240,231,165,0.3); }
+      40%  { box-shadow: 0 0 120px 30px rgba(240,231,165,1); }
+      70%  { box-shadow: 0 0 180px 40px rgba(240,231,165,1); }
+      100% { box-shadow: 0 0 60px 15px rgba(240,231,165,0.4); }
     }
 
     .lamp-btn img{
@@ -88,7 +103,6 @@
       background: transparent;
     }
 
-    /* نور چشمک‌زن قوی‌تر و گسترده‌تر */
     @keyframes lampGlow {
       0%   { filter: drop-shadow(0 0 40px rgba(198,168,125,0.45)); }
       40%  { filter: drop-shadow(0 0 120px rgba(240,231,165,0.95)); }
@@ -96,7 +110,6 @@
       100% { filter: drop-shadow(0 0 60px rgba(198,168,125,0.55)); transform: scale(1); }
     }
 
-    /* floating animation */
     @keyframes lampFloat {
       0% { transform: translateX(-50%) translateY(0); }
       50% { transform: translateX(-50%) translateY(6px); }
@@ -242,6 +255,11 @@
         width: 100px;
         height: 100px;
         top: -10px;
+        box-shadow: 0 0 40px 10px rgba(240,231,165,0.6);
+        animation-name: lampFloat, lampShadowGlow;
+        animation-duration: 6s, 2.2s;
+        animation-timing-function: ease-in-out, ease-in-out;
+        animation-iteration-count: infinite, infinite;
       }
       .lamp-btn img{
         filter: drop-shadow(0 0 26px rgba(198,168,125,0.45));
@@ -257,9 +275,10 @@
       .arrow-up-btn svg, .arrow-down-btn svg{ width:48px; height:48px; }
       .insta-link{ font-size:1rem; bottom:12px; }
 
-      /* منوی کافه 2 ستون هم روی موبایل */
+      /* منوی کافه ۵ ستون روی موبایل هم */
       .menu-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(2, auto);
       }
     }
   </style>
@@ -336,7 +355,6 @@
     const arrowDownBtn = document.getElementById('arrowDownBtn');
     const audios = document.querySelectorAll('audio');
 
-    // پیش‌فرض: پنل باز باشه
     voicePanel.classList.remove('closed');
     arrowUpBtn.style.display = 'none';
     arrowDownBtn.style.display = 'flex';
@@ -349,14 +367,14 @@
         arrowDownBtn.style.display='flex';
         arrowUpBtn.style.display='none';
         lampBtn.setAttribute('aria-expanded','true');
-        lampBtn.classList.add('glow'); // چشمک روشن
+        lampBtn.classList.add('glow');
       }else{
         voicePanel.classList.add('closed');
         voicePanel.setAttribute('aria-hidden','true');
         arrowDownBtn.style.display='none';
         arrowUpBtn.style.display='flex';
         lampBtn.setAttribute('aria-expanded','false');
-        lampBtn.classList.remove('glow'); // خاموش‌تر وقتی بسته
+        lampBtn.classList.remove('glow');
       }
     }
 
@@ -366,7 +384,6 @@
     arrowUpBtn.addEventListener('click', togglePanel);
     arrowDownBtn.addEventListener('click', togglePanel);
 
-    // وقتی هر audio در حال پخش است، کلاس playing بزنیم (برای افکت ضربان)
     audios.forEach(a=>{
       a.addEventListener('play', ()=> a.classList.add('playing'));
       a.addEventListener('pause', ()=> a.classList.remove('playing'));

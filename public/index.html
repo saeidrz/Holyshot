@@ -2,7 +2,7 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8" />
-  <title>کافه Holyshot</title>
+  <title>Holyshot</title>
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet" />
   <link rel="icon" href="https://i.postimg.cc/BvNYZdcM/5820273963253742054.jpg" type="image/png" />
   <style>
@@ -15,11 +15,13 @@
       direction: rtl;
       overflow-x: hidden;
     }
+
     header {
       position: relative;
       width: 100%;
       overflow: hidden;
     }
+
     header img {
       width: 100%;
       height: auto;
@@ -28,16 +30,19 @@
       object-fit: contain;
       filter: brightness(0.6);
     }
+
     section {
       padding: 40px 20px;
       text-align: center;
     }
+
     .menu-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 20px;
       padding: 40px 20px;
     }
+
     .menu-item {
       background-color: #95917a;
       border-radius: 8px;
@@ -47,9 +52,11 @@
       color: black;
       font-weight: bold;
     }
+
     .menu-item:hover {
       background-color: #e7f6fc;
     }
+
     .cat-item-img {
       width: 60px;
       height: 60px;
@@ -59,7 +66,7 @@
       margin-left: auto;
       margin-right: auto;
     }
-    /* بخش صدای ما */
+
     .voice-section {
       position: fixed;
       top: 0;
@@ -73,19 +80,23 @@
       padding: 0 20px;
       transition: max-height 0.5s ease, padding 0.5s ease;
       z-index: 9999;
+      font-family: 'Vazirmatn', sans-serif;
       text-align: center;
       border-bottom: 3px solid #c6a87d;
     }
+
     .voice-section.open {
       max-height: 420px;
       padding: 20px;
     }
+
     .voice-section h2 {
       margin-top: 0;
       color: #c6a87d;
       font-size: 1.6em;
       margin-bottom: 10px;
     }
+
     .voice-list {
       list-style: none;
       padding: 0;
@@ -94,20 +105,41 @@
       max-height: 320px;
       overflow-y: auto;
     }
+
     .voice-list li {
       margin-bottom: 30px;
     }
+
     .voice-list strong {
       display: block;
       margin-bottom: 8px;
       font-size: 1.2em;
       color: #c6a87d;
     }
+
     audio {
       width: 100%;
       border-radius: 6px;
       outline: none;
+      max-width: 100%;
+      box-sizing: border-box;
     }
+
+    footer {
+      background-color:#111;
+      color:#95917a;
+      padding:20px 10px;
+      font-family: 'Vazirmatn', sans-serif;
+      direction: rtl;
+      text-align: center; /* وسط چین */
+    }
+
+    footer a {
+      color:#c6a87d;
+      text-decoration:none;
+      font-weight:bold;
+    }
+
     .voice-toggle-btn {
       position: fixed;
       top: 12px;
@@ -124,16 +156,27 @@
       box-shadow: 0 0 10px #c6a87d;
       transition: background-color 0.3s;
     }
+
     .voice-toggle-btn:hover {
       background-color: #a88c5d;
     }
+
     @media (max-width: 480px) {
       .voice-section {
         max-height: 300px !important;
-        padding: 15px;
+        padding: 10px 10px; /* کمتر کردن padding برای موبایل */
       }
       .voice-list {
         max-height: 220px;
+        padding: 0 5px;
+      }
+      audio {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+      }
+      .voice-list li {
+        margin-bottom: 20px;
       }
       .voice-list strong {
         font-size: 1.1em;
@@ -165,7 +208,7 @@
   <ul class="voice-list">
     <li>
       <strong>متن ویس</strong> — ۱۰ مرداد ۱۴۰۴
-      <audio controls autoplay>
+      <audio controls>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
         مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
       </audio>
@@ -239,13 +282,12 @@
 </section>
 
 <footer>
-  <p style="text-align: center;">
+  <p>
     آیدی اینستاگرام کافه: 
-    <a href="https://www.instagram.com/cafe_holyshot/" target="_blank" rel="noopener noreferrer" style="font-weight: bold; color: #c6a87d; text-decoration: none;">
-      cafe_holyshot
-    </a>
+    <a href="https://www.instagram.com/cafe_holyshot/" target="_blank" rel="noopener noreferrer">cafe_holyshot</a>
   </p>
 </footer>
+
 <script>
   function toggleVoicePanel() {
     const panel = document.getElementById('voice-panel');

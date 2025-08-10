@@ -6,18 +6,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet" />
   <link rel="icon" href="https://i.postimg.cc/BvNYZdcM/5820273963253742054.jpg" type="image/png" />
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      direction: rtl;
+    body {
       font-family: 'Vazirmatn', sans-serif;
       background-color: #0a0909;
       color: #95917a;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
       overflow-x: hidden;
-    }
-
-    body {
       display: flex;
       flex-direction: column;
       min-height: 100vh;
@@ -27,7 +23,6 @@
       position: relative;
       width: 100%;
       overflow: hidden;
-      flex-shrink: 0;
     }
 
     header img {
@@ -37,10 +32,6 @@
       max-height: 100vh;
       object-fit: contain;
       filter: brightness(0.6);
-    }
-
-    main {
-      flex-grow: 1;
     }
 
     section {
@@ -53,6 +44,7 @@
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 20px;
       padding: 40px 20px;
+      flex-grow: 1;
     }
 
     .menu-item {
@@ -79,32 +71,22 @@
       margin-right: auto;
     }
 
-    /* بخش صدای ما */
+    /* بخش صدای ما - نوار ویس کشویی بالای صفحه */
     .voice-section {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      max-height: 0;
+      max-height: 420px;
       overflow: hidden;
       background-color: #1a1a1a;
       color: #ddd;
       box-sizing: border-box;
-      padding: 0 20px;
-      transition: max-height 0.5s ease, padding 0.5s ease;
+      padding: 20px;
       z-index: 9999;
+      font-family: 'Vazirmatn', sans-serif;
       text-align: center;
       border-bottom: 3px solid #c6a87d;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
-
-    /* وقتی باز هست */
-    .voice-section.open {
-      max-height: 50vh; /* نصف ارتفاع صفحه */
-      padding: 20px 40px;
     }
 
     .voice-section h2 {
@@ -112,8 +94,6 @@
       color: #c6a87d;
       font-size: 1.6em;
       margin-bottom: 10px;
-      width: 100%;
-      text-align: center;
     }
 
     .voice-list {
@@ -121,13 +101,12 @@
       padding: 0;
       margin-top: 20px;
       text-align: right;
-      width: 100%;
-      max-height: calc(50vh - 70px);
+      max-height: 320px;
       overflow-y: auto;
     }
 
     .voice-list li {
-      margin-bottom: 20px;
+      margin-bottom: 16px; /* کمتر شد */
       color: #95917a;
       font-size: 1em;
       font-weight: normal;
@@ -135,7 +114,7 @@
 
     .voice-list strong {
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 6px; /* کمتر شد */
       font-size: 1em;
       color: #95917a;
       font-weight: normal;
@@ -145,25 +124,10 @@
       width: 100%;
       border-radius: 6px;
       outline: none;
+      margin-top: 0; /* حذف فاصله اضافی بالای نوار ویس */
     }
 
-    footer {
-      background-color:#111;
-      color:#95917a;
-      padding: 20px 10px;
-      text-align: center;
-      font-family: 'Vazirmatn', sans-serif;
-      direction: rtl;
-      flex-shrink: 0;
-      /* همیشه پایین صفحه */
-    }
-
-    footer a {
-      color:#c6a87d;
-      text-decoration:none;
-      font-weight:bold;
-    }
-
+    /* دکمه باز/بسته کردن بخش صدا */
     .voice-toggle-btn {
       position: fixed;
       top: 12px;
@@ -185,26 +149,33 @@
       background-color: #a88c5d;
     }
 
+    footer {
+      background-color:#111;
+      color:#95917a;
+      padding: 20px 10px;
+      text-align: center;
+      font-family: 'Vazirmatn', sans-serif;
+      direction: rtl;
+      margin-top: auto;
+      margin-bottom: 15px; /* فاصله از پایین صفحه */
+    }
+
+    footer a {
+      color:#c6a87d;
+      text-decoration:none;
+      font-weight:bold;
+    }
+
     @media (max-width: 480px) {
-      .voice-section.open {
-        max-height: 50vh !important;
-        padding: 15px 20px;
+      .voice-section {
+        max-height: 300px !important;
+        padding: 15px;
       }
       .voice-list {
-        max-height: calc(50vh - 70px);
-        padding: 0 5px;
-      }
-      audio {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box;
-      }
-      .voice-list li {
-        margin-bottom: 15px;
+        max-height: 220px;
       }
       .voice-list strong {
-        font-size: 1em;
-        font-weight: normal;
+        font-size: 1.1em;
       }
       header img {
         filter: brightness(0.5);
@@ -259,54 +230,52 @@
   <img src="https://i.postimg.cc/qRvkzHfR/IMG-3551.jpg" alt="کافه Holyshot" />
 </header>
 
-<main>
-  <section>
-    <p>جایی برای تجربه‌ی طعم‌های خاص و لحظات ناب</p>
-  </section>
+<section>
+  <p>جایی برای تجربه‌ی طعم‌های خاص و لحظات ناب</p>
+</section>
 
-  <section class="menu-grid">
-    <div class="menu-item">
-      <img decoding="async" loading="lazy" src="https://i.postimg.cc/vH9Vtfjs/3.png" class="cat-item-img" alt="قهوه دمی" />
-      قهوه دمی
-    </div>
-    <div class="menu-item">
-      <img decoding="async" loading="lazy" src="https://i.postimg.cc/4x2sKF5N/9.png" class="cat-item-img" alt="چای و دمنوش" />
-      چای و دمنوش
-    </div>
-    <div class="menu-item">
-      <img decoding="async" loading="lazy" src="https://i.postimg.cc/d1rYxQKL/10.png" class="cat-item-img" alt="کیک و دسر" />
-      کیک و دسر
-    </div>
-    <div class="menu-item">
-      <img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سرد" />
-      نوشیدنی سرد
-    </div>
-    <div class="menu-item">
-      <img decoding="async" loading="lazy" src="https://i.postimg.cc/7ZKY3Lx4/8.png" class="cat-item-img" alt="بستنی" />
-      بستنی
-    </div>
-    <div class="menu-item">
-      <img decoding="async" loading="lazy" src="https://i.postimg.cc/nctzZ5dy/6.png" class="cat-item-img" alt="میلک‌شیک" />
-      میلک‌شیک
-    </div>
-    <div class="menu-item">
-      <img decoding="async" loading="lazy" src="https://i.postimg.cc/FHVk2mNC/4.png" class="cat-item-img" alt="اسموتی" />
-      اسموتی
-    </div>
-    <div class="menu-item">
-      <img decoding="async" loading="lazy" src="https://i.postimg.cc/GpStCmNK/5.png" class="cat-item-img" alt="ماکتیل" />
-      ماکتیل
-    </div>
-    <div class="menu-item">
-      <img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سنتی" />
-      نوشیدنی سنتی
-    </div>
-    <div class="menu-item">
-      <img decoding="async" loading="lazy" src="https://i.postimg.cc/qMCRdrXX/1.png" class="cat-item-img" alt="نوشیدنی گرم" />
-      نوشیدنی گرم
-    </div>
-  </section>
-</main>
+<section class="menu-grid">
+  <div class="menu-item">
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/vH9Vtfjs/3.png" class="cat-item-img" alt="قهوه دمی" />
+    قهوه دمی
+  </div>
+  <div class="menu-item">
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/4x2sKF5N/9.png" class="cat-item-img" alt="چای و دمنوش" />
+    چای و دمنوش
+  </div>
+  <div class="menu-item">
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/d1rYxQKL/10.png" class="cat-item-img" alt="کیک و دسر" />
+    کیک و دسر
+  </div>
+  <div class="menu-item">
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سرد" />
+    نوشیدنی سرد
+  </div>
+  <div class="menu-item">
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/7ZKY3Lx4/8.png" class="cat-item-img" alt="بستنی" />
+    بستنی
+  </div>
+  <div class="menu-item">
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/nctzZ5dy/6.png" class="cat-item-img" alt="میلک‌شیک" />
+    میلک‌شیک
+  </div>
+  <div class="menu-item">
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/FHVk2mNC/4.png" class="cat-item-img" alt="اسموتی" />
+    اسموتی
+  </div>
+  <div class="menu-item">
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/GpStCmNK/5.png" class="cat-item-img" alt="ماکتیل" />
+    ماکتیل
+  </div>
+  <div class="menu-item">
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سنتی" />
+    نوشیدنی سنتی
+  </div>
+  <div class="menu-item">
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/qMCRdrXX/1.png" class="cat-item-img" alt="نوشیدنی گرم" />
+    نوشیدنی گرم
+  </div>
+</section>
 
 <footer>
   <p>

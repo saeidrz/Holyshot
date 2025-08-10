@@ -36,34 +36,44 @@
     .menu-grid{
       display:grid;
       grid-template-columns: repeat(5, 1fr);
-      gap:20px;
-      padding:40px 20px;
-      max-width: 1200px;
+      gap:15px;
+      padding:20px 10px;
+      max-width: 650px;
       margin: 0 auto;
     }
     .menu-item{
       background-color:#95917a;
-      border-radius:8px;
-      padding:10px 8px;
+      border-radius:6px;
+      padding:10px 6px;
       text-align:center;
       transition:0.3s;
       color:black;
       font-weight:bold;
       font-size: 0.85rem;
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-    .menu-item:hover{ background-color:#e7f6fc; }
-    .cat-item-img{ width:40px; height:40px; object-fit:contain; margin:0 auto 8px; display:block; }
+    .menu-item:hover{ background-color:#e7f6fc; cursor:pointer; }
+    .cat-item-img{
+      width:40px;
+      height:40px;
+      object-fit:contain;
+      margin-bottom:6px;
+      user-select:none;
+    }
 
     /* -------------------------
-       LAMP (top, smaller, glowing stronger)
+       LAMP (کوچکتر و بالاتر)
        ------------------------- */
     .lamp-btn{
       position: fixed;
-      top: 4px;
+      top: 6px; /* بالاتر */
       left: 50%;
       transform: translateX(-50%);
-      width: 140px;
-      height: 140px;
+      width: 120px;
+      height: 120px;
       padding: 0;
       border: none;
       background: transparent;
@@ -75,9 +85,7 @@
       pointer-events:auto;
       -webkit-tap-highlight-color: transparent;
       animation: lampFloat 6s ease-in-out infinite;
-      box-shadow:
-        0 0 30px rgba(198,168,125,0.7),
-        0 10px 40px rgba(198,168,125,0.9);
+      filter: drop-shadow(0 15px 20px rgba(198,168,125,0.8)); /* نور شدیدتر از زیر */
     }
 
     .lamp-btn img{
@@ -87,30 +95,31 @@
       display:block;
       user-select:none;
       pointer-events:none;
-      filter: drop-shadow(0 0 50px rgba(198,168,125,0.7));
+      filter: drop-shadow(0 0 40px rgba(198,168,125,0.65));
       transition: filter .18s ease, transform .18s ease;
       mix-blend-mode: screen;
       background: transparent;
     }
 
-    /* شدیدترین نور چشمک‌زن از پایین */
+    /* چشمک‌زن */
     @keyframes lampGlow {
-      0% { filter: drop-shadow(0 20px 30px rgba(198,168,125,0.5)); }
-      40% { filter: drop-shadow(0 30px 80px rgba(240,231,165,0.9)); }
-      70% { filter: drop-shadow(0 40px 120px rgba(240,231,165,1)); transform: scale(1.02); }
-      100% { filter: drop-shadow(0 20px 50px rgba(198,168,125,0.7)); transform: scale(1); }
+      0% { filter: drop-shadow(0 0 30px rgba(198,168,125,0.5)); }
+      40% { filter: drop-shadow(0 0 90px rgba(240,231,165,0.95)); }
+      70% { filter: drop-shadow(0 0 140px rgba(240,231,165,1)); transform: scale(1.02); }
+      100% { filter: drop-shadow(0 0 40px rgba(198,168,125,0.55)); transform: scale(1); }
     }
-    /* floating برای لامپ */
+
+    /* شناور */
     @keyframes lampFloat {
       0% { transform: translateX(-50%) translateY(0); }
       50% { transform: translateX(-50%) translateY(6px); }
       100% { transform: translateX(-50%) translateY(0); }
     }
-    /* چشمک زدن با تداخل */
+
     .lamp-btn.glow img { animation: lampGlow 2.2s infinite ease-in-out; }
 
     /* -------------------------
-       VOICE PANEL (bottom semi-transparent)
+       VOICE PANEL (نیمه شفاف پایین صفحه)
        ------------------------- */
     .voice-section{
       position: fixed;
@@ -165,56 +174,38 @@
       color: var(--gold);
     }
 
+    /* فضای بیشتر برای اولین آیتم */
     .voice-list li:first-child { padding-top: 18px; }
 
     /* audio styles */
     audio{
       width:100% !important;
-      height:66px;
+      height: 66px;
       border-radius:12px;
       background:#111;
       box-sizing:border-box;
       margin-top:6px;
       outline:none;
       -webkit-appearance: none;
-      color: var(--gold);
     }
 
-    /* اصلاح رنگ و شفافیت اجزای کنترل صوتی */
-    audio::-webkit-media-controls-panel {
-      background: rgba(0, 0, 0, 0.95) !important;
-      box-shadow: none !important;
-      border: none !important;
-    }
-
+    /* حذف کادر خاکستری پشت تایم‌لاین پخش صوت */
     audio::-webkit-media-controls-timeline {
-      background: rgba(0, 0, 0, 0.95) !important;
+      background: transparent !important;
       box-shadow: none !important;
-      border: none !important;
+      border-radius: 0 !important;
     }
-
-    audio::-webkit-media-controls-current-time-display,
-    audio::-webkit-media-controls-time-remaining-display {
-      color: var(--gold) !important;
+    audio.playing::-webkit-media-controls-timeline {
+      background: transparent !important;
+      box-shadow: none !important;
     }
-
-    audio::-webkit-media-controls-play-button,
-    audio::-webkit-media-controls-volume-slider,
-    audio::-webkit-media-controls-mute-button,
-    audio::-webkit-media-controls-fullscreen-button {
-      filter: brightness(0) opacity(0) !important;
-      width: 0 !important;
-      height: 0 !important;
-      pointer-events: none !important;
-    }
-
     audio::-moz-range-track {
-      background: rgba(0,0,0,0.95) !important;
+      background: transparent !important;
       box-shadow: none !important;
-      border: none !important;
+      border-radius: 0 !important;
     }
 
-    /* arrows (bigger) */
+    /* arrows (بزرگ و سفید) */
     .arrow-up-btn, .arrow-down-btn{
       position: fixed;
       left:50%;
@@ -232,11 +223,13 @@
     .arrow-down-btn{ bottom:74px; }
 
     .arrow-up-btn svg, .arrow-down-btn svg{
-      width:64px; height:64px; fill:#fff;
-      filter: drop-shadow(0 0 10px rgba(255,255,255,0.75));
+      width:64px; height:64px;
+      fill: #fff;
+      filter: none;
+      background: transparent;
     }
     .arrow-up-btn:hover svg, .arrow-down-btn:hover svg{
-      filter: drop-shadow(0 0 26px rgba(255,255,255,0.95));
+      filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
     }
 
     /* insta link bottom center */
@@ -258,40 +251,40 @@
     }
 
     @media (max-width:480px){
-      .lamp-btn{ width:120px; height:120px; top:6px; }
+      .lamp-btn{ width:100px; height:100px; top: 6px; }
       .lamp-btn img{ filter: drop-shadow(0 0 26px rgba(198,168,125,0.45)); }
       .voice-section{ padding:22px 18px 30px; bottom:60px; max-height:55vh; }
-      audio{ height:52px; }
+      audio{ height:54px; }
       .arrow-up-btn{ bottom:110px; }
       .arrow-down-btn{ bottom:70px; }
       .arrow-up-btn svg, .arrow-down-btn svg{ width:48px; height:48px; }
       .insta-link{ font-size:1rem; bottom:12px; }
       .menu-grid {
         grid-template-columns: repeat(5, 1fr);
-        gap:12px;
-        padding: 30px 12px;
+        gap: 8px;
         max-width: 100%;
+        padding: 10px 5px;
       }
       .menu-item {
-        font-size: 0.7rem;
-        padding: 8px 6px;
+        font-size: 0.75rem;
+        padding: 8px 5px;
       }
       .cat-item-img {
-        width: 32px;
-        height: 32px;
-        margin-bottom: 6px;
+        width: 30px;
+        height: 30px;
+        margin-bottom: 4px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- LAMP (use your PNG with transparent background) -->
+  <!-- LAMP (کوچکتر و بالاتر) -->
   <button id="lampBtn" class="lamp-btn glow" aria-expanded="true" aria-controls="voice-panel" title="باز و بسته کردن نوار صدا">
     <img src="https://i.postimg.cc/j5hwpLCC/56-561430-lamp-modern-ceiling-lamp-png-clipart.png" alt="لامپ" />
   </button>
 
-  <!-- VOICE PANEL (پایین صفحه، نیمه شفاف) -->
+  <!-- VOICE PANEL (نیمه شفاف پایین صفحه) -->
   <section id="voice-panel" class="voice-section" aria-hidden="false">
     <ul class="voice-list" id="voiceList">
       <li>
@@ -316,7 +309,7 @@
     </ul>
   </section>
 
-  <!-- Arrows -->
+  <!-- دکمه‌های باز/بسته کردن پنل -->
   <button id="arrowUpBtn" class="arrow-up-btn" aria-label="باز کردن نوار صدا" style="display:none;">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
   </button>
@@ -325,10 +318,10 @@
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
   </button>
 
-  <!-- Insta fixed bottom center -->
+  <!-- لینک اینستا -->
   <a class="insta-link" href="https://www.instagram.com/cafe_holyshot/" target="_blank" rel="noopener noreferrer">@cafe_holyshot</a>
 
-  <!-- Page content -->
+  <!-- محتوا -->
   <header>
     <img src="https://i.postimg.cc/qRvkzHfR/IMG-3551.jpg" alt="کافه Holyshot" />
   </header>
@@ -336,6 +329,7 @@
   <section>
     <p>جایی برای تجربه‌ی طعم‌های خاص و لحظات ناب</p>
   </section>
+
   <section class="menu-grid">
     <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/vH9Vtfjs/3.png" class="cat-item-img" alt="قهوه دمی" />قهوه دمی</div>
     <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/4x2sKF5N/9.png" class="cat-item-img" alt="چای و دمنوش" />چای و دمنوش</div>
@@ -349,7 +343,6 @@
     <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/qMCRdrXX/1.png" class="cat-item-img" alt="نوشیدنی گرم" />نوشیدنی گرم</div>
   </section>
 
-
   <script>
     const lampBtn = document.getElementById('lampBtn');
     const voicePanel = document.getElementById('voice-panel');
@@ -357,41 +350,41 @@
     const arrowDownBtn = document.getElementById('arrowDownBtn');
     const audios = document.querySelectorAll('audio');
 
-    // پیش‌فرض: پنل باز باشه
     voicePanel.classList.remove('closed');
     arrowUpBtn.style.display = 'none';
     arrowDownBtn.style.display = 'flex';
     lampBtn.setAttribute('aria-expanded', 'true');
 
-    function setPanelState(open){
-      if(open){
+    function setPanelState(open) {
+      if (open) {
         voicePanel.classList.remove('closed');
-        voicePanel.setAttribute('aria-hidden','false');
-        arrowDownBtn.style.display='flex';
-        arrowUpBtn.style.display='none';
-        lampBtn.setAttribute('aria-expanded','true');
-        lampBtn.classList.add('glow'); // چشمک روشن
-      }else{
+        voicePanel.setAttribute('aria-hidden', 'false');
+        arrowDownBtn.style.display = 'flex';
+        arrowUpBtn.style.display = 'none';
+        lampBtn.setAttribute('aria-expanded', 'true');
+        lampBtn.classList.add('glow');
+      } else {
         voicePanel.classList.add('closed');
-        voicePanel.setAttribute('aria-hidden','true');
-        arrowDownBtn.style.display='none';
-        arrowUpBtn.style.display='flex';
-        lampBtn.setAttribute('aria-expanded','false');
-        lampBtn.classList.remove('glow'); // خاموش‌تر وقتی بسته
+        voicePanel.setAttribute('aria-hidden', 'true');
+        arrowDownBtn.style.display = 'none';
+        arrowUpBtn.style.display = 'flex';
+        lampBtn.setAttribute('aria-expanded', 'false');
+        lampBtn.classList.remove('glow');
       }
     }
 
-    function togglePanel(){ setPanelState( voicePanel.classList.contains('closed') ); }
+    function togglePanel() {
+      setPanelState(voicePanel.classList.contains('closed'));
+    }
 
     lampBtn.addEventListener('click', togglePanel);
     arrowUpBtn.addEventListener('click', togglePanel);
     arrowDownBtn.addEventListener('click', togglePanel);
 
-    // وقتی هر audio در حال پخش است، کلاس playing بزنیم (برای افکت ضربان)
-    audios.forEach(a=>{
-      a.addEventListener('play', ()=> a.classList.add('playing'));
-      a.addEventListener('pause', ()=> a.classList.remove('playing'));
-      a.addEventListener('ended', ()=> a.classList.remove('playing'));
+    audios.forEach(a => {
+      a.addEventListener('play', () => a.classList.add('playing'));
+      a.addEventListener('pause', () => a.classList.remove('playing'));
+      a.addEventListener('ended', () => a.classList.remove('playing'));
     });
   </script>
 

@@ -13,7 +13,7 @@
       margin: 0;
       padding: 0;
       direction: rtl;
-
+      overflow-x: hidden;
     }
 
     header {
@@ -67,7 +67,7 @@
       margin-right: auto;
     }
 
-    /* بخش صدای ما - نوار ویس پیشرفته */
+    /* بخش صدای ما */
     .voice-section {
       position: fixed;
       top: 0;
@@ -90,8 +90,10 @@
       justify-content: flex-start;
     }
 
+    /* وقتی باز هست */
     .voice-section.open {
-      max-height: 45vh;
+      max-height: 50vh;
+      min-height: 180px; /* حداقل ارتفاع نوار ویس */
       padding: 20px 40px;
     }
 
@@ -99,7 +101,7 @@
       margin-top: 0;
       color: #c6a87d;
       font-size: 1.6em;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       width: 100%;
       text-align: center;
     }
@@ -107,46 +109,56 @@
     .voice-list {
       list-style: none;
       padding: 0;
-      margin-top: 15px;
+      margin-top: 20px;
       text-align: right;
       width: 100%;
-      max-height: calc(45vh - 70px);
+      max-height: calc(50vh - 70px);
       overflow-y: auto;
     }
 
     .voice-list li {
-      margin-bottom: 18px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #3f3f3f;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #555; /* خط جداکننده بین ویس‌ها */
+      padding-bottom: 20px;
+    }
+
+    .voice-list li:last-child {
+      border-bottom: none; /* خط آخر نباشد */
     }
 
     .voice-list strong {
-      font-weight: 700;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.2em;
       color: #c6a87d;
-      font-size: 1.05em;
     }
 
-    .voice-list span.date {
-      color: #7a7a7a;
-      font-size: 0.9em;
-      font-weight: 400;
-      margin-top: -4px;
+    audio {
+      width: 100%;
+      border-radius: 6px;
+      outline: none;
+      max-width: 100%;
+      box-sizing: border-box;
+      min-height: 40px; /* حداقل ارتفاع برای نوار ویس */
+      padding: 8px 0;
     }
 
-	audio {
-  	  width: 100%;
-  	  max-width: 100%;
-  	  height: auto !important;
-	  border: none;
-  	  border-radius: 0;
-	  outline: none;
-	  box-sizing: content-box;
-	  filter: none;
-	  display: block;
-}
+    footer {
+      background-color:#111;
+      color:#95917a;
+      padding: 20px 10px;
+      font-family: 'Vazirmatn', sans-serif;
+      direction: rtl;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    footer a {
+      color:#c6a87d;
+      text-decoration:none;
+      font-weight:bold;
+    }
 
     .voice-toggle-btn {
       position: fixed;
@@ -169,43 +181,29 @@
       background-color: #a88c5d;
     }
 
-    footer {
-      background-color:#111;
-      color:#95917a;
-      padding:20px 10px;
-      font-family: 'Vazirmatn', sans-serif;
-      direction: rtl;
-      text-align: center;
-      margin-top: auto;
-      margin-bottom: 15px;
-    }
-
-    footer a {
-      color:#c6a87d;
-      text-decoration:none;
-      font-weight:bold;
-    }
-
     @media (max-width: 480px) {
       .voice-section.open {
-        max-height: 40vh !important;
+        max-height: 55vh !important;
+        min-height: 200px;
         padding: 15px 20px;
       }
       .voice-list {
-        max-height: calc(40vh - 70px);
+        max-height: calc(55vh - 70px);
         padding: 0 5px;
       }
       audio {
         width: 100% !important;
-        height: 28px !important;
         max-width: 100% !important;
         box-sizing: border-box;
+        min-height: 40px;
+        padding: 10px 0;
       }
       .voice-list li {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
       }
       .voice-list strong {
-        font-size: 1em;
+        font-size: 1.1em;
       }
       header img {
         filter: brightness(0.5);
@@ -222,7 +220,7 @@
 </head>
 <body>
 
-<!-- دکمه باز/بسته کردن بخش صدای ما -->
+<!-- دکمه باز/بسته کردن بخش صدا -->
 <button class="voice-toggle-btn" aria-expanded="true" aria-controls="voice-panel" onclick="toggleVoicePanel()">
   🎙️ صدای ما
 </button>
@@ -233,25 +231,22 @@
 
   <ul class="voice-list">
     <li>
-      <strong>متن ویس اول</strong>
-      <span class="date">۱۰ مرداد ۱۴۰۴</span>
-      <audio controls preload="none" controlsList="nodownload noplaybackrate">
+      <strong>متن ویس</strong> — ۱۰ مرداد ۱۴۰۴
+      <audio controls>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
         مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
       </audio>
     </li>
     <li>
-      <strong>متن ویس دوم</strong>
-      <span class="date">۲۵ تیر ۱۴۰۴</span>
-      <audio controls preload="none" controlsList="nodownload noplaybackrate">
+      <strong>متن ویس</strong> — ۲۵ تیر ۱۴۰۴
+      <audio controls>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
         مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
       </audio>
     </li>
     <li>
-      <strong>متن ویس سوم</strong>
-      <span class="date">۵ مرداد ۱۴۰۴</span>
-      <audio controls preload="none" controlsList="nodownload noplaybackrate">
+      <strong>متن ویس</strong> — ۵ مرداد ۱۴۰۴
+      <audio controls>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg" />
         مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
       </audio>

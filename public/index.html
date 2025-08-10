@@ -178,16 +178,20 @@
     .voice-list li:first-child { padding-top: 18px; }
 
     /* audio styles */
-    audio{
-      width:100% !important;
-      height: 66px;
-      border-radius:12px;
-      background:#111;
-      box-sizing:border-box;
-      margin-top:6px;
-      outline:none;
-      -webkit-appearance: none;
-    }
+audio {
+  width: 93% !important;
+  height: 60px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.4); /* پس‌زمینه محو */
+  box-sizing: border-box;
+  margin-top: 5px;
+  padding: 12px 10px; /* فاصله داخلی برای بهتر دیده شدن */
+  outline: none;
+  -webkit-appearance: none;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(198, 168, 125, 0.15);
+}
 
     /* حذف کادر خاکستری پشت تایم‌لاین پخش صوت */
     audio::-webkit-media-controls-timeline {

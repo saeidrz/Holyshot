@@ -16,12 +16,6 @@
       overflow-x: hidden;
     }
 
-    header {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-    }
-
     header img {
       width: 100%;
       height: auto;
@@ -67,7 +61,6 @@
       margin-right: auto;
     }
 
-    /* بخش صدای ما */
     .voice-section {
       position: fixed;
       top: 0;
@@ -90,9 +83,8 @@
       justify-content: flex-start;
     }
 
-    /* وقتی باز هست */
     .voice-section.open {
-      max-height: 50vh; /* نصف ارتفاع صفحه */
+      max-height: 80vh;
       padding: 20px 40px;
     }
 
@@ -111,7 +103,7 @@
       margin-top: 20px;
       text-align: right;
       width: 100%;
-      max-height: calc(50vh - 70px); /* حد ارتفاع لیست باکس */
+      max-height: calc(80vh - 70px);
       overflow-y: auto;
     }
 
@@ -131,18 +123,16 @@
     audio {
       width: 100% !important;
       height: auto !important;
-      min-height: 45px; /* فضای کافی برای دکمه‌ها */
+      min-height: 45px;
       display: block;
       box-sizing: border-box;
       padding: 5px 0;
     }
 
-    /* فقط مرورگرهای WebKit مثل کروم و سافاری این بخش رو می‌فهمن */
     audio::-webkit-media-controls-panel {
       padding: 5px !important;
     }
 
-    /* مطمئن میشیم همه کنترل‌ها دیده بشن */
     audio::-webkit-media-controls-play-button,
     audio::-webkit-media-controls-timeline,
     audio::-webkit-media-controls-current-time-display,
@@ -157,8 +147,8 @@
       padding: 20px 10px;
       font-family: 'Vazirmatn', sans-serif;
       direction: rtl;
-      text-align: center; /* وسط چین */
-      position: relative; /* فقط اگه لازم بود */
+      text-align: center;
+      position: relative;
       z-index: 1;
       margin-top: 20px;
     }
@@ -192,13 +182,15 @@
 
     @media (max-width: 480px) {
       .voice-section.open {
-        max-height: 50vh !important;
+        max-height: 80vh !important;
         padding: 15px 20px;
       }
+
       .voice-list {
-        max-height: calc(50vh - 70px);
+        max-height: calc(80vh - 70px);
         padding: 0 5px;
       }
+
       audio {
         width: 100% !important;
         max-width: 100% !important;
@@ -206,15 +198,19 @@
         min-height: 45px !important;
         padding: 5px 0 !important;
       }
+
       .voice-list li {
         margin-bottom: 20px;
       }
+
       .voice-list strong {
         font-size: 1.1em;
       }
+
       header img {
         filter: brightness(0.5);
       }
+
       .voice-toggle-btn {
         top: 8px;
         left: 8px;
@@ -227,7 +223,6 @@
 </head>
 <body>
 
-<!-- دکمه باز/بسته کردن بخش صدا -->
 <button class="voice-toggle-btn" aria-expanded="true" aria-controls="voice-panel" onclick="toggleVoicePanel()">
   🎙️ صدای ما
 </button>
@@ -235,7 +230,6 @@
 <section id="voice-panel" class="voice-section open" aria-hidden="false">
   <h2>🎙️ صدای ما</h2>
   <p>هر چند وقت یک‌بار، صدای ما رو بشنو!</p>
-
   <ul class="voice-list">
     <li>
       <strong>متن ویس</strong> — ۱۰ مرداد ۱۴۰۴

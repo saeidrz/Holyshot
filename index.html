@@ -48,10 +48,10 @@
     /* لامپ کوچکتر و بالاتر */
     .lamp-btn {
       position: fixed;
-      top: -10px; /* بالاتر */
+      top: 0px; /* بالاتر */
       left: 50%;
       transform: translateX(-50%);
-      width: 80px;  /* کوچکتر */
+      width: 100px;  /* کوچکتر */
       height: 100px;
       background: transparent;
       border: none;
@@ -108,12 +108,12 @@
       100% { transform: translateX(-50%) translateY(0); }
     }
 
-    /* منو 2 ردیف 5 ستون */
+    /* منو 2 ردیف 5 ستون با مربع کوچکتر */
     .menu-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       grid-template-rows: repeat(2, auto);
-      gap: 12px 12px;
+      gap: 8px 8px;
       padding: 40px 10px;
       max-width: 1000px;
       margin: 0 auto;
@@ -122,7 +122,7 @@
     .menu-item {
       background-color: #95917a;
       border-radius: 8px;
-      padding: 10px 8px;
+      padding: 6px 4px;
       text-align: center;
       transition: 0.3s;
       color: black;
@@ -134,16 +134,16 @@
       align-items: center;
       cursor: pointer;
       user-select: none;
-      font-size: 0.85rem;
+      font-size: 0.7rem;
     }
     .menu-item:hover {
       background-color: #e7f6fc;
     }
     .cat-item-img {
-      width: 45px;
-      height: 45px;
+      width: 30px;
+      height: 30px;
       object-fit: contain;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
     /* پنل صدا */
@@ -225,7 +225,7 @@
       100% { box-shadow: 0 0 6px rgba(198,168,125,0.2); }
     }
 
-    /* دکمه های فلش */
+    /* دکمه‌های باز/بسته کردن پنل */
     .arrow-up-btn, .arrow-down-btn {
       position: fixed;
       left: 50%;
@@ -282,18 +282,18 @@
         bottom: -20px;
       }
       .cat-item-img {
-        width: 30px;
-        height: 30px;
-        margin-bottom: 6px;
+        width: 22px;
+        height: 22px;
+        margin-bottom: 3px;
       }
       .menu-item {
-        padding: 6px 4px;
-        font-size: 0.75rem;
+        padding: 4px 3px;
+        font-size: 0.65rem;
       }
       .menu-grid {
         grid-template-columns: repeat(5, 1fr);
         grid-template-rows: repeat(2, auto);
-        gap: 8px 8px;
+        gap: 6px 6px;
         padding: 20px 6px;
         max-width: 100vw;
       }
@@ -390,40 +390,41 @@
     const arrowDownBtn = document.getElementById('arrowDownBtn');
     const audios = document.querySelectorAll('audio');
 
-    // پیش‌فرض: پنل باز باشه
     voicePanel.classList.remove('closed');
     arrowUpBtn.style.display = 'none';
     arrowDownBtn.style.display = 'flex';
     lampBtn.setAttribute('aria-expanded', 'true');
 
-    function setPanelState(open){
-      if(open){
+    function setPanelState(open) {
+      if (open) {
         voicePanel.classList.remove('closed');
-        voicePanel.setAttribute('aria-hidden','false');
-        arrowDownBtn.style.display='flex';
-        arrowUpBtn.style.display='none';
-        lampBtn.setAttribute('aria-expanded','true');
+        voicePanel.setAttribute('aria-hidden', 'false');
+        arrowDownBtn.style.display = 'flex';
+        arrowUpBtn.style.display = 'none';
+        lampBtn.setAttribute('aria-expanded', 'true');
         lampBtn.classList.add('glow');
-      }else{
+      } else {
         voicePanel.classList.add('closed');
-        voicePanel.setAttribute('aria-hidden','true');
-        arrowDownBtn.style.display='none';
-        arrowUpBtn.style.display='flex';
-        lampBtn.setAttribute('aria-expanded','false');
+        voicePanel.setAttribute('aria-hidden', 'true');
+        arrowDownBtn.style.display = 'none';
+        arrowUpBtn.style.display = 'flex';
+        lampBtn.setAttribute('aria-expanded', 'false');
         lampBtn.classList.remove('glow');
       }
     }
 
-    function togglePanel(){ setPanelState( voicePanel.classList.contains('closed') ); }
+    function togglePanel() {
+      setPanelState(voicePanel.classList.contains('closed'));
+    }
 
     lampBtn.addEventListener('click', togglePanel);
     arrowUpBtn.addEventListener('click', togglePanel);
     arrowDownBtn.addEventListener('click', togglePanel);
 
-    audios.forEach(a=>{
-      a.addEventListener('play', ()=> a.classList.add('playing'));
-      a.addEventListener('pause', ()=> a.classList.remove('playing'));
-      a.addEventListener('ended', ()=> a.classList.remove('playing'));
+    audios.forEach(a => {
+      a.addEventListener('play', () => a.classList.add('playing'));
+      a.addEventListener('pause', () => a.classList.remove('playing'));
+      a.addEventListener('ended', () => a.classList.remove('playing'));
     });
   </script>
 

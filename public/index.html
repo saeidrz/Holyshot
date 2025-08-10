@@ -79,7 +79,6 @@
       color: #ddd;
       box-sizing: border-box;
       padding: 0 20px;
-      transition: max-height 0.5s ease, padding 0.5s ease;
       z-index: 9999;
       font-family: 'Vazirmatn', sans-serif;
       text-align: center;
@@ -88,17 +87,20 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
+
+      /* انیمیشن کشیدنی */
+      transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .voice-section.open {
-      max-height: 50vh; /* نصف ارتفاع صفحه */
-      padding: 20px 40px;
+      max-height: 60vh; /* ارتفاع پنل بیشتر */
+      padding: 25px 50px;
     }
 
     .voice-section h2 {
       margin-top: 0;
       color: #c6a87d;
-      font-size: 1.6em;
+      font-size: 1.8em;
       margin-bottom: 10px;
       width: 100%;
       text-align: center;
@@ -110,7 +112,7 @@
       margin-top: 20px;
       text-align: right;
       width: 100%;
-      max-height: calc(50vh - 70px);
+      max-height: calc(60vh - 90px);
       overflow-y: auto;
       border-top: 1px solid #555;
     }
@@ -124,7 +126,7 @@
     .voice-list strong {
       display: block;
       margin-bottom: 8px;
-      font-size: 1.2em;
+      font-size: 1.3em;
       color: #c6a87d;
     }
 
@@ -134,7 +136,7 @@
       border-radius: 10px;
       margin-top: 5px;
       outline: none;
-      height: 75px;
+      height: 80px;
       box-sizing: border-box;
       background-color: #222;
     }
@@ -167,25 +169,26 @@
       font-weight: bold;
     }
 
-    /* دکمه وسط بالا با انیمیشن نورانی */
+    /* دکمه وسط بالا با انیمیشن نورانی قوی‌تر و بزرگ‌تر */
     .voice-toggle-btn {
       position: fixed;
-      top: 10px;
+      top: 12px;
       left: 50%;
       transform: translateX(-50%);
       background-color: #c6a87d;
       border: none;
-      padding: 10px 20px;
+      padding: 14px 28px;
       border-radius: 30px;
       cursor: pointer;
       font-weight: bold;
-      font-size: 1.1rem;
+      font-size: 1.3rem;
       color: #111;
       z-index: 10000;
-      box-shadow: 0 0 10px #c6a87d;
-      animation: glowing 2.5s infinite alternate;
+      box-shadow: 0 0 20px #c6a87d, 0 0 40px #e1d3a5, 0 0 60px #f0e7a5;
+      animation: glowingStrong 2.5s infinite alternate;
       transition: background-color 0.3s;
       white-space: nowrap;
+      user-select: none;
     }
 
     .voice-toggle-btn:hover {
@@ -193,17 +196,17 @@
       animation-play-state: paused;
     }
 
-    @keyframes glowing {
+    @keyframes glowingStrong {
       0% {
-        box-shadow: 0 0 5px #c6a87d;
+        box-shadow: 0 0 15px #c6a87d, 0 0 30px #e1d3a5;
         background-color: #c6a87d;
       }
       50% {
-        box-shadow: 0 0 15px #e1d3a5;
+        box-shadow: 0 0 40px #f0e7a5, 0 0 80px #f8f8c2, 0 0 120px #fefddf;
         background-color: #e1d3a5;
       }
       100% {
-        box-shadow: 0 0 5px #c6a87d;
+        box-shadow: 0 0 15px #c6a87d, 0 0 30px #e1d3a5;
         background-color: #c6a87d;
       }
     }
@@ -232,9 +235,9 @@
         filter: brightness(0.5);
       }
       .voice-toggle-btn {
-        top: 8px;
-        padding: 8px 14px;
-        font-size: 1rem;
+        top: 10px;
+        padding: 12px 20px;
+        font-size: 1.1rem;
       }
     }
   </style>

@@ -144,12 +144,15 @@
       height: 75px;
       box-sizing: border-box;
       background-color: #222;
+      position: relative;
+      z-index: 0;
     }
 
     audio::-webkit-media-controls-panel {
       border-radius: 12px !important;
-      background-color: #222 !important;
+      background-color: rgba(34, 34, 34, 0.85) !important; /* کمی محوتر */
       padding: 0 5px !important;
+      backdrop-filter: blur(4px);
     }
 
     audio::-webkit-media-controls-play-button,
@@ -157,12 +160,26 @@
       border-radius: 12px !important;
     }
 
+    /* انیمیشن زربان قلب برای نوار پخش */
+    audio::-webkit-media-controls-timeline {
+      animation: heartbeat 1.5s infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% {
+        filter: drop-shadow(0 0 0 #c6a87d);
+      }
+      50% {
+        filter: drop-shadow(0 0 8px #c6a87d);
+      }
+    }
+
     /* دکمه لامپ بالای صفحه */
     .lamp-btn {
       position: fixed;
       top: 15px;
       left: 50%;
-      transform: translateX(-50%) rotate(180deg);
+      transform: translateX(-50%);
       background: transparent;
       border: none;
       cursor: pointer;
@@ -172,9 +189,9 @@
       align-items: center;
       justify-content: center;
       transition: filter 0.3s ease;
-      animation: lampGlow 3s infinite alternate;
-      width: 60px;
-      height: 60px;
+      animation: lampGlow 2s infinite alternate;
+      width: 90px;
+      height: 90px;
     }
 
     .lamp-btn img {
@@ -183,21 +200,21 @@
       object-fit: contain;
       user-select: none;
       pointer-events: none;
-      filter: drop-shadow(0 0 8px #95917a);
+      filter: drop-shadow(0 0 20px #95917a);
       transition: filter 0.3s ease;
     }
 
     .lamp-btn:hover img {
-      filter: drop-shadow(0 0 18px #c6a87d);
+      filter: drop-shadow(0 0 35px #c6a87d);
     }
 
     /* انیمیشن چشمک زدن لامپ */
     @keyframes lampGlow {
       0%, 100% {
-        filter: drop-shadow(0 0 8px #95917a);
+        filter: drop-shadow(0 0 20px #95917a);
       }
       50% {
-        filter: drop-shadow(0 0 25px #c6a87d);
+        filter: drop-shadow(0 0 40px #c6a87d);
       }
     }
 
@@ -220,15 +237,15 @@
     }
 
     .arrow-up-btn svg {
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       fill: #95917a;
       filter: drop-shadow(0 0 6px #95917a);
       transition: filter 0.3s ease;
     }
 
     .arrow-up-btn:hover svg {
-      filter: drop-shadow(0 0 12px #c6a87d);
+      filter: drop-shadow(0 0 18px #c6a87d);
     }
 
     /* فلش بالا صفحه وقتی باز است */
@@ -249,15 +266,15 @@
     }
 
     .arrow-down-btn svg {
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       fill: #95917a;
       filter: drop-shadow(0 0 6px #95917a);
       transition: filter 0.3s ease;
     }
 
     .arrow-down-btn:hover svg {
-      filter: drop-shadow(0 0 12px #c6a87d);
+      filter: drop-shadow(0 0 18px #c6a87d);
     }
 
     /* وقتی پنل بسته است فلش بالا نمایش داده شود */
@@ -314,8 +331,8 @@
         filter: brightness(0.5);
       }
       .lamp-btn {
-        width: 50px;
-        height: 50px;
+        width: 70px;
+        height: 70px;
       }
       .arrow-up-btn svg,
       .arrow-down-btn svg {
@@ -395,11 +412,6 @@
   </svg>
 </button>
 
-<!-- لینک اینستا پایین وسط -->
-<a href="https://www.instagram.com/cafe_holyshot/" target="_blank" rel="noopener noreferrer" class="insta-link" aria-label="صفحه اینستاگرام کافه">
-  @cafe_holyshot
-</a>
-
 <header>
   <img src="https://i.postimg.cc/qRvkzHfR/IMG-3551.jpg" alt="کافه Holyshot" />
 </header>
@@ -408,32 +420,22 @@
   <p>جایی برای تجربه‌ی طعم‌های خاص و لحظات ناب</p>
 </section>
 
-<section class="menu-grid">
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/vH9Vtfjs/3.png" class="cat-item-img" alt="قهوه دمی" />
-    قهوه دمی
-  </div>
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/4x2sKF5N/9.png" class="cat-item-img" alt="چای و دمنوش" />
-    چای و دمنوش
-  </div>
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/d1xh6vDc/4.png" class="cat-item-img" alt="کیک و دسر" />
-    کیک و دسر
-  </div>
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/1R2dq1LB/7.png" class="cat-item-img" alt="کیک و شیرینی" />
-    کیک و شیرینی
-  </div>
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/NG7m1XZ3/8.png" class="cat-item-img" alt="آیس کافی" />
-    آیس کافی
-  </div>
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/3xjJhL93/6.png" class="cat-item-img" alt="اسموتی و شیک" />
-    اسموتی و شیک
-  </div>
-</section>
+  <section class="menu-grid">
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/vH9Vtfjs/3.png" class="cat-item-img" alt="قهوه دمی" />قهوه دمی</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/4x2sKF5N/9.png" class="cat-item-img" alt="چای و دمنوش" />چای و دمنوش</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/d1rYxQKL/10.png" class="cat-item-img" alt="کیک و دسر" />کیک و دسر</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سرد" />نوشیدنی سرد</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/7ZKY3Lx4/8.png" class="cat-item-img" alt="بستنی" />بستنی</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/nctzZ5dy/6.png" class="cat-item-img" alt="میلک‌شیک" />میلک‌شیک</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/FHVk2mNC/4.png" class="cat-item-img" alt="اسموتی" />اسموتی</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/GpStCmNK/5.png" class="cat-item-img" alt="ماکتیل" />ماکتیل</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سنتی" />نوشیدنی سنتی</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/qMCRdrXX/1.png" class="cat-item-img" alt="نوشیدنی گرم" />نوشیدنی گرم</div>
+  </section>
+
+
+<!-- لینک اینستاگرام پایین صفحه -->
+<a href="https://www.instagram.com/cafe_holyshot/" target="_blank" rel="noopener noreferrer" class="insta-link">cafe_holyshot</a>
 
 <script>
   const lampBtn = document.getElementById('lampBtn');
@@ -441,14 +443,31 @@
   const arrowUpBtn = document.getElementById('arrowUpBtn');
   const arrowDownBtn = document.getElementById('arrowDownBtn');
 
-  function toggleVoicePanel() {
-    const isClosed = voicePanel.classList.toggle('closed');
-    voicePanel.setAttribute('aria-hidden', isClosed ? 'true' : 'false');
+  // حالت اولیه: پنل باز
+  voicePanel.classList.remove('closed');
+  arrowUpBtn.style.display = 'none';
+  arrowDownBtn.style.display = 'flex';
+
+  function togglePanel() {
+    const isClosed = voicePanel.classList.contains('closed');
+    if (isClosed) {
+      // باز کردن پنل
+      voicePanel.classList.remove('closed');
+      voicePanel.setAttribute('aria-hidden', 'false');
+      arrowUpBtn.style.display = 'none';
+      arrowDownBtn.style.display = 'flex';
+    } else {
+      // بستن پنل
+      voicePanel.classList.add('closed');
+      voicePanel.setAttribute('aria-hidden', 'true');
+      arrowUpBtn.style.display = 'flex';
+      arrowDownBtn.style.display = 'none';
+    }
   }
 
-  lampBtn.addEventListener('click', toggleVoicePanel);
-  arrowUpBtn.addEventListener('click', toggleVoicePanel);
-  arrowDownBtn.addEventListener('click', toggleVoicePanel);
+  lampBtn.addEventListener('click', togglePanel);
+  arrowUpBtn.addEventListener('click', togglePanel);
+  arrowDownBtn.addEventListener('click', togglePanel);
 </script>
 
 </body>

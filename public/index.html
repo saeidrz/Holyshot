@@ -92,8 +92,7 @@
 
     /* وقتی باز هست */
     .voice-section.open {
-      max-height: 50vh;
-      min-height: 180px; /* حداقل ارتفاع نوار ویس */
+      max-height: 50vh; /* نصف ارتفاع صفحه */
       padding: 20px 40px;
     }
 
@@ -112,18 +111,14 @@
       margin-top: 20px;
       text-align: right;
       width: 100%;
-      max-height: calc(50vh - 70px);
+      max-height: calc(50vh - 70px); /* حد ارتفاع لیست باکس */
       overflow-y: auto;
     }
 
     .voice-list li {
-      margin-bottom: 30px;
-      border-bottom: 1px solid #555; /* خط جداکننده بین ویس‌ها */
+      margin-bottom: 25px;
+      border-bottom: 1px solid #555;
       padding-bottom: 20px;
-    }
-
-    .voice-list li:last-child {
-      border-bottom: none; /* خط آخر نباشد */
     }
 
     .voice-list strong {
@@ -134,13 +129,26 @@
     }
 
     audio {
-      width: 100%;
-      border-radius: 6px;
-      outline: none;
-      max-width: 100%;
+      width: 100% !important;
+      height: auto !important;
+      min-height: 45px; /* فضای کافی برای دکمه‌ها */
+      display: block;
       box-sizing: border-box;
-      min-height: 40px; /* حداقل ارتفاع برای نوار ویس */
-      padding: 8px 0;
+      padding: 5px 0;
+    }
+
+    /* فقط مرورگرهای WebKit مثل کروم و سافاری این بخش رو می‌فهمن */
+    audio::-webkit-media-controls-panel {
+      padding: 5px !important;
+    }
+
+    /* مطمئن میشیم همه کنترل‌ها دیده بشن */
+    audio::-webkit-media-controls-play-button,
+    audio::-webkit-media-controls-timeline,
+    audio::-webkit-media-controls-current-time-display,
+    audio::-webkit-media-controls-time-remaining-display,
+    audio::-webkit-media-controls-volume-slider {
+      display: block !important;
     }
 
     footer {
@@ -149,9 +157,10 @@
       padding: 20px 10px;
       font-family: 'Vazirmatn', sans-serif;
       direction: rtl;
-      text-align: center;
-      position: relative;
+      text-align: center; /* وسط چین */
+      position: relative; /* فقط اگه لازم بود */
       z-index: 1;
+      margin-top: 20px;
     }
 
     footer a {
@@ -183,24 +192,22 @@
 
     @media (max-width: 480px) {
       .voice-section.open {
-        max-height: 55vh !important;
-        min-height: 200px;
+        max-height: 50vh !important;
         padding: 15px 20px;
       }
       .voice-list {
-        max-height: calc(55vh - 70px);
+        max-height: calc(50vh - 70px);
         padding: 0 5px;
       }
       audio {
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box;
-        min-height: 40px;
-        padding: 10px 0;
+        min-height: 45px !important;
+        padding: 5px 0 !important;
       }
       .voice-list li {
         margin-bottom: 20px;
-        padding-bottom: 15px;
       }
       .voice-list strong {
         font-size: 1.1em;

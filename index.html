@@ -33,9 +33,10 @@
 
     section { padding:40px 20px; text-align:center; }
 
+    /* منوی کافه 2 ستون 5 ردیف */
     .menu-grid{
       display:grid;
-      grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap:20px;
       padding:40px 20px;
     }
@@ -52,15 +53,15 @@
     .cat-item-img{ width:60px; height:60px; object-fit:contain; margin:0 auto 10px; display:block; }
 
     /* -------------------------
-       LAMP (top, big, glowing)
+       LAMP (کوچکتر و بالاتر)
        ------------------------- */
     .lamp-btn{
       position: fixed;
-      top: 8px; /* از بالای صفحه شروع */
+      top: -20px; /* بالاتر */
       left: 50%;
       transform: translateX(-50%);
-      width: 200px;      /* اندازه بزرگ‌تر */
-      height: 200px;
+      width: 160px;      /* کوچکتر */
+      height: 160px;
       padding: 0;
       border: none;
       background: transparent;
@@ -80,31 +81,32 @@
       object-fit:contain;
       display:block;
       user-select:none;
-      pointer-events:none; /* کلیک روی دکمه خود کار می‌کنه */
+      pointer-events:none;
       filter: drop-shadow(0 0 40px rgba(198,168,125,0.45));
       transition: filter .18s ease, transform .18s ease;
       mix-blend-mode: screen;
       background: transparent;
     }
 
-    /* شدیدترین نور چشمک‌زن */
+    /* نور چشمک‌زن قوی‌تر و گسترده‌تر */
     @keyframes lampGlow {
-      0% { filter: drop-shadow(0 0 30px rgba(198,168,125,0.45)); }
-      40% { filter: drop-shadow(0 0 90px rgba(240,231,165,0.95)); }
-      70% { filter: drop-shadow(0 0 140px rgba(240,231,165,1)); transform: scale(1.02); }
-      100% { filter: drop-shadow(0 0 40px rgba(198,168,125,0.55)); transform: scale(1); }
+      0%   { filter: drop-shadow(0 0 40px rgba(198,168,125,0.45)); }
+      40%  { filter: drop-shadow(0 0 120px rgba(240,231,165,0.95)); }
+      70%  { filter: drop-shadow(0 0 180px rgba(240,231,165,1)); transform: scale(1.03); }
+      100% { filter: drop-shadow(0 0 60px rgba(198,168,125,0.55)); transform: scale(1); }
     }
-    /* floating برای لامپ */
+
+    /* floating animation */
     @keyframes lampFloat {
       0% { transform: translateX(-50%) translateY(0); }
       50% { transform: translateX(-50%) translateY(6px); }
       100% { transform: translateX(-50%) translateY(0); }
     }
-    /* اعمال چشمک زدن با تداخل */
+
     .lamp-btn.glow img { animation: lampGlow 2.2s infinite ease-in-out; }
 
     /* -------------------------
-       VOICE PANEL (bottom semi-transparent)
+       VOICE PANEL (پایین صفحه)
        ------------------------- */
     .voice-section{
       position: fixed;
@@ -143,7 +145,7 @@
       max-height: calc(65vh - 120px);
       overflow:auto;
       border-top:1px solid rgba(198,168,125,0.08);
-      padding-top:6px; /* فاصله اضافی تا اولین آیتم */
+      padding-top:6px;
     }
 
     .voice-list li{
@@ -159,10 +161,8 @@
       color: var(--gold);
     }
 
-    /* فضای بیشتر برای اولین آیتم تا زیر لامپ احتمالی تداخل نکنه */
     .voice-list li:first-child { padding-top: 18px; }
 
-    /* audio styles */
     audio{
       width:100% !important;
       height:78px;
@@ -174,14 +174,13 @@
       -webkit-appearance: none;
     }
 
-    /* تلاش برای محوتر کردن timeline و ضربان */
     audio::-webkit-media-controls-panel{
       background: rgba(20,20,20,0.82) !important;
       border-radius:12px !important;
       padding:0 6px !important;
       backdrop-filter: blur(4px);
     }
-    /* heartbeat effect for timeline (webkit browsers) */
+
     audio.playing::-webkit-media-controls-timeline,
     audio::-webkit-media-controls-timeline{
       animation: heartbeat 1.4s infinite;
@@ -195,7 +194,7 @@
       100% { box-shadow: 0 0 6px rgba(198,168,125,0.2); }
     }
 
-    /* arrows (bigger) */
+    /* arrows */
     .arrow-up-btn, .arrow-down-btn{
       position: fixed;
       left:50%;
@@ -220,7 +219,7 @@
       filter: drop-shadow(0 0 26px rgba(240,231,165,0.95));
     }
 
-    /* insta link bottom center */
+    /* insta link */
     .insta-link{
       position: fixed;
       bottom: 18px;
@@ -238,28 +237,41 @@
       box-shadow:0 6px 18px rgba(0,0,0,.5);
     }
 
-    /* footer removed (we left only insta link) */
-
     @media (max-width:480px){
-      .lamp-btn{ width:120px; height:120px; top:6px; }
-      .lamp-btn img{ filter: drop-shadow(0 0 26px rgba(198,168,125,0.45)); }
-      .voice-section{ padding:22px 18px 30px; bottom:60px; max-height:55vh; }
+      .lamp-btn{
+        width: 100px;
+        height: 100px;
+        top: -10px;
+      }
+      .lamp-btn img{
+        filter: drop-shadow(0 0 26px rgba(198,168,125,0.45));
+      }
+      .voice-section{
+        padding:22px 18px 30px;
+        bottom:60px;
+        max-height:55vh;
+      }
       audio{ height:66px; }
       .arrow-up-btn{ bottom:110px; }
       .arrow-down-btn{ bottom:70px; }
       .arrow-up-btn svg, .arrow-down-btn svg{ width:48px; height:48px; }
       .insta-link{ font-size:1rem; bottom:12px; }
+
+      /* منوی کافه 2 ستون هم روی موبایل */
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- LAMP (use your PNG with transparent background) -->
+  <!-- LAMP -->
   <button id="lampBtn" class="lamp-btn glow" aria-expanded="true" aria-controls="voice-panel" title="باز و بسته کردن نوار صدا">
     <img src="https://i.postimg.cc/j5hwpLCC/56-561430-lamp-modern-ceiling-lamp-png-clipart.png" alt="لامپ" />
   </button>
 
-  <!-- VOICE PANEL (پایین صفحه، نیمه شفاف) -->
+  <!-- VOICE PANEL -->
   <section id="voice-panel" class="voice-section" aria-hidden="false">
     <ul class="voice-list" id="voiceList">
       <li>
@@ -317,7 +329,6 @@
     <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/qMCRdrXX/1.png" class="cat-item-img" alt="نوشیدنی گرم" />نوشیدنی گرم</div>
   </section>
 
-
   <script>
     const lampBtn = document.getElementById('lampBtn');
     const voicePanel = document.getElementById('voice-panel');
@@ -361,8 +372,6 @@
       a.addEventListener('pause', ()=> a.classList.remove('playing'));
       a.addEventListener('ended', ()=> a.classList.remove('playing'));
     });
-
-    // نقطه: اگر خواستی پنل با کشیدن (drag) باز/بسته بشه، می‌تونم اضافه کنم — الان با کلیک کار می‌کنه.
   </script>
 
 </body>

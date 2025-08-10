@@ -70,42 +70,26 @@
     /* بخش صدای ما */
     .voice-section {
       position: fixed;
-      bottom: 60px;
+      top: 50px; /* فاصله از بالا بیشتر برای جای فلش */
       left: 0;
       width: 100%;
       max-height: 65vh;
       overflow-y: auto;
-      background-color: rgba(0, 0, 0, 0.65);
+      background-color: rgba(0, 0, 0, 0.6); /* مشکی محو */
       color: #ddd;
       box-sizing: border-box;
       padding: 35px 60px 40px;
-      z-index: 9998;
+      z-index: 9999;
       font-family: 'Vazirmatn', sans-serif;
       text-align: center;
-      border-top: 1px solid rgba(198, 168, 125, 0.3);
+      border-radius: 0 0 20px 20px;
+      border-bottom: 3px solid #c6a87d;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
       backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .voice-section.closed {
-      max-height: 0;
-      padding-top: 0;
-      padding-bottom: 0;
-      overflow: hidden;
-      border-top: none;
-    }
-
-    .voice-section p {
-      font-size: 1.5rem;
-      margin-top: 10px;
-      margin-bottom: 30px;
-      color: #c6a87d;
-      font-weight: 600;
     }
 
     .voice-list {
@@ -116,12 +100,12 @@
       width: 100%;
       max-height: calc(65vh - 130px);
       overflow-y: auto;
-      border-top: 1px solid rgba(198, 168, 125, 0.3);
+      border-top: 1px solid #555;
     }
 
     .voice-list li {
       margin-bottom: 30px;
-      border-bottom: 1px solid rgba(198, 168, 125, 0.2);
+      border-bottom: 1px solid #555;
       padding-bottom: 20px;
     }
 
@@ -171,123 +155,78 @@
       font-weight: bold;
     }
 
-    /* دکمه لامپ بالای صفحه */
-    .lamp-btn {
+    /* دکمه لامپ و فلش */
+    .toggle-container {
       position: fixed;
-      top: 15px;
+      top: 5px;
       left: 50%;
       transform: translateX(-50%);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 10000;
-      padding: 8px;
+      z-index: 10001;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      transition: filter 0.3s ease;
-      animation: lampGlow 3s infinite alternate;
+      cursor: pointer;
+      user-select: none;
     }
 
-    .lamp-btn svg {
-      width: 50px;
-      height: 50px;
-      fill: #95917a;
-      filter: drop-shadow(0 0 6px #95917a);
-      transition: filter 0.3s ease;
+    /* لامپ */
+    .lamp {
+      width: 60px;
+      height: 90px;
+      fill: #c6a87d;
+      filter: drop-shadow(0 0 5px #c6a87d);
+      animation: flicker 2s infinite alternate;
+      margin-bottom: 5px;
+      transition: fill 0.3s;
+    }
+    .lamp.off {
+      fill: #5a5037;
+      filter: none;
+      animation: none;
     }
 
-    .lamp-btn:hover svg {
-      filter: drop-shadow(0 0 10px #c6a87d);
+    /* فلش ها */
+    .arrow {
+      width: 40px;
+      height: 40px;
+      fill: #c6a87d;
+      filter: drop-shadow(0 0 5px #c6a87d);
+      transition: transform 0.3s;
+      user-select: none;
     }
 
-    /* انیمیشن چشمک زدن لامپ */
-    @keyframes lampGlow {
-      0%, 100% {
-        filter: drop-shadow(0 0 6px #95917a);
+    /* جهت فلش رو با rotate تغییر میدیم */
+    .arrow.down {
+      transform: rotate(0deg);
+    }
+
+    .arrow.up {
+      transform: rotate(180deg);
+    }
+
+    @keyframes flicker {
+      0% {
+        fill: #c6a87d;
+        filter: drop-shadow(0 0 8px #c6a87d);
       }
       50% {
-        filter: drop-shadow(0 0 18px #c6a87d);
+        fill: #f0e7a5;
+        filter: drop-shadow(0 0 20px #f0e7a5);
       }
-    }
-
-    /* فلش پایین صفحه وقتی بسته است */
-    .arrow-up-btn {
-      position: fixed;
-      bottom: 120px; /* خیلی بالاتر از کادر */
-      left: 50%;
-      transform: translateX(-50%);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 10000;
-      padding: 8px;
-      display: none; /* اول مخفی */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: filter 0.3s ease;
-    }
-
-    .arrow-up-btn svg {
-      width: 30px;
-      height: 30px;
-      fill: #95917a;
-      filter: drop-shadow(0 0 6px #95917a);
-      transition: filter 0.3s ease;
-    }
-
-    .arrow-up-btn:hover svg {
-      filter: drop-shadow(0 0 12px #c6a87d);
-    }
-
-    /* فلش بالا صفحه وقتی باز است */
-    .arrow-down-btn {
-      position: fixed;
-      bottom: 60px; /* دقیقاً بالای کادر */
-      left: 50%;
-      transform: translateX(-50%);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 10000;
-      padding: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: filter 0.3s ease;
-    }
-
-    .arrow-down-btn svg {
-      width: 30px;
-      height: 30px;
-      fill: #95917a;
-      filter: drop-shadow(0 0 6px #95917a);
-      transition: filter 0.3s ease;
-    }
-
-    .arrow-down-btn:hover svg {
-      filter: drop-shadow(0 0 12px #c6a87d);
-    }
-
-    /* وقتی پنل بسته است فلش بالا نمایش داده شود */
-    .voice-section.closed ~ .arrow-up-btn {
-      display: flex;
-    }
-
-    /* وقتی پنل باز است فلش پایین نمایش داده شود */
-    .voice-section:not(.closed) ~ .arrow-down-btn {
-      display: flex;
+      100% {
+        fill: #c6a87d;
+        filter: drop-shadow(0 0 8px #c6a87d);
+      }
     }
 
     @media (max-width: 480px) {
       .voice-section {
         max-height: 55vh !important;
         padding: 25px 25px 30px;
-        bottom: 60px;
+        top: 45px;
       }
       .voice-list {
-        max-height: calc(55vh - 130px);
+        max-height: calc(55vh - 110px);
         padding: 0 5px;
       }
       audio {
@@ -302,27 +241,37 @@
       header img {
         filter: brightness(0.5);
       }
-      .lamp-btn svg {
-        width: 40px;
-        height: 40px;
+      .toggle-container {
+        top: 5px;
       }
-      .arrow-up-btn {
-        bottom: 90px;
+      .lamp {
+        width: 50px;
+        height: 75px;
+      }
+      .arrow {
+        width: 30px;
+        height: 30px;
       }
     }
   </style>
 </head>
 <body>
 
-<!-- دکمه لامپ بالای صفحه -->
-<button aria-label="باز و بسته کردن نوار صدا" class="lamp-btn" id="lampBtn" title="باز و بسته کردن نوار صدا">
-  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M32 2C21.6 2 13 10.6 13 21.6c0 6.1 3.1 11.7 7.7 15.3v7.6a3 3 0 0 0 3 3h7.6a3 3 0 0 0 3-3v-7.6c4.6-3.6 7.7-9.2 7.7-15.3C51 10.6 42.4 2 32 2Zm0 38c-3.4 0-6-2.6-6-6s2.6-6 6-6 6 2.6 6 6-2.6 6-6 6Z"/>
+<!-- دکمه لامپ و فلش باز/بسته کردن بخش صدا -->
+<div class="toggle-container" role="button" aria-pressed="false" tabindex="0" aria-label="باز یا بسته کردن پنل صدا" onclick="toggleVoicePanel()" onkeypress="if(event.key==='Enter'){toggleVoicePanel()}">
+  <!-- لامپ به سمت پایین -->
+  <svg class="lamp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 96" aria-hidden="true" >
+    <path d="M32 0C19 0 10 12 10 26c0 11 10 21 12 35h-8v10h28V61h-8c2-14 12-24 12-35 0-14-9-26-22-26z"/>
+    <rect x="22" y="76" width="20" height="10" rx="3" ry="3"/>
   </svg>
-</button>
+  <!-- فلش -->
+  <svg class="arrow down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M7 10l5 5 5-5H7z"/>
+  </svg>
+</div>
 
-<!-- بخش صدای ما -->
 <section id="voice-panel" class="voice-section" aria-hidden="false">
+
 
   <ul class="voice-list">
     <li>
@@ -367,20 +316,6 @@
   </ul>
 </section>
 
-<!-- فلش پایین صفحه وقتی پنل بسته است -->
-<button aria-label="باز کردن نوار صدا" class="arrow-up-btn" id="arrowUpBtn" title="باز کردن نوار صدا" style="display:none;">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
-  </svg>
-</button>
-
-<!-- فلش بالا صفحه وقتی پنل باز است -->
-<button aria-label="بستن نوار صدا" class="arrow-down-btn" id="arrowDownBtn" title="بستن نوار صدا">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
-  </svg>
-</button>
-
 <header>
   <img src="https://i.postimg.cc/qRvkzHfR/IMG-3551.jpg" alt="کافه Holyshot" />
 </header>
@@ -391,43 +326,103 @@
 
 <section class="menu-grid">
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/vH9Vtfjs/3.png" class="cat-item-img" alt="قهوه دمی" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/vH9Vtfjs/3.png"
+      class="cat-item-img"
+      alt="قهوه دمی"
+    />
     قهوه دمی
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/4x2sKF5N/9.png" class="cat-item-img" alt="چای و دمنوش" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/4x2sKF5N/9.png"
+      class="cat-item-img"
+      alt="چای و دمنوش"
+    />
     چای و دمنوش
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/d1rYxQKL/10.png" class="cat-item-img" alt="کیک و دسر" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/d1rYxQKL/10.png"
+      class="cat-item-img"
+      alt="کیک و دسر"
+    />
     کیک و دسر
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سرد" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/pV3jjqsC/2.png"
+      class="cat-item-img"
+      alt="نوشیدنی سرد"
+    />
     نوشیدنی سرد
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/7ZKY3Lx4/8.png" class="cat-item-img" alt="بستنی" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/7ZKY3Lx4/8.png"
+      class="cat-item-img"
+      alt="بستنی"
+    />
     بستنی
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/nctzZ5dy/6.png" class="cat-item-img" alt="میلک‌شیک" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/nctzZ5dy/6.png"
+      class="cat-item-img"
+      alt="میلک‌شیک"
+    />
     میلک‌ شیک
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/FHVk2mNC/4.png" class="cat-item-img" alt="اسموتی" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/FHVk2mNC/4.png"
+      class="cat-item-img"
+      alt="اسموتی"
+    />
     اسموتی
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/GpStCmNK/5.png" class="cat-item-img" alt="ماکتیل" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/GpStCmNK/5.png"
+      class="cat-item-img"
+      alt="ماکتیل"
+    />
     ماکتیل
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سنتی" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/pV3jjqsC/2.png"
+      class="cat-item-img"
+      alt="نوشیدنی سنتی"
+    />
     نوشیدنی سنتی
   </div>
   <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/qMCRdrXX/1.png" class="cat-item-img" alt="نوشیدنی گرم" />
+    <img
+      decoding="async"
+      loading="lazy"
+      src="https://i.postimg.cc/qMCRdrXX/1.png"
+      class="cat-item-img"
+      alt="نوشیدنی گرم"
+    />
     نوشیدنی گرم
   </div>
 </section>
@@ -440,36 +435,49 @@
 </footer>
 
 <script>
-  const lampBtn = document.getElementById('lampBtn');
+  const toggleContainer = document.querySelector('.toggle-container');
   const voicePanel = document.getElementById('voice-panel');
-  const arrowUpBtn = document.getElementById('arrowUpBtn');
-  const arrowDownBtn = document.getElementById('arrowDownBtn');
+  const lamp = toggleContainer.querySelector('.lamp');
+  const arrow = toggleContainer.querySelector('.arrow');
 
-  // ابتدا پنل باز است و دکمه فلش بالا مخفی
-  voicePanel.classList.remove('closed');
-  arrowUpBtn.style.display = 'none';
-  arrowDownBtn.style.display = 'flex';
+  function toggleVoicePanel() {
+    const isOpen = voicePanel.style.maxHeight && voicePanel.style.maxHeight !== '0px';
 
-  function togglePanel() {
-    const isClosed = voicePanel.classList.contains('closed');
-    if (isClosed) {
-      // باز کردن
-      voicePanel.classList.remove('closed');
-      voicePanel.setAttribute('aria-hidden', 'false');
-      arrowUpBtn.style.display = 'none';
-      arrowDownBtn.style.display = 'flex';
-    } else {
-      // بستن
-      voicePanel.classList.add('closed');
+    if (isOpen) {
+      // بسته شدن پنل
+      voicePanel.style.maxHeight = '0';
+      voicePanel.style.padding = '0 60px 0';
       voicePanel.setAttribute('aria-hidden', 'true');
-      arrowUpBtn.style.display = 'flex';
-      arrowDownBtn.style.display = 'none';
+      toggleContainer.setAttribute('aria-pressed', 'false');
+
+      // تغییر وضعیت لامپ و فلش
+      lamp.classList.add('off');
+      arrow.classList.remove('down');
+      arrow.classList.add('up');
+    } else {
+      // باز شدن پنل
+      voicePanel.style.maxHeight = '65vh';
+      voicePanel.style.padding = '35px 60px 40px';
+      voicePanel.setAttribute('aria-hidden', 'false');
+      toggleContainer.setAttribute('aria-pressed', 'true');
+
+      // تغییر وضعیت لامپ و فلش
+      lamp.classList.remove('off');
+      arrow.classList.remove('up');
+      arrow.classList.add('down');
     }
   }
 
-  lampBtn.addEventListener('click', togglePanel);
-  arrowUpBtn.addEventListener('click', togglePanel);
-  arrowDownBtn.addEventListener('click', togglePanel);
+  // باز بودن پیش‌فرض پنل
+  voicePanel.style.maxHeight = '65vh';
+  voicePanel.style.padding = '35px 60px 40px';
+  voicePanel.setAttribute('aria-hidden', 'false');
+  toggleContainer.setAttribute('aria-pressed', 'true');
+
+  // لامپ روشن و فلش پایین پیش‌فرض
+  lamp.classList.remove('off');
+  arrow.classList.remove('up');
+  arrow.classList.add('down');
 </script>
 
 </body>

@@ -70,16 +70,16 @@
     /* بخش صدای ما */
     .voice-section {
       position: fixed;
-      bottom: 60px; /* پایین‌تر از دکمه متن نورانی */
+      bottom: 60px;
       left: 0;
       width: 100%;
-      max-height: 0;
-      overflow: hidden;
-      background-color: rgba(0, 0, 0, 0.65); /* نیمه‌شفاف، مشکی محو */
+      max-height: 65vh;
+      overflow-y: auto;
+      background-color: rgba(0, 0, 0, 0.65);
       color: #ddd;
       box-sizing: border-box;
-      padding: 0 60px 0 60px;
-      z-index: 9998; /* کمتر از دکمه */
+      padding: 35px 60px 40px;
+      z-index: 9998;
       font-family: 'Vazirmatn', sans-serif;
       text-align: center;
       border-top: 1px solid rgba(198, 168, 125, 0.3);
@@ -87,15 +87,17 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      backdrop-filter: blur(8px); /* محوشدن پشت زمینه */
+      backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .voice-section.open {
-      max-height: 65vh;
-      padding: 35px 60px 40px;
-      overflow-y: auto;
+    .voice-section.closed {
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      overflow: hidden;
+      border-top: none;
     }
 
     .voice-section p {
@@ -169,67 +171,112 @@
       font-weight: bold;
     }
 
-    /* دکمه وسط بالا با انیمیشن نورانی و رنگ متن و بدون کادر */
-    .voice-toggle-btn {
+    /* دکمه لامپ بالای صفحه */
+    .lamp-btn {
       position: fixed;
       top: 15px;
       left: 50%;
       transform: translateX(-50%);
-      background-color: transparent; /* حذف کادر */
+      background: transparent;
       border: none;
-      padding: 18px 36px;
-      border-radius: 35px;
       cursor: pointer;
-      font-weight: bold;
-      font-size: 1.7rem;
-      color: #95917a; /* رنگ متن */
-      z-index: 10000; /* بالاتر از نوار صداها */
-      box-shadow:
-        0 0 30px #95917a,
-        0 0 60px #b0ad9e,
-        0 0 90px #d6d4c3,
-        0 0 130px #f0efdd; /* سایه نور خیلی قوی‌تر */
-      animation: glowingStrong 2.5s infinite alternate;
-      transition: background-color 0.3s;
-      white-space: nowrap;
-      user-select: none;
+      z-index: 10000;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: filter 0.3s ease;
     }
 
-    .voice-toggle-btn:hover {
-      background-color: transparent;
-      animation-play-state: paused;
+    .lamp-btn svg {
+      width: 36px;
+      height: 36px;
+      fill: #95917a;
+      filter: drop-shadow(0 0 4px #95917a);
+      transition: filter 0.3s ease;
     }
 
-    @keyframes glowingStrong {
-      0% {
-        box-shadow:
-          0 0 30px #95917a,
-          0 0 60px #b0ad9e;
-        color: #95917a;
-      }
-      50% {
-        box-shadow:
-          0 0 90px #d6d4c3,
-          0 0 110px #e0decc,
-          0 0 150px #f0efdd;
-        color: #a39f87;
-      }
-      100% {
-        box-shadow:
-          0 0 30px #95917a,
-          0 0 60px #b0ad9e;
-        color: #95917a;
-      }
+    .lamp-btn:hover svg {
+      filter: drop-shadow(0 0 8px #c6a87d);
+    }
+
+    /* فلش پایین صفحه وقتی بسته است */
+    .arrow-up-btn {
+      position: fixed;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 10000;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: filter 0.3s ease;
+      display: none; /* اول مخفی */
+    }
+
+    .arrow-up-btn svg {
+      width: 30px;
+      height: 30px;
+      fill: #95917a;
+      filter: drop-shadow(0 0 4px #95917a);
+      transition: filter 0.3s ease;
+    }
+
+    .arrow-up-btn:hover svg {
+      filter: drop-shadow(0 0 8px #c6a87d);
+    }
+
+    /* فلش بالا صفحه وقتی باز است */
+    .arrow-down-btn {
+      position: fixed;
+      bottom: calc(60vh + 50px); /* بالای پنل صدا */
+      left: 50%;
+      transform: translateX(-50%);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 10000;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: filter 0.3s ease;
+    }
+
+    .arrow-down-btn svg {
+      width: 30px;
+      height: 30px;
+      fill: #95917a;
+      filter: drop-shadow(0 0 4px #95917a);
+      transition: filter 0.3s ease;
+    }
+
+    .arrow-down-btn:hover svg {
+      filter: drop-shadow(0 0 8px #c6a87d);
+    }
+
+    /* وقتی پنل بسته است فلش بالا نمایش داده شود */
+    .voice-section.closed ~ .arrow-up-btn {
+      display: flex;
+    }
+
+    /* وقتی پنل باز است فلش پایین نمایش داده شود */
+    .voice-section:not(.closed) ~ .arrow-down-btn {
+      display: flex;
     }
 
     @media (max-width: 480px) {
       .voice-section {
         max-height: 55vh !important;
         padding: 25px 25px 30px;
-        bottom: 50px; /* برای موبایل کمی کمتر */
+        bottom: 60px;
       }
       .voice-list {
-        max-height: calc(55vh - 110px);
+        max-height: calc(55vh - 130px);
         padding: 0 5px;
       }
       audio {
@@ -244,28 +291,26 @@
       header img {
         filter: brightness(0.5);
       }
-      .voice-toggle-btn {
-        top: 12px;
-        padding: 14px 28px;
-        font-size: 1.3rem;
+      .lamp-btn svg,
+      .arrow-up-btn svg,
+      .arrow-down-btn svg {
+        width: 26px;
+        height: 26px;
       }
     }
   </style>
 </head>
 <body>
 
-<!-- دکمه باز/بسته کردن بخش صدا -->
-<button
-  class="voice-toggle-btn"
-  aria-expanded="true"
-  aria-controls="voice-panel"
-  onclick="toggleVoicePanel()"
-  title="صدای ما"
->
-  صدای ما
+<!-- دکمه لامپ بالای صفحه -->
+<button aria-label="باز و بسته کردن نوار صدا" class="lamp-btn" id="lampBtn" title="باز و بسته کردن نوار صدا">
+  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M32 2C21.6 2 13 10.6 13 21.6c0 6.1 3.1 11.7 7.7 15.3v7.6a3 3 0 0 0 3 3h7.6a3 3 0 0 0 3-3v-7.6c4.6-3.6 7.7-9.2 7.7-15.3C51 10.6 42.4 2 32 2Zm0 38c-3.4 0-6-2.6-6-6s2.6-6 6-6 6 2.6 6 6-2.6 6-6 6Z"/>
+  </svg>
 </button>
 
-<section id="voice-panel" class="voice-section open" aria-hidden="false">
+<!-- بخش صدای ما -->
+<section id="voice-panel" class="voice-section" aria-hidden="false">
 
   <ul class="voice-list">
     <li>
@@ -310,6 +355,20 @@
   </ul>
 </section>
 
+<!-- فلش پایین صفحه وقتی پنل بسته است -->
+<button aria-label="باز کردن نوار صدا" class="arrow-up-btn" id="arrowUpBtn" title="باز کردن نوار صدا" style="display:none;">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+  </svg>
+</button>
+
+<!-- فلش بالا صفحه وقتی پنل باز است -->
+<button aria-label="بستن نوار صدا" class="arrow-down-btn" id="arrowDownBtn" title="بستن نوار صدا">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+  </svg>
+</button>
+
 <header>
   <img src="https://i.postimg.cc/qRvkzHfR/IMG-3551.jpg" alt="کافه Holyshot" />
 </header>
@@ -320,103 +379,43 @@
 
 <section class="menu-grid">
   <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/vH9Vtfjs/3.png"
-      class="cat-item-img"
-      alt="قهوه دمی"
-    />
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/vH9Vtfjs/3.png" class="cat-item-img" alt="قهوه دمی" />
     قهوه دمی
   </div>
   <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/4x2sKF5N/9.png"
-      class="cat-item-img"
-      alt="چای و دمنوش"
-    />
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/4x2sKF5N/9.png" class="cat-item-img" alt="چای و دمنوش" />
     چای و دمنوش
   </div>
   <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/d1rYxQKL/10.png"
-      class="cat-item-img"
-      alt="کیک و دسر"
-    />
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/d1rYxQKL/10.png" class="cat-item-img" alt="کیک و دسر" />
     کیک و دسر
   </div>
   <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/pV3jjqsC/2.png"
-      class="cat-item-img"
-      alt="نوشیدنی سرد"
-    />
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سرد" />
     نوشیدنی سرد
   </div>
   <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/7ZKY3Lx4/8.png"
-      class="cat-item-img"
-      alt="بستنی"
-    />
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/7ZKY3Lx4/8.png" class="cat-item-img" alt="بستنی" />
     بستنی
   </div>
   <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/nctzZ5dy/6.png"
-      class="cat-item-img"
-      alt="میلک‌شیک"
-    />
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/nctzZ5dy/6.png" class="cat-item-img" alt="میلک‌شیک" />
     میلک‌ شیک
   </div>
   <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/FHVk2mNC/4.png"
-      class="cat-item-img"
-      alt="اسموتی"
-    />
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/FHVk2mNC/4.png" class="cat-item-img" alt="اسموتی" />
     اسموتی
   </div>
   <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/GpStCmNK/5.png"
-      class="cat-item-img"
-      alt="ماکتیل"
-    />
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/GpStCmNK/5.png" class="cat-item-img" alt="ماکتیل" />
     ماکتیل
   </div>
   <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/pV3jjqsC/2.png"
-      class="cat-item-img"
-      alt="نوشیدنی سنتی"
-    />
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سنتی" />
     نوشیدنی سنتی
   </div>
   <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/qMCRdrXX/1.png"
-      class="cat-item-img"
-      alt="نوشیدنی گرم"
-    />
+    <img decoding="async" loading="lazy" src="https://i.postimg.cc/qMCRdrXX/1.png" class="cat-item-img" alt="نوشیدنی گرم" />
     نوشیدنی گرم
   </div>
 </section>
@@ -429,21 +428,39 @@
 </footer>
 
 <script>
-  function toggleVoicePanel() {
-    const panel = document.getElementById('voice-panel');
-    const btn = document.querySelector('.voice-toggle-btn');
-    const isOpen = panel.classList.contains('open');
+  const voicePanel = document.getElementById('voice-panel');
+  const lampBtn = document.getElementById('lampBtn');
+  const arrowUpBtn = document.getElementById('arrowUpBtn');
+  const arrowDownBtn = document.getElementById('arrowDownBtn');
 
-    if (isOpen) {
-      panel.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
-      panel.setAttribute('aria-hidden', 'true');
-    } else {
-      panel.classList.add('open');
-      btn.setAttribute('aria-expanded', 'true');
-      panel.setAttribute('aria-hidden', 'false');
-    }
+  // ابتدا پنل باز است، پس فلش بالا مخفی و فلش پایین نمایش داده
+  arrowUpBtn.style.display = 'none';
+  arrowDownBtn.style.display = 'flex';
+
+  function closePanel() {
+    voicePanel.classList.add('closed');
+    voicePanel.setAttribute('aria-hidden', 'true');
+    arrowDownBtn.style.display = 'none';
+    arrowUpBtn.style.display = 'flex';
   }
+
+  function openPanel() {
+    voicePanel.classList.remove('closed');
+    voicePanel.setAttribute('aria-hidden', 'false');
+    arrowDownBtn.style.display = 'flex';
+    arrowUpBtn.style.display = 'none';
+  }
+
+  lampBtn.addEventListener('click', () => {
+    if (voicePanel.classList.contains('closed')) {
+      openPanel();
+    } else {
+      closePanel();
+    }
+  });
+
+  arrowUpBtn.addEventListener('click', openPanel);
+  arrowDownBtn.addEventListener('click', closePanel);
 </script>
 
 </body>

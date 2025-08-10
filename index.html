@@ -3,423 +3,307 @@
 <head>
   <meta charset="UTF-8" />
   <title>Holyshot</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet" />
-  <link rel="icon" href="https://i.postimg.cc/BvNYZdcM/5820273963253742054.jpg" type="image/png" />
   <style>
+    :root{
+      --gold:#c6a87d;
+      --muted:#95917a;
+      --bg:#0a0909;
+      --panel-bg: rgba(0,0,0,0.55);
+    }
+
+    html,body { height: 100%; }
     body {
       font-family: 'Vazirmatn', sans-serif;
-      background-color: #0a0909;
-      color: #95917a;
+      background-color: var(--bg);
+      color: var(--muted);
       margin: 0;
       padding: 0;
       direction: rtl;
       overflow-x: hidden;
-      position: relative;
-      min-height: 100vh;
-      padding-bottom: 100px; /* جا برای لینک اینستا پایین */
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      min-height:100vh;
+      padding-bottom:120px; /* جا برای لینک اینستا */
     }
 
-    header {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-    }
+    header{ position: relative; width:100%; overflow:hidden; }
+    header img{ width:100%; height:auto; display:block; max-height:60vh; object-fit:cover; filter:brightness(0.6); }
 
-    header img {
-      width: 100%;
-      height: auto;
-      display: block;
-      max-height: 100vh;
-      object-fit: contain;
-      filter: brightness(0.6);
-    }
+    section { padding:40px 20px; text-align:center; }
 
-    section {
-      padding: 40px 20px;
-      text-align: center;
+    .menu-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+      gap:20px;
+      padding:40px 20px;
     }
-
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 20px;
-      padding: 40px 20px;
+    .menu-item{
+      background-color:#95917a;
+      border-radius:8px;
+      padding:15px;
+      text-align:center;
+      transition:0.3s;
+      color:black;
+      font-weight:bold;
     }
+    .menu-item:hover{ background-color:#e7f6fc; }
+    .cat-item-img{ width:60px; height:60px; object-fit:contain; margin:0 auto 10px; display:block; }
 
-    .menu-item {
-      background-color: #95917a;
-      border-radius: 8px;
-      padding: 15px;
-      text-align: center;
-      transition: 0.3s;
-      color: black;
-      font-weight: bold;
-    }
-
-    .menu-item:hover {
-      background-color: #e7f6fc;
-    }
-
-    .cat-item-img {
-      width: 60px;
-      height: 60px;
-      object-fit: contain;
-      margin-bottom: 10px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* بخش صدای ما */
-    .voice-section {
+    /* -------------------------
+       LAMP (top, big, glowing)
+       ------------------------- */
+    .lamp-btn{
       position: fixed;
-      bottom: 60px;
+      top: 8px; /* از بالای صفحه شروع */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;      /* اندازه بزرگ‌تر */
+      height: 200px;
+      padding: 0;
+      border: none;
+      background: transparent;
+      z-index: 10020;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:auto;
+      -webkit-tap-highlight-color: transparent;
+      animation: lampFloat 6s ease-in-out infinite;
+    }
+
+    .lamp-btn img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      user-select:none;
+      pointer-events:none; /* کلیک روی دکمه خود کار می‌کنه */
+      filter: drop-shadow(0 0 40px rgba(198,168,125,0.45));
+      transition: filter .18s ease, transform .18s ease;
+      mix-blend-mode: screen;
+      background: transparent;
+    }
+
+    /* شدیدترین نور چشمک‌زن */
+    @keyframes lampGlow {
+      0% { filter: drop-shadow(0 0 30px rgba(198,168,125,0.45)); }
+      40% { filter: drop-shadow(0 0 90px rgba(240,231,165,0.95)); }
+      70% { filter: drop-shadow(0 0 140px rgba(240,231,165,1)); transform: scale(1.02); }
+      100% { filter: drop-shadow(0 0 40px rgba(198,168,125,0.55)); transform: scale(1); }
+    }
+    /* floating برای لامپ */
+    @keyframes lampFloat {
+      0% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+      100% { transform: translateX(-50%) translateY(0); }
+    }
+    /* اعمال چشمک زدن با تداخل */
+    .lamp-btn.glow img { animation: lampGlow 2.2s infinite ease-in-out; }
+
+    /* -------------------------
+       VOICE PANEL (bottom semi-transparent)
+       ------------------------- */
+    .voice-section{
+      position: fixed;
       left: 0;
+      bottom: 60px;
       width: 100%;
       max-height: 65vh;
-      overflow-y: auto;
-      background-color: rgba(0, 0, 0, 0.65);
-      color: #ddd;
+      background: var(--panel-bg);
+      color: #eee;
+      padding: 36px 48px 44px;
+      z-index: 10010;
       box-sizing: border-box;
-      padding: 35px 60px 40px;
-      z-index: 9998;
-      font-family: 'Vazirmatn', sans-serif;
-      text-align: center;
-      border-top: 1px solid rgba(198, 168, 125, 0.3);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
+      border-top: 1px solid rgba(198,168,125,0.15);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .voice-section.closed {
-      max-height: 0;
-      padding-top: 0;
-      padding-bottom: 0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      transition: max-height .55s cubic-bezier(.2,.9,.2,1), padding .4s;
       overflow: hidden;
-      border-top: none;
     }
 
-    .voice-section p {
-      font-size: 1.5rem;
-      margin-top: 10px;
-      margin-bottom: 30px;
-      color: #c6a87d;
-      font-weight: 600;
+    .voice-section.closed{
+      max-height: 0;
+      padding-top:0;
+      padding-bottom:0;
+      border-top:none;
     }
 
-    .voice-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      text-align: right;
-      width: 100%;
-      max-height: calc(65vh - 130px);
-      overflow-y: auto;
-      border-top: 1px solid rgba(198, 168, 125, 0.3);
+    .voice-list{
+      width:100%;
+      list-style:none;
+      padding:0;
+      margin:0;
+      text-align:right;
+      max-height: calc(65vh - 120px);
+      overflow:auto;
+      border-top:1px solid rgba(198,168,125,0.08);
+      padding-top:6px; /* فاصله اضافی تا اولین آیتم */
     }
 
-    .voice-list li {
-      margin-bottom: 30px;
-      border-bottom: 1px solid rgba(198, 168, 125, 0.2);
-      padding-bottom: 20px;
+    .voice-list li{
+      padding:14px 0 20px;
+      border-bottom:1px solid rgba(198,168,125,0.08);
+      margin:0;
     }
 
-    .voice-list strong {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 1.4em;
-      color: #c6a87d;
+    .voice-list strong{
+      display:block;
+      margin-bottom:10px;
+      font-size:1.25rem;
+      color: var(--gold);
     }
 
-    audio {
-      width: 100% !important;
-      cursor: pointer;
-      border-radius: 12px;
-      margin-top: 8px;
-      outline: none;
-      height: 75px;
-      box-sizing: border-box;
-      background-color: #222;
-      position: relative;
-      z-index: 0;
+    /* فضای بیشتر برای اولین آیتم تا زیر لامپ احتمالی تداخل نکنه */
+    .voice-list li:first-child { padding-top: 18px; }
+
+    /* audio styles */
+    audio{
+      width:100% !important;
+      height:78px;
+      border-radius:12px;
+      background:#111;
+      box-sizing:border-box;
+      margin-top:6px;
+      outline:none;
+      -webkit-appearance: none;
     }
 
-    audio::-webkit-media-controls-panel {
-      border-radius: 12px !important;
-      background-color: rgba(34, 34, 34, 0.85) !important; /* کمی محوتر */
-      padding: 0 5px !important;
+    /* تلاش برای محوتر کردن timeline و ضربان */
+    audio::-webkit-media-controls-panel{
+      background: rgba(20,20,20,0.82) !important;
+      border-radius:12px !important;
+      padding:0 6px !important;
       backdrop-filter: blur(4px);
     }
-
-    audio::-webkit-media-controls-play-button,
-    audio::-webkit-media-controls-volume-slider {
-      border-radius: 12px !important;
+    /* heartbeat effect for timeline (webkit browsers) */
+    audio.playing::-webkit-media-controls-timeline,
+    audio::-webkit-media-controls-timeline{
+      animation: heartbeat 1.4s infinite;
+      box-shadow: 0 0 18px rgba(198,168,125,0.35);
+      background: rgba(0,0,0,0.45) !important;
+      border-radius:8px;
+    }
+    @keyframes heartbeat{
+      0% { box-shadow: 0 0 6px rgba(198,168,125,0.2); }
+      50% { box-shadow: 0 0 28px rgba(240,231,165,0.9); }
+      100% { box-shadow: 0 0 6px rgba(198,168,125,0.2); }
     }
 
-    /* انیمیشن زربان قلب برای نوار پخش */
-    audio::-webkit-media-controls-timeline {
-      animation: heartbeat 1.5s infinite;
-    }
-
-    @keyframes heartbeat {
-      0%, 100% {
-        filter: drop-shadow(0 0 0 #c6a87d);
-      }
-      50% {
-        filter: drop-shadow(0 0 8px #c6a87d);
-      }
-    }
-
-    /* دکمه لامپ بالای صفحه */
-    .lamp-btn {
+    /* arrows (bigger) */
+    .arrow-up-btn, .arrow-down-btn{
       position: fixed;
-      top: 15px;
+      left:50%;
+      transform: translateX(-50%);
+      z-index:10015;
+      background:transparent;
+      border:none;
+      cursor:pointer;
+      padding:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .arrow-up-btn{ bottom: 150px; display:none; }
+    .arrow-down-btn{ bottom:74px; }
+
+    .arrow-up-btn svg, .arrow-down-btn svg{
+      width:64px; height:64px; fill:var(--muted);
+      filter: drop-shadow(0 0 10px rgba(150,145,122,0.45));
+    }
+    .arrow-up-btn:hover svg, .arrow-down-btn:hover svg{
+      filter: drop-shadow(0 0 26px rgba(240,231,165,0.95));
+    }
+
+    /* insta link bottom center */
+    .insta-link{
+      position: fixed;
+      bottom: 18px;
       left: 50%;
       transform: translateX(-50%);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 10000;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: filter 0.3s ease;
-      animation: lampGlow 2s infinite alternate;
-      width: 90px;
-      height: 90px;
+      z-index:10030;
+      color: var(--gold);
+      font-weight:700;
+      font-size:1.15rem;
+      text-decoration:none;
+      padding:6px 12px;
+      border-radius:18px;
+      background: rgba(0,0,0,0.18);
+      backdrop-filter: blur(6px);
+      box-shadow:0 6px 18px rgba(0,0,0,.5);
     }
 
-    .lamp-btn img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      user-select: none;
-      pointer-events: none;
-      filter: drop-shadow(0 0 20px #95917a);
-      transition: filter 0.3s ease;
-    }
+    /* footer removed (we left only insta link) */
 
-    .lamp-btn:hover img {
-      filter: drop-shadow(0 0 35px #c6a87d);
-    }
-
-    /* انیمیشن چشمک زدن لامپ */
-    @keyframes lampGlow {
-      0%, 100% {
-        filter: drop-shadow(0 0 20px #95917a);
-      }
-      50% {
-        filter: drop-shadow(0 0 40px #c6a87d);
-      }
-    }
-
-    /* فلش پایین صفحه وقتی بسته است */
-    .arrow-up-btn {
-      position: fixed;
-      bottom: 120px; /* خیلی بالاتر از کادر */
-      left: 50%;
-      transform: translateX(-50%);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 10000;
-      padding: 8px;
-      display: none; /* اول مخفی */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: filter 0.3s ease;
-    }
-
-    .arrow-up-btn svg {
-      width: 45px;
-      height: 45px;
-      fill: #95917a;
-      filter: drop-shadow(0 0 6px #95917a);
-      transition: filter 0.3s ease;
-    }
-
-    .arrow-up-btn:hover svg {
-      filter: drop-shadow(0 0 18px #c6a87d);
-    }
-
-    /* فلش بالا صفحه وقتی باز است */
-    .arrow-down-btn {
-      position: fixed;
-      bottom: 60px; /* دقیقاً بالای کادر */
-      left: 50%;
-      transform: translateX(-50%);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 10000;
-      padding: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: filter 0.3s ease;
-    }
-
-    .arrow-down-btn svg {
-      width: 45px;
-      height: 45px;
-      fill: #95917a;
-      filter: drop-shadow(0 0 6px #95917a);
-      transition: filter 0.3s ease;
-    }
-
-    .arrow-down-btn:hover svg {
-      filter: drop-shadow(0 0 18px #c6a87d);
-    }
-
-    /* وقتی پنل بسته است فلش بالا نمایش داده شود */
-    .voice-section.closed ~ .arrow-up-btn {
-      display: flex;
-    }
-
-    /* وقتی پنل باز است فلش پایین نمایش داده شود */
-    .voice-section:not(.closed) ~ .arrow-down-btn {
-      display: flex;
-    }
-
-    /* لینک اینستا پایین وسط */
-    .insta-link {
-      position: fixed;
-      bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-weight: bold;
-      font-size: 1.3rem;
-      color: #c6a87d;
-      text-decoration: none;
-      z-index: 10000;
-      user-select: none;
-      filter: drop-shadow(0 0 8px #c6a87d);
-      transition: color 0.3s ease;
-    }
-
-    .insta-link:hover {
-      color: #f0e7a5;
-      filter: drop-shadow(0 0 12px #f0e7a5);
-    }
-
-    @media (max-width: 480px) {
-      .voice-section {
-        max-height: 55vh !important;
-        padding: 25px 25px 30px;
-        bottom: 60px;
-      }
-      .voice-list {
-        max-height: calc(55vh - 130px);
-        padding: 0 5px;
-      }
-      audio {
-        height: 70px;
-      }
-      .voice-list li {
-        margin-bottom: 20px;
-      }
-      .voice-list strong {
-        font-size: 1.2em;
-      }
-      header img {
-        filter: brightness(0.5);
-      }
-      .lamp-btn {
-        width: 70px;
-        height: 70px;
-      }
-      .arrow-up-btn svg,
-      .arrow-down-btn svg {
-        width: 35px;
-        height: 35px;
-      }
-      .insta-link {
-        font-size: 1.1rem;
-      }
+    @media (max-width:480px){
+      .lamp-btn{ width:120px; height:120px; top:6px; }
+      .lamp-btn img{ filter: drop-shadow(0 0 26px rgba(198,168,125,0.45)); }
+      .voice-section{ padding:22px 18px 30px; bottom:60px; max-height:55vh; }
+      audio{ height:66px; }
+      .arrow-up-btn{ bottom:110px; }
+      .arrow-down-btn{ bottom:70px; }
+      .arrow-up-btn svg, .arrow-down-btn svg{ width:48px; height:48px; }
+      .insta-link{ font-size:1rem; bottom:12px; }
     }
   </style>
 </head>
 <body>
 
-<!-- دکمه لامپ بالای صفحه -->
-<button aria-label="باز و بسته کردن نوار صدا" class="lamp-btn" id="lampBtn" title="باز و بسته کردن نوار صدا">
-  <img src="https://i.postimg.cc/W47jwrhW/black-pendant-lamp-with-warm-light-glowing-bulb-hanging-from-ceiling-modern-interior-design-lighting.avif" alt="لامپ" />
-</button>
+  <!-- LAMP (use your PNG with transparent background) -->
+  <button id="lampBtn" class="lamp-btn glow" aria-expanded="true" aria-controls="voice-panel" title="باز و بسته کردن نوار صدا">
+    <img src="https://i.postimg.cc/j5hwpLCC/56-561430-lamp-modern-ceiling-lamp-png-clipart.png" alt="لامپ" />
+  </button>
 
-<!-- بخش صدای ما -->
-<section id="voice-panel" class="voice-section" aria-hidden="false">
+  <!-- VOICE PANEL (پایین صفحه، نیمه شفاف) -->
+  <section id="voice-panel" class="voice-section" aria-hidden="false">
+    <ul class="voice-list" id="voiceList">
+      <li>
+        <strong>متن ویس</strong> — ۱۰ مرداد ۱۴۰۴
+        <audio controls preload="none" controlslist="nodownload">
+          <source src="https://dl.rozmusic.com/Music/1403/12/24/Sohrab%20Pakzad%20-%20110%20Ta%20%28128%29.mp3" type="audio/mpeg" />
+          مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
+        </audio>
+      </li>
+      <li>
+        <strong>متن ویس</strong> — ۲۵ تیر ۱۴۰۴
+        <audio controls preload="none" controlslist="nodownload">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
+        </audio>
+      </li>
+      <li>
+        <strong>متن ویس</strong> — ۵ مرداد ۱۴۰۴
+        <audio controls preload="none" controlslist="nodownload">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg" />
+        </audio>
+      </li>
+    </ul>
+  </section>
 
-  <ul class="voice-list">
-    <li>
-      <strong>متن ویس</strong> — ۱۰ مرداد ۱۴۰۴
-      <audio
-        controls
-        preload="none"
-        controlslist="nodownload"
-        style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;"
-      >
-        <source
-          src="https://dl.rozmusic.com/Music/1403/12/24/Sohrab%20Pakzad%20-%20110%20Ta%20%28128%29.mp3"
-          type="audio/mpeg"
-        />
-        مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
-      </audio>
-    </li>
-    <li>
-      <strong>متن ویس</strong> — ۲۵ تیر ۱۴۰۴
-      <audio
-        controls
-        preload="none"
-        controlslist="nodownload"
-        style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;"
-      >
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
-        مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
-      </audio>
-    </li>
-    <li>
-      <strong>متن ویس</strong> — ۵ مرداد ۱۴۰۴
-      <audio
-        controls
-        preload="none"
-        controlslist="nodownload"
-        style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;"
-      >
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg" />
-        مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
-      </audio>
-    </li>
-  </ul>
-</section>
+  <!-- Arrows -->
+  <button id="arrowUpBtn" class="arrow-up-btn" aria-label="باز کردن نوار صدا" style="display:none;">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+  </button>
 
-<!-- فلش پایین صفحه وقتی پنل بسته است -->
-<button aria-label="باز کردن نوار صدا" class="arrow-up-btn" id="arrowUpBtn" title="باز کردن نوار صدا" style="display:none;">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
-  </svg>
-</button>
+  <button id="arrowDownBtn" class="arrow-down-btn" aria-label="بستن نوار صدا">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+  </button>
 
-<!-- فلش بالا صفحه وقتی پنل باز است -->
-<button aria-label="بستن نوار صدا" class="arrow-down-btn" id="arrowDownBtn" title="بستن نوار صدا">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
-  </svg>
-</button>
+  <!-- Insta fixed bottom center -->
+  <a class="insta-link" href="https://www.instagram.com/cafe_holyshot/" target="_blank" rel="noopener noreferrer">@cafe_holyshot</a>
 
-<header>
-  <img src="https://i.postimg.cc/qRvkzHfR/IMG-3551.jpg" alt="کافه Holyshot" />
-</header>
+  <!-- Page content -->
+  <header>
+    <img src="https://i.postimg.cc/qRvkzHfR/IMG-3551.jpg" alt="کافه Holyshot" />
+  </header>
 
-<section>
-  <p>جایی برای تجربه‌ی طعم‌های خاص و لحظات ناب</p>
-</section>
-
+  <section>
+    <p>جایی برای تجربه‌ی طعم‌های خاص و لحظات ناب</p>
+  </section>
   <section class="menu-grid">
     <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/vH9Vtfjs/3.png" class="cat-item-img" alt="قهوه دمی" />قهوه دمی</div>
     <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/4x2sKF5N/9.png" class="cat-item-img" alt="چای و دمنوش" />چای و دمنوش</div>
@@ -434,41 +318,52 @@
   </section>
 
 
-<!-- لینک اینستاگرام پایین صفحه -->
-<a href="https://www.instagram.com/cafe_holyshot/" target="_blank" rel="noopener noreferrer" class="insta-link">cafe_holyshot</a>
+  <script>
+    const lampBtn = document.getElementById('lampBtn');
+    const voicePanel = document.getElementById('voice-panel');
+    const arrowUpBtn = document.getElementById('arrowUpBtn');
+    const arrowDownBtn = document.getElementById('arrowDownBtn');
+    const audios = document.querySelectorAll('audio');
 
-<script>
-  const lampBtn = document.getElementById('lampBtn');
-  const voicePanel = document.getElementById('voice-panel');
-  const arrowUpBtn = document.getElementById('arrowUpBtn');
-  const arrowDownBtn = document.getElementById('arrowDownBtn');
+    // پیش‌فرض: پنل باز باشه
+    voicePanel.classList.remove('closed');
+    arrowUpBtn.style.display = 'none';
+    arrowDownBtn.style.display = 'flex';
+    lampBtn.setAttribute('aria-expanded', 'true');
 
-  // حالت اولیه: پنل باز
-  voicePanel.classList.remove('closed');
-  arrowUpBtn.style.display = 'none';
-  arrowDownBtn.style.display = 'flex';
-
-  function togglePanel() {
-    const isClosed = voicePanel.classList.contains('closed');
-    if (isClosed) {
-      // باز کردن پنل
-      voicePanel.classList.remove('closed');
-      voicePanel.setAttribute('aria-hidden', 'false');
-      arrowUpBtn.style.display = 'none';
-      arrowDownBtn.style.display = 'flex';
-    } else {
-      // بستن پنل
-      voicePanel.classList.add('closed');
-      voicePanel.setAttribute('aria-hidden', 'true');
-      arrowUpBtn.style.display = 'flex';
-      arrowDownBtn.style.display = 'none';
+    function setPanelState(open){
+      if(open){
+        voicePanel.classList.remove('closed');
+        voicePanel.setAttribute('aria-hidden','false');
+        arrowDownBtn.style.display='flex';
+        arrowUpBtn.style.display='none';
+        lampBtn.setAttribute('aria-expanded','true');
+        lampBtn.classList.add('glow'); // چشمک روشن
+      }else{
+        voicePanel.classList.add('closed');
+        voicePanel.setAttribute('aria-hidden','true');
+        arrowDownBtn.style.display='none';
+        arrowUpBtn.style.display='flex';
+        lampBtn.setAttribute('aria-expanded','false');
+        lampBtn.classList.remove('glow'); // خاموش‌تر وقتی بسته
+      }
     }
-  }
 
-  lampBtn.addEventListener('click', togglePanel);
-  arrowUpBtn.addEventListener('click', togglePanel);
-  arrowDownBtn.addEventListener('click', togglePanel);
-</script>
+    function togglePanel(){ setPanelState( voicePanel.classList.contains('closed') ); }
+
+    lampBtn.addEventListener('click', togglePanel);
+    arrowUpBtn.addEventListener('click', togglePanel);
+    arrowDownBtn.addEventListener('click', togglePanel);
+
+    // وقتی هر audio در حال پخش است، کلاس playing بزنیم (برای افکت ضربان)
+    audios.forEach(a=>{
+      a.addEventListener('play', ()=> a.classList.add('playing'));
+      a.addEventListener('pause', ()=> a.classList.remove('playing'));
+      a.addEventListener('ended', ()=> a.classList.remove('playing'));
+    });
+
+    // نقطه: اگر خواستی پنل با کشیدن (drag) باز/بسته بشه، می‌تونم اضافه کنم — الان با کلیک کار می‌کنه.
+  </script>
 
 </body>
 </html>

@@ -1,335 +1,111 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-  <meta charset="UTF-8" />
-  <title>Holyshot</title>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet" />
-  <link rel="icon" href="https://i.postimg.cc/BvNYZdcM/5820273963253742054.jpg" type="image/png" />
-  <style>
-    body {
-      font-family: 'Vazirmatn', sans-serif;
-      background-color: #0a0909;
-      color: #95917a;
-      margin: 0;
-      padding: 0;
-      direction: rtl;
-      overflow-x: hidden;
+const express = require('express');
+const { Telegraf } = require('telegraf');
+const WebSocket = require('ws');
+const path = require('path');
+
+const app = express();
+const port = 3000;
+
+// جایگزین کن با توکن واقعی رباتت
+const bot = new Telegraf('8267992806:AAH5JWTg9u5GJ_opIDHU4joS9Q5FRVQWlto');
+
+// فایل‌های سایت (پوشه public)
+app.use(express.static(path.join(__dirname, 'public')));
+
+const server = app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
+
+const wss = new WebSocket.Server({ server });
+
+function broadcast(data) {
+  wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(data));
     }
+  });
+}
 
-    header img {
-      width: 100%;
-      height: auto;
-      display: block;
-      max-height: 100vh;
-      object-fit: contain;
-      filter: brightness(0.6);
-    }
+// حالت مکالمه برای هر کاربر
+const userStates = {};
 
-    section {
-      padding: 40px 20px;
-      text-align: center;
-    }
+// افزودن صدا
+bot.command('addvoice', (ctx) => {
+  userStates[ctx.from.id] = { step: 'awaitingAudio' };
+  ctx.reply('لطفا فایل صوتی را ارسال کنید:');
+});
 
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 20px;
-      padding: 40px 20px;
-    }
-
-    .menu-item {
-      background-color: #95917a;
-      border-radius: 8px;
-      padding: 15px;
-      text-align: center;
-      transition: 0.3s;
-      color: black;
-      font-weight: bold;
-    }
-
-    .menu-item:hover {
-      background-color: #e7f6fc;
-    }
-
-    .cat-item-img {
-      width: 60px;
-      height: 60px;
-      object-fit: contain;
-      margin-bottom: 10px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .voice-section {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      max-height: 0;
-      overflow: hidden;
-      background-color: #1a1a1a;
-      color: #ddd;
-      box-sizing: border-box;
-      padding: 0 20px;
-      transition: max-height 0.5s ease, padding 0.5s ease;
-      z-index: 9999;
-      font-family: 'Vazirmatn', sans-serif;
-      text-align: center;
-      border-bottom: 3px solid #c6a87d;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
-
-    .voice-section.open {
-      max-height: 80vh;
-      padding: 20px 40px;
-    }
-
-    .voice-section h2 {
-      margin-top: 0;
-      color: #c6a87d;
-      font-size: 1.6em;
-      margin-bottom: 10px;
-      width: 100%;
-      text-align: center;
-    }
-
-    .voice-list {
-      list-style: none;
-      padding: 0;
-      margin-top: 20px;
-      text-align: right;
-      width: 100%;
-      max-height: calc(80vh - 70px);
-      overflow-y: auto;
-    }
-
-    .voice-list li {
-      margin-bottom: 25px;
-      border-bottom: 1px solid #555;
-      padding-bottom: 20px;
-    }
-
-    .voice-list strong {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 1.2em;
-      color: #c6a87d;
-    }
-
-    audio {
-      width: 100% !important;
-      height: auto !important;
-      min-height: 45px;
-      display: block;
-      box-sizing: border-box;
-      padding: 5px 0;
-    }
-
-    audio::-webkit-media-controls-panel {
-      padding: 5px !important;
-    }
-
-    audio::-webkit-media-controls-play-button,
-    audio::-webkit-media-controls-timeline,
-    audio::-webkit-media-controls-current-time-display,
-    audio::-webkit-media-controls-time-remaining-display,
-    audio::-webkit-media-controls-volume-slider {
-      display: block !important;
-    }
-
-    footer {
-      background-color:#111;
-      color:#95917a;
-      padding: 20px 10px;
-      font-family: 'Vazirmatn', sans-serif;
-      direction: rtl;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      margin-top: 20px;
-    }
-
-    footer a {
-      color:#c6a87d;
-      text-decoration:none;
-      font-weight:bold;
-    }
-
-    .voice-toggle-btn {
-      position: fixed;
-      top: 12px;
-      left: 12px;
-      background-color: #c6a87d;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1.1rem;
-      color: #111;
-      z-index: 10000;
-      box-shadow: 0 0 10px #c6a87d;
-      transition: background-color 0.3s;
-    }
-
-    .voice-toggle-btn:hover {
-      background-color: #a88c5d;
-    }
-
-    @media (max-width: 480px) {
-      .voice-section.open {
-        max-height: 80vh !important;
-        padding: 15px 20px;
-      }
-
-      .voice-list {
-        max-height: calc(80vh - 70px);
-        padding: 0 5px;
-      }
-
-      audio {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box;
-        min-height: 45px !important;
-        padding: 5px 0 !important;
-      }
-
-      .voice-list li {
-        margin-bottom: 20px;
-      }
-
-      .voice-list strong {
-        font-size: 1.1em;
-      }
-
-      header img {
-        filter: brightness(0.5);
-      }
-
-      .voice-toggle-btn {
-        top: 8px;
-        left: 8px;
-        padding: 8px 14px;
-        font-size: 1rem;
-        box-shadow: 0 0 8px #c6a87d;
-      }
-    }
-  </style>
-</head>
-<body>
-
-<button class="voice-toggle-btn" aria-expanded="true" aria-controls="voice-panel" onclick="toggleVoicePanel()">
-  🎙️ صدای ما
-</button>
-
-<section id="voice-panel" class="voice-section open" aria-hidden="false">
-  <h2>🎙️ صدای ما</h2>
-  <p>هر چند وقت یک‌بار، صدای ما رو بشنو!</p>
-  <ul class="voice-list">
-    <li>
-      <strong>متن ویس</strong> — ۱۰ مرداد ۱۴۰۴
-      <audio controls>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
-        مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
-      </audio>
-    </li>
-    <li>
-      <strong>متن ویس</strong> — ۲۵ تیر ۱۴۰۴
-      <audio controls>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
-        مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
-      </audio>
-    </li>
-    <li>
-      <strong>متن ویس</strong> — ۵ مرداد ۱۴۰۴
-      <audio controls>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg" />
-        مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
-      </audio>
-    </li>
-  </ul>
-</section>
-
-<header>
-  <img src="https://i.postimg.cc/qRvkzHfR/IMG-3551.jpg" alt="کافه Holyshot" />
-</header>
-
-<section>
-  <p>جایی برای تجربه‌ی طعم‌های خاص و لحظات ناب</p>
-</section>
-
-<section class="menu-grid">
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/vH9Vtfjs/3.png" class="cat-item-img" alt="قهوه دمی" />
-    قهوه دمی
-  </div>
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/4x2sKF5N/9.png" class="cat-item-img" alt="چای و دمنوش" />
-    چای و دمنوش
-  </div>
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/d1rYxQKL/10.png" class="cat-item-img" alt="کیک و دسر" />
-    کیک و دسر
-  </div>
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سرد" />
-    نوشیدنی سرد
-  </div>
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/7ZKY3Lx4/8.png" class="cat-item-img" alt="بستنی" />
-    بستنی
-  </div>
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/nctzZ5dy/6.png" class="cat-item-img" alt="میلک‌شیک" />
-    میلک‌شیک
-  </div>
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/FHVk2mNC/4.png" class="cat-item-img" alt="اسموتی" />
-    اسموتی
-  </div>
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/GpStCmNK/5.png" class="cat-item-img" alt="ماکتیل" />
-    ماکتیل
-  </div>
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سنتی" />
-    نوشیدنی سنتی
-  </div>
-  <div class="menu-item">
-    <img decoding="async" loading="lazy" src="https://i.postimg.cc/qMCRdrXX/1.png" class="cat-item-img" alt="نوشیدنی گرم" />
-    نوشیدنی گرم
-  </div>
-</section>
-
-<footer>
-  <p>
-    آیدی اینستاگرام کافه: 
-    <a href="https://www.instagram.com/cafe_holyshot/" target="_blank" rel="noopener noreferrer">cafe_holyshot</a>
-  </p>
-</footer>
-
-<script>
-  function toggleVoicePanel() {
-    const panel = document.getElementById('voice-panel');
-    const btn = document.querySelector('.voice-toggle-btn');
-    const isOpen = panel.classList.contains('open');
-
-    if (isOpen) {
-      panel.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
-      panel.setAttribute('aria-hidden', 'true');
-    } else {
-      panel.classList.add('open');
-      btn.setAttribute('aria-expanded', 'true');
-      panel.setAttribute('aria-hidden', 'false');
-    }
+bot.on('voice', (ctx) => {
+  const state = userStates[ctx.from.id];
+  if (state && state.step === 'awaitingAudio') {
+    state.audioFileId = ctx.message.voice.file_id;
+    state.step = 'awaitingText';
+    ctx.reply('لطفا متن صدا را وارد کنید:');
+  } else {
+    ctx.reply('برای افزودن صدا از دستور /addvoice استفاده کنید.');
   }
-</script>
+});
 
-</body>
-</html>
+bot.on('text', (ctx) => {
+  const state = userStates[ctx.from.id];
+
+  if (!state) return;
+
+  if (state.step === 'awaitingText') {
+    state.text = ctx.message.text;
+    state.step = 'awaitingDate';
+    ctx.reply('لطفا تاریخ را وارد کنید (مثلا 1402/05/15):');
+  } else if (state.step === 'awaitingDate') {
+    state.date = ctx.message.text;
+
+    // ارسال به سایت
+    broadcast({
+      type: 'addVoice',
+      fileId: state.audioFileId,
+      text: state.text,
+      date: state.date
+    });
+
+    ctx.reply(`✅ صدا با موفقیت اضافه شد.\nمتن: ${state.text}\nتاریخ: ${state.date}`);
+    delete userStates[ctx.from.id];
+  }
+});
+
+// حذف صدا
+bot.command('deletevoice', (ctx) => {
+  userStates[ctx.from.id] = { step: 'awaitingDeleteId' };
+  ctx.reply('لطفا شناسه صدای مورد نظر را وارد کنید:');
+});
+
+bot.on('text', (ctx) => {
+  const state = userStates[ctx.from.id];
+  if (state && state.step === 'awaitingDeleteId') {
+    broadcast({ type: 'deleteVoice', id: ctx.message.text });
+    ctx.reply(`🗑 صدا با شناسه ${ctx.message.text} حذف شد.`);
+    delete userStates[ctx.from.id];
+  }
+});
+
+// ویرایش متن
+bot.command('edittext', (ctx) => {
+  userStates[ctx.from.id] = { step: 'awaitingEditId' };
+  ctx.reply('شناسه صدایی که میخواهید متنش تغییر کند را وارد کنید:');
+});
+
+bot.on('text', (ctx) => {
+  const state = userStates[ctx.from.id];
+  if (state && state.step === 'awaitingEditId') {
+    state.voiceId = ctx.message.text;
+    state.step = 'awaitingNewText';
+    ctx.reply('متن جدید را وارد کنید:');
+  } else if (state && state.step === 'awaitingNewText') {
+    broadcast({ type: 'editText', id: state.voiceId, text: ctx.message.text });
+    ctx.reply(`✏ متن صدا تغییر کرد به: ${ctx.message.text}`);
+    delete userStates[ctx.from.id];
+  }
+});
+
+bot.launch();
+
+process.once('SIGINT', () => bot.stop('SIGINT'));
+process.once('SIGTERM', () => bot.stop('SIGTERM'));

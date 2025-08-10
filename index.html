@@ -186,24 +186,35 @@
       align-items: center;
       justify-content: center;
       transition: filter 0.3s ease;
+      animation: lampGlow 3s infinite alternate;
     }
 
     .lamp-btn svg {
-      width: 36px;
-      height: 36px;
+      width: 50px;
+      height: 50px;
       fill: #95917a;
-      filter: drop-shadow(0 0 4px #95917a);
+      filter: drop-shadow(0 0 6px #95917a);
       transition: filter 0.3s ease;
     }
 
     .lamp-btn:hover svg {
-      filter: drop-shadow(0 0 8px #c6a87d);
+      filter: drop-shadow(0 0 10px #c6a87d);
+    }
+
+    /* انیمیشن چشمک زدن لامپ */
+    @keyframes lampGlow {
+      0%, 100% {
+        filter: drop-shadow(0 0 6px #95917a);
+      }
+      50% {
+        filter: drop-shadow(0 0 18px #c6a87d);
+      }
     }
 
     /* فلش پایین صفحه وقتی بسته است */
     .arrow-up-btn {
       position: fixed;
-      bottom: 15px;
+      bottom: 120px; /* خیلی بالاتر از کادر */
       left: 50%;
       transform: translateX(-50%);
       background: transparent;
@@ -211,29 +222,29 @@
       cursor: pointer;
       z-index: 10000;
       padding: 8px;
+      display: none; /* اول مخفی */
       display: flex;
       align-items: center;
       justify-content: center;
       transition: filter 0.3s ease;
-      display: none; /* اول مخفی */
     }
 
     .arrow-up-btn svg {
       width: 30px;
       height: 30px;
       fill: #95917a;
-      filter: drop-shadow(0 0 4px #95917a);
+      filter: drop-shadow(0 0 6px #95917a);
       transition: filter 0.3s ease;
     }
 
     .arrow-up-btn:hover svg {
-      filter: drop-shadow(0 0 8px #c6a87d);
+      filter: drop-shadow(0 0 12px #c6a87d);
     }
 
     /* فلش بالا صفحه وقتی باز است */
     .arrow-down-btn {
       position: fixed;
-      bottom: calc(60vh + 50px); /* بالای پنل صدا */
+      bottom: 60px; /* دقیقاً بالای کادر */
       left: 50%;
       transform: translateX(-50%);
       background: transparent;
@@ -251,12 +262,12 @@
       width: 30px;
       height: 30px;
       fill: #95917a;
-      filter: drop-shadow(0 0 4px #95917a);
+      filter: drop-shadow(0 0 6px #95917a);
       transition: filter 0.3s ease;
     }
 
     .arrow-down-btn:hover svg {
-      filter: drop-shadow(0 0 8px #c6a87d);
+      filter: drop-shadow(0 0 12px #c6a87d);
     }
 
     /* وقتی پنل بسته است فلش بالا نمایش داده شود */
@@ -291,11 +302,12 @@
       header img {
         filter: brightness(0.5);
       }
-      .lamp-btn svg,
-      .arrow-up-btn svg,
-      .arrow-down-btn svg {
-        width: 26px;
-        height: 26px;
+      .lamp-btn svg {
+        width: 40px;
+        height: 40px;
+      }
+      .arrow-up-btn {
+        bottom: 90px;
       }
     }
   </style>
@@ -428,39 +440,36 @@
 </footer>
 
 <script>
-  const voicePanel = document.getElementById('voice-panel');
   const lampBtn = document.getElementById('lampBtn');
+  const voicePanel = document.getElementById('voice-panel');
   const arrowUpBtn = document.getElementById('arrowUpBtn');
   const arrowDownBtn = document.getElementById('arrowDownBtn');
 
-  // ابتدا پنل باز است، پس فلش بالا مخفی و فلش پایین نمایش داده
+  // ابتدا پنل باز است و دکمه فلش بالا مخفی
+  voicePanel.classList.remove('closed');
   arrowUpBtn.style.display = 'none';
   arrowDownBtn.style.display = 'flex';
 
-  function closePanel() {
-    voicePanel.classList.add('closed');
-    voicePanel.setAttribute('aria-hidden', 'true');
-    arrowDownBtn.style.display = 'none';
-    arrowUpBtn.style.display = 'flex';
-  }
-
-  function openPanel() {
-    voicePanel.classList.remove('closed');
-    voicePanel.setAttribute('aria-hidden', 'false');
-    arrowDownBtn.style.display = 'flex';
-    arrowUpBtn.style.display = 'none';
-  }
-
-  lampBtn.addEventListener('click', () => {
-    if (voicePanel.classList.contains('closed')) {
-      openPanel();
+  function togglePanel() {
+    const isClosed = voicePanel.classList.contains('closed');
+    if (isClosed) {
+      // باز کردن
+      voicePanel.classList.remove('closed');
+      voicePanel.setAttribute('aria-hidden', 'false');
+      arrowUpBtn.style.display = 'none';
+      arrowDownBtn.style.display = 'flex';
     } else {
-      closePanel();
+      // بستن
+      voicePanel.classList.add('closed');
+      voicePanel.setAttribute('aria-hidden', 'true');
+      arrowUpBtn.style.display = 'flex';
+      arrowDownBtn.style.display = 'none';
     }
-  });
+  }
 
-  arrowUpBtn.addEventListener('click', openPanel);
-  arrowDownBtn.addEventListener('click', closePanel);
+  lampBtn.addEventListener('click', togglePanel);
+  arrowUpBtn.addEventListener('click', togglePanel);
+  arrowDownBtn.addEventListener('click', togglePanel);
 </script>
 
 </body>

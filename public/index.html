@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Holyshot</title>
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet" />
-  <link rel="icon" href="https://i.postimg.cc/BvNYZdcM/5820273963253742054.jpg" type="image/png" />
   <style>
     body {
       font-family: 'Vazirmatn', sans-serif;
@@ -15,26 +14,12 @@
       direction: rtl;
       overflow-x: hidden;
     }
-
-    header {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-    }
-
+    header { position: relative; width: 100%; overflow: hidden; }
     header img {
-      width: 100%;
-      height: auto;
-      display: block;
-      max-height: 100vh;
-      object-fit: contain;
-      filter: brightness(0.6);
+      width: 100%; height: auto; display: block; max-height: 100vh;
+      object-fit: contain; filter: brightness(0.6);
     }
-
-    section {
-      padding: 40px 20px;
-      text-align: center;
-    }
+    section { padding: 40px 20px; text-align: center; }
 
     .menu-grid {
       display: grid;
@@ -42,7 +27,6 @@
       gap: 20px;
       padding: 40px 20px;
     }
-
     .menu-item {
       background-color: #95917a;
       border-radius: 8px;
@@ -52,80 +36,36 @@
       color: black;
       font-weight: bold;
     }
+    .menu-item:hover { background-color: #e7f6fc; }
+    .cat-item-img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto; }
 
-    .menu-item:hover {
-      background-color: #e7f6fc;
-    }
-
-    .cat-item-img {
-      width: 60px;
-      height: 60px;
-      object-fit: contain;
-      margin-bottom: 10px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* بخش صدای ما */
+    /* بخش صدای ما (پایین صفحه، نیمه شیشه‌ای) */
     .voice-section {
       position: fixed;
-      top: 15px; /* این مقدار تغییر داده شده */
+      bottom: 60px;
       left: 0;
       width: 100%;
-      max-height: 0;
-      overflow: hidden;
-      background-color: #1a1a1a;
+      max-height: 65vh;
+      overflow-y: auto;
+      background-color: rgba(0,0,0,0.85); /* مشکی‌تر */
       color: #ddd;
       box-sizing: border-box;
-      padding: 0 30px;
-      z-index: 9999;
-      font-family: 'Vazirmatn', sans-serif;
+      padding: 35px 60px 40px;
+      z-index: 9998;
       text-align: center;
-      border-bottom: 3px solid #c6a87d;
+      border-top: 1px solid rgba(198,168,125,0.18);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: max-height 0.6s cubic-bezier(0.4,0,0.2,1), padding 0.6s;
     }
+    .voice-section.closed { max-height: 0; padding-top: 0; padding-bottom: 0; overflow: hidden; border-top: none; }
 
-    .voice-section.open {
-      max-height: 65vh; /* ارتفاع پنل بیشتر */
-      padding: 35px 60px 40px;
-    }
-
-    .voice-section p {
-      font-size: 1.5rem;
-      margin-top: 10px;
-      margin-bottom: 30px;
-      color: #c6a87d;
-      font-weight: 600;
-    }
-
-    .voice-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      text-align: right;
-      width: 100%;
-      max-height: calc(65vh - 130px);
-      overflow-y: auto;
-      border-top: 1px solid #555;
-    }
-
-    .voice-list li {
-      margin-bottom: 30px;
-      border-bottom: 1px solid #555;
-      padding-bottom: 20px;
-    }
-
-    .voice-list strong {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 1.4em;
-      color: #c6a87d;
-    }
+    .voice-list { list-style: none; padding: 0; margin: 0; text-align: right; width: 100%; max-height: calc(65vh - 130px); overflow-y: auto; border-top: 1px solid rgba(198,168,125,0.18); }
+    .voice-list li { margin-bottom: 30px; border-bottom: 1px solid rgba(198,168,125,0.12); padding-bottom: 20px; }
+    .voice-list strong { display: block; margin-bottom: 10px; font-size: 1.4em; color: #c6a87d; }
 
     audio {
       width: 100% !important;
@@ -136,303 +76,214 @@
       height: 75px;
       box-sizing: border-box;
       background-color: #222;
+      position: relative;
     }
-
-    audio::-webkit-media-controls-panel {
-      border-radius: 12px !important;
-      background-color: #222 !important;
-      padding: 0 5px !important;
-    }
-
+    audio::-webkit-media-controls-panel { border-radius: 12px !important; background-color: #222 !important; padding: 0 5px !important; }
     audio::-webkit-media-controls-play-button,
-    audio::-webkit-media-controls-volume-slider {
-      border-radius: 12px !important;
+    audio::-webkit-media-controls-volume-slider { border-radius: 12px !important; }
+
+    /* progress bar محو + پالس (ضربان) */
+    audio::-webkit-media-controls-timeline {
+      background-color: rgba(0,0,0,0.45) !important;
+      border-radius: 8px;
+      box-shadow: 0 0 6px rgba(198,168,125,0.35);
+      animation: pulseGlow 1.5s infinite;
     }
+    audio::-moz-range-track {
+      background-color: rgba(0,0,0,0.45);
+      border-radius: 8px;
+      box-shadow: 0 0 6px rgba(198,168,125,0.35);
+      animation: pulseGlow 1.5s infinite;
+    }
+    audio::-webkit-slider-runnable-track {
+      background-color: rgba(0,0,0,0.45);
+      border-radius: 8px;
+      box-shadow: 0 0 6px rgba(198,168,125,0.35);
+      animation: pulseGlow 1.5s infinite;
+    }
+    @keyframes pulseGlow {
+      0%,100% { box-shadow: 0 0 6px rgba(198,168,125,0.35); }
+      50% { box-shadow: 0 0 18px rgba(198,168,125,0.85); }
+    }
+
+    /* دکمه لامپ (بالای صفحه)، لامپ به سمت پایین */
+    .lamp-btn {
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%) rotate(180deg); /* رو به پایین */
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 10002;
+      padding: 6px;
+      animation: lampGlow 1.8s infinite alternate;
+    }
+    .lamp-btn svg { width: 70px; height: 70px; fill: #c6a87d; filter: drop-shadow(0 0 18px #c6a87d); transition: filter .2s; }
+    @keyframes lampGlow { 0%{filter:drop-shadow(0 0 10px #c6a87d)} 50%{filter:drop-shadow(0 0 28px #fff5b1)} 100%{filter:drop-shadow(0 0 10px #c6a87d)} }
+
+    /* فلش‌ها (بزرگ‌تر) */
+    .arrow-up-btn, .arrow-down-btn {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 10001;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .arrow-up-btn { bottom: 150px; display: none; } /* وقتی بسته است نمایش داده میشه */
+    .arrow-down-btn { bottom: 70px; } /* وقتی باز است نمایش داده میشه */
+    .arrow-up-btn svg, .arrow-down-btn svg { width: 60px; height: 60px; fill: #c6a87d; filter: drop-shadow(0 0 14px #c6a87d); }
+    .arrow-up-btn:hover svg, .arrow-down-btn:hover svg { filter: drop-shadow(0 0 28px #fff5b1); }
+
+    /* آیدی اینستا: پایین صفحه، وسط، زیر فلش */
+    .insta-link {
+      position: fixed;
+      bottom: 18px; /* زیر فلش (فلش پایین 70px) */
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10003;
+      color: #c6a87d;
+      background: rgba(0,0,0,0.25);
+      padding: 6px 14px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      transition: transform .12s ease, box-shadow .12s;
+      backdrop-filter: blur(6px);
+    }
+    .insta-link:hover { transform: translateX(-50%) translateY(-3px); box-shadow: 0 8px 26px rgba(198,168,125,0.18); }
 
     footer {
       background-color: #111;
       color: #95917a;
-      padding: 20px 10px;
+      padding: 70px 10px 30px; /* بالا بردم padding-top تا زیر فیکس‌ها فاصله باشه */
       font-family: 'Vazirmatn', sans-serif;
       direction: rtl;
       text-align: center;
       position: relative;
       z-index: 1;
     }
+    footer a { color: #c6a87d; text-decoration: none; font-weight: bold; }
 
-    footer a {
-      color: #c6a87d;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    /* دکمه وسط بالا با انیمیشن نورانی قوی‌تر و بزرگ‌تر */
-    .voice-toggle-btn {
-      position: fixed;
-      top: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #c6a87d;
-      border: none;
-      padding: 18px 36px;
-      border-radius: 35px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1.7rem;
-      color: #111;
-      z-index: 10000;
-      box-shadow: 0 0 25px #c6a87d, 0 0 50px #e1d3a5, 0 0 80px #f0e7a5;
-      animation: glowingStrong 2.5s infinite alternate;
-      transition: background-color 0.3s;
-      white-space: nowrap;
-      user-select: none;
-    }
-
-    .voice-toggle-btn:hover {
-      background-color: #a88c5d;
-      animation-play-state: paused;
-    }
-
-    @keyframes glowingStrong {
-      0% {
-        box-shadow: 0 0 20px #c6a87d, 0 0 40px #e1d3a5;
-        background-color: #c6a87d;
-      }
-      50% {
-        box-shadow: 0 0 60px #f0e7a5, 0 0 120px #f8f8c2, 0 0 180px #fefddf;
-        background-color: #e1d3a5;
-      }
-      100% {
-        box-shadow: 0 0 20px #c6a87d, 0 0 40px #e1d3a5;
-        background-color: #c6a87d;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .voice-section.open {
-        max-height: 55vh !important;
-        padding: 25px 25px 30px;
-      }
-      .voice-section p {
-        font-size: 1.2rem;
-        margin-bottom: 20px;
-      }
-      .voice-list {
-        max-height: calc(55vh - 110px);
-        padding: 0 5px;
-      }
-      audio {
-        height: 70px;
-      }
-      .voice-list li {
-        margin-bottom: 20px;
-      }
-      .voice-list strong {
-        font-size: 1.2em;
-      }
-      header img {
-        filter: brightness(0.5);
-      }
-      .voice-toggle-btn {
-        top: 12px;
-        padding: 14px 28px;
-        font-size: 1.3rem;
-      }
+    @media (max-width:480px){
+      .lamp-btn svg { width: 56px; height: 56px; }
+      .arrow-up-btn svg, .arrow-down-btn svg { width: 48px; height: 48px; }
+      .insta-link { bottom: 12px; padding: 6px 12px; font-size: 14px; }
+      .voice-section { padding: 22px 16px 30px; bottom: 60px; max-height: 55vh; }
+      audio { height: 68px; }
     }
   </style>
 </head>
 <body>
 
-<!-- دکمه باز/بسته کردن بخش صدا -->
-<button
-  class="voice-toggle-btn"
-  aria-expanded="false"
-  aria-controls="voice-panel"
-  onclick="toggleVoicePanel()"
-  title="اگه دلت برای صدای ما تنگ شده، بزن رو این"
->
-  اگه دلت برای صدای ما تنگ شده، بزن رو این
-</button>
+  <!-- دکمه لامپ (رو به پایین) -->
+  <button class="lamp-btn" id="lampBtn" aria-label="باز و بسته کردن نوار صدا" title="باز و بسته کردن نوار صدا">
+    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M32 2C21.6 2 13 10.6 13 21.6c0 6.1 3.1 11.7 7.7 15.3v7.6a3 3 0 0 0 3 3h7.6a3 3 0 0 0 3-3v-7.6c4.6-3.6 7.7-9.2 7.7-15.3C51 10.6 42.4 2 32 2Zm0 38c-3.4 0-6-2.6-6-6s2.6-6 6-6 6 2.6 6 6-2.6 6-6 6Z"/>
+    </svg>
+  </button>
 
-<section id="voice-panel" class="voice-section" aria-hidden="true">
-  <ul class="voice-list">
-    <li>
-      <strong>متن ویس</strong> — ۱۰ مرداد ۱۴۰۴
-      <audio
-        controls
-        preload="none"
-        controlslist="nodownload"
-        style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;"
-      >
-        <source
-          src="https://dl.rozmusic.com/Music/1403/12/24/Sohrab%20Pakzad%20-%20110%20Ta%20%28128%29.mp3"
-          type="audio/mpeg"
-        />
-        مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
-      </audio>
-    </li>
-    <li>
-      <strong>متن ویس</strong> — ۲۵ تیر ۱۴۰۴
-      <audio
-        controls
-        preload="none"
-        controlslist="nodownload"
-        style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;"
-      >
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
-        مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
-      </audio>
-    </li>
-    <li>
-      <strong>متن ویس</strong> — ۵ مرداد ۱۴۰۴
-      <audio
-        controls
-        preload="none"
-        controlslist="nodownload"
-        style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;"
-      >
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg" />
-        مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
-      </audio>
-    </li>
-  </ul>
-</section>
+  <!-- بخش صدای ما (پایین صفحه) -->
+  <section id="voice-panel" class="voice-section" aria-hidden="false">
+    <ul class="voice-list">
+      <li>
+        <strong>متن ویس</strong> — ۱۰ مرداد ۱۴۰۴
+        <audio controls preload="none" controlslist="nodownload">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" type="audio/mpeg" />
+          مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
+        </audio>
+      </li>
+      <li>
+        <strong>متن ویس</strong> — ۲۵ تیر ۱۴۰۴
+        <audio controls preload="none" controlslist="nodownload">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
+        </audio>
+      </li>
+      <li>
+        <strong>متن ویس</strong> — ۵ مرداد ۱۴۰۴
+        <audio controls preload="none" controlslist="nodownload">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg" />
+        </audio>
+      </li>
+    </ul>
+  </section>
 
-<header>
-  <img src="https://i.postimg.cc/qRvkzHfR/IMG-3551.jpg" alt="کافه Holyshot" />
-</header>
+  <!-- فلش (باز کردن وقتی بسته و بستن وقتی باز) -->
+  <button class="arrow-up-btn" id="arrowUpBtn" aria-label="باز کردن نوار صدا" title="باز کردن نوار صدا" style="display:none;">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+  </button>
 
-<section>
-  <p>جایی برای تجربه‌ی طعم‌های خاص و لحظات ناب</p>
-</section>
+  <button class="arrow-down-btn" id="arrowDownBtn" aria-label="بستن نوار صدا" title="بستن نوار صدا">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+  </button>
 
-<section class="menu-grid">
-  <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/vH9Vtfjs/3.png"
-      class="cat-item-img"
-      alt="قهوه دمی"
-    />
-    قهوه دمی
-  </div>
-  <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/4x2sKF5N/9.png"
-      class="cat-item-img"
-      alt="چای و دمنوش"
-    />
-    چای و دمنوش
-  </div>
-  <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/d1rYxQKL/10.png"
-      class="cat-item-img"
-      alt="کیک و دسر"
-    />
-    کیک و دسر
-  </div>
-  <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/pV3jjqsC/2.png"
-      class="cat-item-img"
-      alt="نوشیدنی سرد"
-    />
-    نوشیدنی سرد
-  </div>
-  <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/7ZKY3Lx4/8.png"
-      class="cat-item-img"
-      alt="بستنی"
-    />
-    بستنی
-  </div>
-  <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/nctzZ5dy/6.png"
-      class="cat-item-img"
-      alt="میلک‌شیک"
-    />
-    میلک‌ شیک
-  </div>
-  <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/FHVk2mNC/4.png"
-      class="cat-item-img"
-      alt="اسموتی"
-    />
-    اسموتی
-  </div>
-  <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/GpStCmNK/5.png"
-      class="cat-item-img"
-      alt="ماکتیل"
-    />
-    ماکتیل
-  </div>
-  <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/pV3jjqsC/2.png"
-      class="cat-item-img"
-      alt="نوشیدنی سنتی"
-    />
-    نوشیدنی سنتی
-  </div>
-  <div class="menu-item">
-    <img
-      decoding="async"
-      loading="lazy"
-      src="https://i.postimg.cc/qMCRdrXX/1.png"
-      class="cat-item-img"
-      alt="نوشیدنی گرم"
-    />
-    نوشیدنی گرم
-  </div>
-</section>
 
-<footer>
-  <p>
-    آیدی اینستاگرام کافه:
-    <a href="https://www.instagram.com/cafe_holyshot/" target="_blank" rel="noopener noreferrer">cafe_holyshot</a>
-  </p>
-</footer>
+  <a>نوار صدا</a>
 
-<script>
-  function toggleVoicePanel() {
-    const panel = document.getElementById('voice-panel');
-    const btn = document.querySelector('.voice-toggle-btn');
-    const isOpen = panel.classList.contains('open');
 
-    if (isOpen) {
-      panel.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
-      panel.setAttribute('aria-hidden', 'true');
-    } else {
-      panel.classList.add('open');
-      btn.setAttribute('aria-expanded', 'true');
-      panel.setAttribute('aria-hidden', 'false');
+  <header>
+    <img src="https://i.postimg.cc/qRvkzHfR/IMG-3551.jpg" alt="کافه Holyshot" />
+  </header>
+
+  <section>
+    <p>جایی برای تجربه‌ی طعم‌های خاص و لحظات ناب</p>
+  </section>
+
+  <section class="menu-grid">
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/vH9Vtfjs/3.png" class="cat-item-img" alt="قهوه دمی" />قهوه دمی</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/4x2sKF5N/9.png" class="cat-item-img" alt="چای و دمنوش" />چای و دمنوش</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/d1rYxQKL/10.png" class="cat-item-img" alt="کیک و دسر" />کیک و دسر</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سرد" />نوشیدنی سرد</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/7ZKY3Lx4/8.png" class="cat-item-img" alt="بستنی" />بستنی</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/nctzZ5dy/6.png" class="cat-item-img" alt="میلک‌شیک" />میلک‌شیک</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/FHVk2mNC/4.png" class="cat-item-img" alt="اسموتی" />اسموتی</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/GpStCmNK/5.png" class="cat-item-img" alt="ماکتیل" />ماکتیل</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سنتی" />نوشیدنی سنتی</div>
+    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/qMCRdrXX/1.png" class="cat-item-img" alt="نوشیدنی گرم" />نوشیدنی گرم</div>
+  </section>
+
+  <footer>
+    <p>آیدی اینستاگرام کافه: <a href="https://www.instagram.com/cafe_holyshot/" target="_blank" rel="noopener noreferrer">cafe_holyshot</a></p>
+  </footer>
+
+  <script>
+    const lampBtn = document.getElementById('lampBtn');
+    const voicePanel = document.getElementById('voice-panel');
+    const arrowUpBtn = document.getElementById('arrowUpBtn');
+    const arrowDownBtn = document.getElementById('arrowDownBtn');
+
+    // پنل بصورت پیش‌فرض باز است
+    voicePanel.classList.remove('closed');
+    arrowUpBtn.style.display = 'none';
+    arrowDownBtn.style.display = 'flex';
+
+    function togglePanel() {
+      const isClosed = voicePanel.classList.contains('closed');
+      if (isClosed) {
+        // باز کردن
+        voicePanel.classList.remove('closed');
+        voicePanel.setAttribute('aria-hidden', 'false');
+        arrowUpBtn.style.display = 'none';
+        arrowDownBtn.style.display = 'flex';
+      } else {
+        // بستن
+        voicePanel.classList.add('closed');
+        voicePanel.setAttribute('aria-hidden', 'true');
+        arrowUpBtn.style.display = 'flex';
+        arrowDownBtn.style.display = 'none';
+      }
     }
-  }
-</script>
 
+    lampBtn.addEventListener('click', togglePanel);
+    arrowUpBtn.addEventListener('click', togglePanel);
+    arrowDownBtn.addEventListener('click', togglePanel);
+  </script>
 </body>
 </html>

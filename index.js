@@ -13,7 +13,7 @@ const bot = new Telegraf('8267992806:AAH5JWTg9u5GJ_opIDHU4joS9Q5FRVQWlto');
 app.use(express.static(path.join(__dirname, 'public')));
 
 const server = app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running at https://holyshot.onrender.com`);
 });
 
 const wss = new WebSocket.Server({ server });

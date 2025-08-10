@@ -36,39 +36,34 @@
     .menu-grid{
       display:grid;
       grid-template-columns: repeat(5, 1fr);
-      grid-template-rows: repeat(2, auto);
-      gap:12px 10px;
-      padding:30px 20px;
-      max-width: 900px;
+      gap:20px;
+      padding:40px 20px;
+      max-width: 1200px;
       margin: 0 auto;
     }
     .menu-item{
       background-color:#95917a;
       border-radius:8px;
-      padding:10px;
+      padding:10px 8px;
       text-align:center;
       transition:0.3s;
       color:black;
       font-weight:bold;
-      font-size: 0.9rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      font-size: 0.85rem;
     }
     .menu-item:hover{ background-color:#e7f6fc; }
     .cat-item-img{ width:40px; height:40px; object-fit:contain; margin:0 auto 8px; display:block; }
 
     /* -------------------------
-       LAMP (top, smaller, glowing)
+       LAMP (top, smaller, glowing stronger)
        ------------------------- */
     .lamp-btn{
       position: fixed;
-      top: 4px; /* بالاتر */
+      top: 4px;
       left: 50%;
       transform: translateX(-50%);
-      width: 130px;      /* کوچکتر */
-      height: 130px;
+      width: 140px;
+      height: 140px;
       padding: 0;
       border: none;
       background: transparent;
@@ -80,7 +75,9 @@
       pointer-events:auto;
       -webkit-tap-highlight-color: transparent;
       animation: lampFloat 6s ease-in-out infinite;
-      filter: drop-shadow(0 10px 30px rgba(198,168,125,0.85));
+      box-shadow:
+        0 0 30px rgba(198,168,125,0.7),
+        0 10px 40px rgba(198,168,125,0.9);
     }
 
     .lamp-btn img{
@@ -89,19 +86,19 @@
       object-fit:contain;
       display:block;
       user-select:none;
-      pointer-events:none; /* کلیک روی دکمه خود کار می‌کنه */
-      filter: drop-shadow(0 0 70px rgba(240,231,165,1));
+      pointer-events:none;
+      filter: drop-shadow(0 0 50px rgba(198,168,125,0.7));
       transition: filter .18s ease, transform .18s ease;
       mix-blend-mode: screen;
       background: transparent;
     }
 
-    /* شدیدترین نور چشمک‌زن */
+    /* شدیدترین نور چشمک‌زن از پایین */
     @keyframes lampGlow {
-      0% { filter: drop-shadow(0 0 40px rgba(198,168,125,0.45)); }
-      40% { filter: drop-shadow(0 0 130px rgba(240,231,165,0.95)); }
-      70% { filter: drop-shadow(0 0 180px rgba(240,231,165,1)); transform: scale(1.02); }
-      100% { filter: drop-shadow(0 0 80px rgba(198,168,125,0.55)); transform: scale(1); }
+      0% { filter: drop-shadow(0 20px 30px rgba(198,168,125,0.5)); }
+      40% { filter: drop-shadow(0 30px 80px rgba(240,231,165,0.9)); }
+      70% { filter: drop-shadow(0 40px 120px rgba(240,231,165,1)); transform: scale(1.02); }
+      100% { filter: drop-shadow(0 20px 50px rgba(198,168,125,0.7)); transform: scale(1); }
     }
     /* floating برای لامپ */
     @keyframes lampFloat {
@@ -109,7 +106,7 @@
       50% { transform: translateX(-50%) translateY(6px); }
       100% { transform: translateX(-50%) translateY(0); }
     }
-    /* اعمال چشمک زدن با تداخل */
+    /* چشمک زدن با تداخل */
     .lamp-btn.glow img { animation: lampGlow 2.2s infinite ease-in-out; }
 
     /* -------------------------
@@ -168,10 +165,9 @@
       color: var(--gold);
     }
 
-    /* فضای بیشتر برای اولین آیتم */
     .voice-list li:first-child { padding-top: 18px; }
 
-    /* استایل‌های مربوط به کنترل صوتی */
+    /* audio styles */
     audio{
       width:100% !important;
       height:66px;
@@ -184,16 +180,19 @@
       color: var(--gold);
     }
 
-    /* رنگ سفید برای فلش‌های کنترل (بسته و باز کردن پنل) */
-    .arrow-up-btn svg, .arrow-down-btn svg{
-      fill: #fff;
-      filter: drop-shadow(0 0 10px rgba(255,255,255,0.6));
-    }
-    .arrow-up-btn:hover svg, .arrow-down-btn:hover svg{
-      filter: drop-shadow(0 0 20px rgba(255,255,255,0.9));
+    /* اصلاح رنگ و شفافیت اجزای کنترل صوتی */
+    audio::-webkit-media-controls-panel {
+      background: rgba(0, 0, 0, 0.95) !important;
+      box-shadow: none !important;
+      border: none !important;
     }
 
-    /* مخفی کردن کنترل‌های اضافی در صوت (در صورت نیاز) */
+    audio::-webkit-media-controls-timeline {
+      background: rgba(0, 0, 0, 0.95) !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
     audio::-webkit-media-controls-current-time-display,
     audio::-webkit-media-controls-time-remaining-display {
       color: var(--gold) !important;
@@ -215,9 +214,7 @@
       border: none !important;
     }
 
-    /* -------------------------
-       arrows (bigger)
-       ------------------------- */
+    /* arrows (bigger) */
     .arrow-up-btn, .arrow-down-btn{
       position: fixed;
       left:50%;
@@ -235,13 +232,11 @@
     .arrow-down-btn{ bottom:74px; }
 
     .arrow-up-btn svg, .arrow-down-btn svg{
-      width:64px; height:64px; /* اندازه بزرگ */
-      fill:var(--muted);
-      filter: drop-shadow(0 0 10px rgba(150,145,122,0.45));
-      transition: filter .3s ease;
+      width:64px; height:64px; fill:#fff;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.75));
     }
     .arrow-up-btn:hover svg, .arrow-down-btn:hover svg{
-      filter: drop-shadow(0 0 26px rgba(240,231,165,0.95));
+      filter: drop-shadow(0 0 26px rgba(255,255,255,0.95));
     }
 
     /* insta link bottom center */
@@ -263,24 +258,23 @@
     }
 
     @media (max-width:480px){
-      .lamp-btn{ width:90px; height:90px; top:2px; }
-      .lamp-btn img{ filter: drop-shadow(0 0 50px rgba(240,231,165,1)); }
+      .lamp-btn{ width:120px; height:120px; top:6px; }
+      .lamp-btn img{ filter: drop-shadow(0 0 26px rgba(198,168,125,0.45)); }
       .voice-section{ padding:22px 18px 30px; bottom:60px; max-height:55vh; }
-      audio{ height:54px; }
+      audio{ height:52px; }
       .arrow-up-btn{ bottom:110px; }
       .arrow-down-btn{ bottom:70px; }
       .arrow-up-btn svg, .arrow-down-btn svg{ width:48px; height:48px; }
       .insta-link{ font-size:1rem; bottom:12px; }
       .menu-grid {
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(5, auto);
+        grid-template-columns: repeat(5, 1fr);
+        gap:12px;
+        padding: 30px 12px;
         max-width: 100%;
-        gap: 10px 6px;
-        padding: 20px 12px;
       }
       .menu-item {
-        font-size: 0.8rem;
-        padding: 8px;
+        font-size: 0.7rem;
+        padding: 8px 6px;
       }
       .cat-item-img {
         width: 32px;

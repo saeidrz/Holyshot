@@ -70,7 +70,7 @@
     /* بخش صدای ما */
     .voice-section {
       position: fixed;
-      top: 65px; /* پایین‌تر از دکمه */
+      top: 0;
       left: 0;
       width: 100%;
       max-height: 0;
@@ -79,10 +79,10 @@
       color: #ddd;
       box-sizing: border-box;
       padding: 0 30px;
-      z-index: 9998; /* کمتر از دکمه */
+      z-index: 9999;
       font-family: 'Vazirmatn', sans-serif;
       text-align: center;
-      /* border-bottom: 3px solid #c6a87d;  حذف شد */
+      /* خط زرد بالای بخش صوتی حذف شد */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -166,22 +166,22 @@
       font-weight: bold;
     }
 
-    /* دکمه وسط بالا با انیمیشن نورانی قوی‌تر و بزرگ‌تر */
+    /* دکمه وسط بالا با انیمیشن نورانی و رنگ متن و بدون کادر */
     .voice-toggle-btn {
       position: fixed;
       top: 15px;
       left: 50%;
       transform: translateX(-50%);
-      background-color: #c6a87d;
+      background-color: transparent; /* حذف کادر */
       border: none;
       padding: 18px 36px;
       border-radius: 35px;
       cursor: pointer;
       font-weight: bold;
       font-size: 1.7rem;
-      color: #111;
-      z-index: 10000; /* بالاتر از پنل */
-      box-shadow: 0 0 25px #c6a87d, 0 0 50px #e1d3a5, 0 0 80px #f0e7a5;
+      color: #95917a; /* رنگ متن */
+      z-index: 10000;
+      box-shadow: 0 0 10px #95917a, 0 0 20px #b0ad9e, 0 0 30px #d6d4c3; /* سایه نور ملایم */
       animation: glowingStrong 2.5s infinite alternate;
       transition: background-color 0.3s;
       white-space: nowrap;
@@ -189,22 +189,22 @@
     }
 
     .voice-toggle-btn:hover {
-      background-color: #a88c5d;
+      background-color: transparent;
       animation-play-state: paused;
     }
 
     @keyframes glowingStrong {
       0% {
-        box-shadow: 0 0 20px #c6a87d, 0 0 40px #e1d3a5;
-        background-color: #c6a87d;
+        box-shadow: 0 0 10px #95917a, 0 0 20px #b0ad9e;
+        color: #95917a;
       }
       50% {
-        box-shadow: 0 0 60px #f0e7a5, 0 0 120px #f8f8c2, 0 0 180px #fefddf;
-        background-color: #e1d3a5;
+        box-shadow: 0 0 30px #d6d4c3, 0 0 40px #e0decc, 0 0 50px #f0efdd;
+        color: #a39f87;
       }
       100% {
-        box-shadow: 0 0 20px #c6a87d, 0 0 40px #e1d3a5;
-        background-color: #c6a87d;
+        box-shadow: 0 0 10px #95917a, 0 0 20px #b0ad9e;
+        color: #95917a;
       }
     }
 
@@ -255,7 +255,6 @@
 </button>
 
 <section id="voice-panel" class="voice-section" aria-hidden="true">
-
   <ul class="voice-list">
     <li>
       <strong>متن ویس</strong> — ۱۰ مرداد ۱۴۰۴

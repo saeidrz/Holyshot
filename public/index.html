@@ -67,6 +67,7 @@
       margin-right: auto;
     }
 
+    /* بخش صدای ما */
     .voice-section {
       position: fixed;
       top: 0;
@@ -83,11 +84,16 @@
       font-family: 'Vazirmatn', sans-serif;
       text-align: center;
       border-bottom: 3px solid #c6a87d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
     }
 
+    /* وقتی باز هست */
     .voice-section.open {
-      max-height: 420px;
-      padding: 20px;
+      max-height: 50vh; /* نصف ارتفاع صفحه */
+      padding: 20px 40px;
     }
 
     .voice-section h2 {
@@ -95,6 +101,8 @@
       color: #c6a87d;
       font-size: 1.6em;
       margin-bottom: 10px;
+      width: 100%;
+      text-align: center;
     }
 
     .voice-list {
@@ -102,7 +110,8 @@
       padding: 0;
       margin-top: 20px;
       text-align: right;
-      max-height: 320px;
+      width: 100%;
+      max-height: calc(50vh - 70px); /* حد ارتفاع لیست باکس */
       overflow-y: auto;
     }
 
@@ -132,6 +141,8 @@
       font-family: 'Vazirmatn', sans-serif;
       direction: rtl;
       text-align: center; /* وسط چین */
+      position: relative; /* فقط اگه لازم بود */
+      z-index: 1;
     }
 
     footer a {
@@ -162,12 +173,12 @@
     }
 
     @media (max-width: 480px) {
-      .voice-section {
-        max-height: 300px !important;
-        padding: 10px 10px; /* کمتر کردن padding برای موبایل */
+      .voice-section.open {
+        max-height: 50vh !important;
+        padding: 15px 20px;
       }
       .voice-list {
-        max-height: 220px;
+        max-height: calc(50vh - 70px);
         padding: 0 5px;
       }
       audio {

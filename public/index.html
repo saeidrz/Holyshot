@@ -67,6 +67,7 @@
       margin-right: auto;
     }
 
+    /* بخش صدای ما */
     .voice-section {
       position: fixed;
       top: 0;
@@ -90,7 +91,7 @@
     }
 
     .voice-section.open {
-      max-height: 50vh;
+      max-height: 50vh; /* نصف ارتفاع صفحه */
       padding: 20px 40px;
     }
 
@@ -111,12 +112,13 @@
       width: 100%;
       max-height: calc(50vh - 70px);
       overflow-y: auto;
+      border-top: 1px solid #555;
     }
 
     .voice-list li {
-      margin-bottom: 25px;
+      margin-bottom: 30px;
       border-bottom: 1px solid #555;
-      padding-bottom: 20px;
+      padding-bottom: 15px;
     }
 
     .voice-list strong {
@@ -126,37 +128,43 @@
       color: #c6a87d;
     }
 
-    .voice-player {
-      width: 100%;
+    audio {
+      width: 100% !important;
+      cursor: pointer;
+      border-radius: 10px;
+      margin-top: 5px;
+      outline: none;
       height: 45px;
-      background-color: #2a2a2a;
-      border-radius: 8px;
-      overflow: hidden;
+      box-sizing: border-box;
+      background-color: #222;
     }
 
-    .voice-player video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      background-color: transparent;
+    audio::-webkit-media-controls-panel {
+      border-radius: 10px !important;
+      background-color: #222 !important;
+      padding: 0 5px !important;
+    }
+
+    audio::-webkit-media-controls-play-button,
+    audio::-webkit-media-controls-volume-slider {
+      border-radius: 10px !important;
     }
 
     footer {
-      background-color:#111;
-      color:#95917a;
+      background-color: #111;
+      color: #95917a;
       padding: 20px 10px;
       font-family: 'Vazirmatn', sans-serif;
       direction: rtl;
       text-align: center;
       position: relative;
       z-index: 1;
-      margin-top: 20px;
     }
 
     footer a {
-      color:#c6a87d;
-      text-decoration:none;
-      font-weight:bold;
+      color: #c6a87d;
+      text-decoration: none;
+      font-weight: bold;
     }
 
     .voice-toggle-btn {
@@ -189,6 +197,11 @@
         max-height: calc(50vh - 70px);
         padding: 0 5px;
       }
+      audio {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+      }
       .voice-list li {
         margin-bottom: 20px;
       }
@@ -215,37 +228,31 @@
   🎙️ صدای ما
 </button>
 
-<section id="voice-panel" class="voice-section" aria-hidden="true">
+<section id="voice-panel" class="voice-section open" aria-hidden="false">
   <h2>🎙️ صدای ما</h2>
   <p>هر چند وقت یک‌بار، صدای ما رو بشنو!</p>
 
   <ul class="voice-list">
     <li>
       <strong>متن ویس</strong> — ۱۰ مرداد ۱۴۰۴
-      <div class="voice-player">
-        <video controls preload="none">
-          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
-          مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
-        </video>
-      </div>
+      <audio controls preload="none" controlslist="nodownload" style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;">
+        <source src="https://dl.rozmusic.com/Music/1403/12/24/Sohrab%20Pakzad%20-%20110%20Ta%20%28128%29.mp3" type="audio/mpeg" />
+        مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
+      </audio>
     </li>
     <li>
       <strong>متن ویس</strong> — ۲۵ تیر ۱۴۰۴
-      <div class="voice-player">
-        <video controls preload="none">
-          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
-          مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
-        </video>
-      </div>
+      <audio controls preload="none" controlslist="nodownload" style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
+        مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
+      </audio>
     </li>
     <li>
       <strong>متن ویس</strong> — ۵ مرداد ۱۴۰۴
-      <div class="voice-player">
-        <video controls preload="none">
-          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg" />
-          مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
-        </video>
-      </div>
+      <audio controls preload="none" controlslist="nodownload" style="width:100%;cursor:pointer;border-radius:10px;margin-top:5px;">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg" />
+        مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
+      </audio>
     </li>
   </ul>
 </section>

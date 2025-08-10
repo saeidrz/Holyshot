@@ -154,6 +154,22 @@
       border-radius: 12px !important;
     }
 
+    /* نوار پیشرفت (Progress Bar) */
+    audio::-webkit-media-controls-timeline {
+      background-color: rgba(0, 0, 0, 0.6) !important;
+      border-radius: 8px;
+    }
+
+    audio::-moz-range-track {
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 8px;
+    }
+
+    audio::-webkit-slider-runnable-track {
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 8px;
+    }
+
     footer {
       background-color: #111;
       color: #95917a;
@@ -190,12 +206,11 @@
     }
 
     .lamp-btn svg {
-      width: 60px; /* بزرگ‌تر */
-      height: 60px;
+      width: 50px;
+      height: 50px;
       fill: #95917a;
       filter: drop-shadow(0 0 6px #95917a);
       transition: filter 0.3s ease;
-      transform: rotate(180deg); /* چرخش ۱۸۰ درجه برای اینکه لامپ به سمت پایین باشه */
     }
 
     .lamp-btn:hover svg {
@@ -231,18 +246,18 @@
     }
 
     .arrow-up-btn svg {
-      width: 45px; /* بزرگ‌تر */
-      height: 45px;
+      width: 30px;
+      height: 30px;
       fill: #95917a;
       filter: drop-shadow(0 0 6px #95917a);
       transition: filter 0.3s ease;
     }
 
     .arrow-up-btn:hover svg {
-      filter: drop-shadow(0 0 14px #c6a87d);
+      filter: drop-shadow(0 0 12px #c6a87d);
     }
 
-    /* فلش بالا صفحه وقتی پنل باز است */
+    /* فلش بالا صفحه وقتی باز است */
     .arrow-down-btn {
       position: fixed;
       bottom: 60px; /* دقیقاً بالای کادر */
@@ -260,15 +275,15 @@
     }
 
     .arrow-down-btn svg {
-      width: 45px; /* بزرگ‌تر */
-      height: 45px;
+      width: 30px;
+      height: 30px;
       fill: #95917a;
       filter: drop-shadow(0 0 6px #95917a);
       transition: filter 0.3s ease;
     }
 
     .arrow-down-btn:hover svg {
-      filter: drop-shadow(0 0 14px #c6a87d);
+      filter: drop-shadow(0 0 12px #c6a87d);
     }
 
     /* وقتی پنل بسته است فلش بالا نمایش داده شود */
@@ -304,14 +319,8 @@
         filter: brightness(0.5);
       }
       .lamp-btn svg {
-        width: 50px;
-        height: 50px;
-        transform: rotate(180deg);
-      }
-      .arrow-up-btn svg,
-      .arrow-down-btn svg {
-        width: 35px;
-        height: 35px;
+        width: 40px;
+        height: 40px;
       }
       .arrow-up-btn {
         bottom: 90px;

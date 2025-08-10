@@ -1,3 +1,6 @@
+البته! این هم کد کامل شما با تغییر مقدار `top` در کلاس `.voice-section` به `15px` تا کل کادر ویس‌ها کمی پایین‌تر بیاید و متن‌ها از بالا نزند:
+
+```html
 <!DOCTYPE html>
 <html lang="fa">
 <head>
@@ -15,7 +18,6 @@
       direction: rtl;
       overflow-x: hidden;
     }
-
 
     header {
       position: relative;
@@ -71,7 +73,7 @@
     /* بخش صدای ما */
     .voice-section {
       position: fixed;
-      top: 0;
+      top: 15px; /* این مقدار تغییر داده شده */
       left: 0;
       width: 100%;
       max-height: 0;
@@ -94,11 +96,6 @@
     .voice-section.open {
       max-height: 65vh; /* ارتفاع پنل بیشتر */
       padding: 35px 60px 40px;
-    }
-    
-    .voice-list li:first-child strong {
-      margin-top: 15px;
-      display: inline-block;
     }
 
     .voice-section p {
@@ -261,8 +258,6 @@
 </button>
 
 <section id="voice-panel" class="voice-section" aria-hidden="true">
-
-
   <ul class="voice-list">
     <li>
       <strong>متن ویس</strong> — ۱۰ مرداد ۱۴۰۴
@@ -444,3 +439,6 @@
 
 </body>
 </html>
+```
+
+اگر سوال یا موردی داشتی، حتما بگو!

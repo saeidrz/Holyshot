@@ -2,395 +2,164 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8" />
-  <title>Holyshot</title>
+  <title>Holyshot — Coming Soon</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet" />
+  <!-- فونت‌ها -->
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Vazirmatn&display=swap" rel="stylesheet" />
   <style>
     :root{
       --gold:#c6a87d;
       --muted:#95917a;
       --bg:#0a0909;
-      --panel-bg: rgba(0,0,0,0.55);
     }
 
-    html,body { height: 100%; }
+    html,body { height: 100%; margin:0; padding:0; }
     body {
       font-family: 'Vazirmatn', sans-serif;
       background-color: var(--bg);
       color: var(--muted);
-      margin: 0;
-      padding: 0;
       direction: rtl;
-      overflow-x: hidden;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      min-height:100vh;
-      padding-bottom:120px; /* جا برای لینک اینستا */
+      overflow: hidden;
     }
 
-    header{ position: relative; width:100%; overflow:hidden; }
-    header img{ width:100%; height:auto; display:block; max-height:60vh; object-fit:cover; filter:brightness(0.6); }
-
-    section { padding:40px 20px; text-align:center; }
+    header img{
+      width:100%;
+      height:auto;
+      max-height:60vh;
+      object-fit:cover;
+      filter:brightness(0.45);
+      display:block;
+    }
 
     .menu-grid{
       display:grid;
       grid-template-columns: repeat(5, 1fr);
       gap:15px;
       padding:20px 10px;
-      max-width: 650px;
-      margin: 0 auto;
+      max-width: 900px;
+      margin: 30px auto;
     }
+
     .menu-item{
       background-color:#95917a;
       border-radius:6px;
       padding:10px 6px;
       text-align:center;
-      transition:0.3s;
       color:black;
       font-weight:bold;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       display:flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
     }
-    .menu-item:hover{ background-color:#e7f6fc; cursor:pointer; }
-    .cat-item-img{
-      width:40px;
-      height:40px;
-      object-fit:contain;
-      margin-bottom:6px;
-      user-select:none;
-    }
 
-    /* -------------------------
-       LAMP (کوچکتر و بالاتر)
-       ------------------------- */
-    .lamp-btn{
+    /* لایه تار و پیام Coming Soon */
+    .overlay {
       position: fixed;
-      top: -10px; /* بالاتر */
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 120px;
-      padding: 0;
-      border: none;
-      background: transparent;
-      z-index: 10020;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      pointer-events:auto;
-      -webkit-tap-highlight-color: transparent;
-      animation: lampFloat 6s ease-in-out infinite;
-      filter: drop-shadow(0 15px 20px rgba(198,168,125,0.8)); /* نور شدیدتر از زیر */
+      inset: 0;
+      background: rgba(4,4,4,0.75);
+      backdrop-filter: blur(6px) saturate(120%);
+      -webkit-backdrop-filter: blur(6px) saturate(120%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      flex-direction: column;
+      color: var(--gold);
+      text-align: center;
+      padding: 20px;
     }
 
-    .lamp-btn img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      display:block;
-      user-select:none;
-      pointer-events:none;
-      filter: drop-shadow(0 0 40px rgba(198,168,125,0.65));
-      transition: filter .18s ease, transform .18s ease;
-      mix-blend-mode: screen;
-      background: transparent;
-    }
-
-    /* چشمک‌زن */
-    @keyframes lampGlow {
-      0% { filter: drop-shadow(0 0 30px rgba(198,168,125,0.5)); }
-      40% { filter: drop-shadow(0 0 90px rgba(240,231,165,0.95)); }
-      70% { filter: drop-shadow(0 0 140px rgba(240,231,165,1)); transform: scale(1.02); }
-      100% { filter: drop-shadow(0 0 40px rgba(198,168,125,0.55)); transform: scale(1); }
-    }
-
-    /* شناور */
-    @keyframes lampFloat {
-      0% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(6px); }
-      100% { transform: translateX(-50%) translateY(0); }
-    }
-
-    .lamp-btn.glow img { animation: lampGlow 2.2s infinite ease-in-out; }
-
-    /* -------------------------
-       VOICE PANEL (نیمه شفاف پایین صفحه)
-       ------------------------- */
-    .voice-section{
-      position: fixed;
-      left: 0;
-      bottom: 60px;
-      width: 100%;
-      max-height: 65vh;
-      background: var(--panel-bg);
-      color: #eee;
-      padding: 36px 48px 44px;
-      z-index: 10010;
-      box-sizing: border-box;
-      border-top: 1px solid rgba(198,168,125,0.15);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+    .overlay .card {
       display:flex;
       flex-direction:column;
-      align-items:center;
-      transition: max-height .55s cubic-bezier(.2,.9,.2,1), padding .4s;
-      overflow: hidden;
-    }
-
-    .voice-section.closed{
-      max-height: 0;
-      padding-top:0;
-      padding-bottom:0;
-      border-top:none;
-    }
-
-    .voice-list{
-      width:100%;
-      list-style:none;
-      padding:0;
-      margin:0;
-      text-align:right;
-      max-height: calc(65vh - 120px);
-      overflow:auto;
-      border-top:1px solid rgba(198,168,125,0.08);
-      padding-top:6px;
-    }
-
-    .voice-list li{
-      padding:14px 0 20px;
-      border-bottom:1px solid rgba(198,168,125,0.08);
-      margin:0;
-    }
-
-    .voice-list strong{
-      display:block;
-      margin-bottom:10px;
-      font-size:1.25rem;
-      color: var(--gold);
-    }
-
-    /* فضای بیشتر برای اولین آیتم */
-    .voice-list li:first-child { padding-top: 18px; }
-
-    /* audio styles */
-audio {
-  width: 93% !important;
-  height: 60px;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.4); /* پس‌زمینه محو */
-  box-sizing: border-box;
-  margin-top: 5px;
-  padding: 12px 10px; /* فاصله داخلی برای بهتر دیده شدن */
-  outline: none;
-  -webkit-appearance: none;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(198, 168, 125, 0.15);
-}
-
-    /* حذف کادر خاکستری پشت تایم‌لاین پخش صوت */
-    audio::-webkit-media-controls-timeline {
-      background: transparent !important;
-      box-shadow: none !important;
-      border-radius: 0 !important;
-    }
-    audio.playing::-webkit-media-controls-timeline {
-      background: transparent !important;
-      box-shadow: none !important;
-    }
-    audio::-moz-range-track {
-      background: transparent !important;
-      box-shadow: none !important;
-      border-radius: 0 !important;
-    }
-
-    /* arrows (بزرگ و سفید) */
-    .arrow-up-btn, .arrow-down-btn{
-      position: fixed;
-      left:50%;
-      transform: translateX(-50%);
-      z-index:10015;
-      background:transparent;
-      border:none;
-      cursor:pointer;
-      padding:8px;
-      display:flex;
+      gap: 12px;
       align-items:center;
       justify-content:center;
-    }
-    .arrow-up-btn{ bottom: 150px; display:none; }
-    .arrow-down-btn{ bottom:74px; }
-
-    .arrow-up-btn svg, .arrow-down-btn svg{
-      width:64px; height:64px;
-      fill: #fff;
-      filter: none;
-      background: transparent;
-    }
-    .arrow-up-btn:hover svg, .arrow-down-btn:hover svg{
-      filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
+      padding: 36px 48px;
+      border-radius: 14px;
+      background: rgba(10,8,8,0.35);
+      border: 1px solid rgba(198,168,125,0.12);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      transform: translateY(0);
+      animation: popIn 800ms cubic-bezier(.2,.9,.2,1);
     }
 
-    /* insta link bottom center */
-    .insta-link{
-      position: fixed;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index:10030;
+    .overlay h1 {
+      font-family: 'Anton', sans-serif;
+      font-size: 4rem;
+      line-height: 1;
+      margin: 0;
+      color: #f6eacb;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-shadow: 0 6px 30px rgba(198,168,125,0.12);
+    }
+
+    .overlay a {
+      font-family: 'Vazirmatn', sans-serif;
+      margin-top:8px;
+      color: #f6eacb;
+      opacity: 0.95;
+      font-size: 1.05rem;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      border-bottom: 1px solid transparent;
+    }
+
+    .overlay a:hover {
       color: var(--gold);
-      font-weight:700;
-      font-size:1.15rem;
-      text-decoration:none;
-      padding:6px 12px;
-      border-radius:18px;
-      background: rgba(0,0,0,0.18);
-      backdrop-filter: blur(6px);
-      box-shadow:0 6px 18px rgba(0,0,0,.5);
+      border-bottom: 1px solid var(--gold);
     }
 
-    @media (max-width:480px){
-      .lamp-btn{ width:80px; height:80px; top: -10px; }
-      .lamp-btn img{ filter: drop-shadow(0 0 26px rgba(198,168,125,0.45)); }
-      .voice-section{ padding:22px 18px 30px; bottom:60px; max-height:55vh; }
-      audio{ height:54px; }
-      .arrow-up-btn{ bottom:110px; }
-      .arrow-down-btn{ bottom:70px; }
-      .arrow-up-btn svg, .arrow-down-btn svg{ width:48px; height:48px; }
-      .insta-link{ font-size:1rem; bottom:12px; }
-      .menu-grid {
-        grid-template-columns: repeat(5, 1fr);
-        gap: 8px;
-        max-width: 100%;
-        padding: 10px 5px;
-      }
-      .menu-item {
-        font-size: 0.75rem;
-        padding: 8px 5px;
-      }
-      .cat-item-img {
-        width: 30px;
-        height: 30px;
-        margin-bottom: 4px;
-      }
+    @keyframes popIn {
+      0% { opacity: 0; transform: translateY(12px) scale(0.98); }
+      60% { opacity: 1; transform: translateY(-6px) scale(1.03); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .overlay::before{
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient( circle at 50% 30%, rgba(198,168,125,0.06) 0%, transparent 20% ),
+                  radial-gradient( circle at 20% 70%, rgba(240,231,165,0.03) 0%, transparent 15% );
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    @media (max-width:680px){
+      .overlay .card { padding: 24px 18px; }
+      .overlay h1 { font-size: 2.6rem; letter-spacing: 2px; }
+      .menu-grid{ grid-template-columns: repeat(5, 1fr); gap:8px; max-width: 100%; margin: 18px 6px; }
+      .menu-item{ font-size:0.78rem; padding:8px 6px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- LAMP (کوچکتر و بالاتر) -->
-  <button id="lampBtn" class="lamp-btn glow" aria-expanded="true" aria-controls="voice-panel" title="باز و بسته کردن نوار صدا">
-    <img src="https://i.postimg.cc/j5hwpLCC/56-561430-lamp-modern-ceiling-lamp-png-clipart.png" alt="لامپ" />
-  </button>
-
-  <!-- VOICE PANEL (نیمه شفاف پایین صفحه) -->
-  <section id="voice-panel" class="voice-section" aria-hidden="false">
-    <ul class="voice-list" id="voiceList">
-      <li>
-        <strong>متن ویس</strong> — ۱۰ مرداد ۱۴۰۴
-        <audio controls preload="none" controlslist="nodownload">
-          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
-          مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
-        </audio>
-      </li>
-      <li>
-        <strong>متن ویس</strong> — ۲۵ تیر ۱۴۰۴
-        <audio controls preload="none" controlslist="nodownload">
-          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
-        </audio>
-      </li>
-      <li>
-        <strong>متن ویس</strong> — ۵ مرداد ۱۴۰۴
-        <audio controls preload="none" controlslist="nodownload">
-          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg" />
-        </audio>
-      </li>
-    </ul>
-  </section>
-
-  <!-- دکمه‌های باز/بسته کردن پنل -->
-  <button id="arrowUpBtn" class="arrow-up-btn" aria-label="باز کردن نوار صدا" style="display:none;">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
-  </button>
-
-  <button id="arrowDownBtn" class="arrow-down-btn" aria-label="بستن نوار صدا">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
-  </button>
-
-  <!-- لینک اینستا -->
-  <a class="insta-link" href="https://www.instagram.com/cafe_holyshot/" target="_blank" rel="noopener noreferrer">cafe_holyshot</a>
-
-  <!-- محتوا -->
   <header>
     <img src="https://i.postimg.cc/qRvkzHfR/IMG-3551.jpg" alt="کافه Holyshot" />
   </header>
 
-  <section>
-    <p>جایی برای تجربه‌ی طعم‌های خاص و لحظات ناب</p>
+  <section class="menu-grid" aria-hidden="true">
+    <div class="menu-item">قهوه دمی</div>
+    <div class="menu-item">چای و دمنوش</div>
+    <div class="menu-item">کیک و دسر</div>
+    <div class="menu-item">نوشیدنی سرد</div>
+    <div class="menu-item">بستنی</div>
   </section>
 
-  <section class="menu-grid">
-    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/vH9Vtfjs/3.png" class="cat-item-img" alt="قهوه دمی" />قهوه دمی</div>
-    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/4x2sKF5N/9.png" class="cat-item-img" alt="چای و دمنوش" />چای و دمنوش</div>
-    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/d1rYxQKL/10.png" class="cat-item-img" alt="کیک و دسر" />کیک و دسر</div>
-    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سرد" />نوشیدنی سرد</div>
-    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/7ZKY3Lx4/8.png" class="cat-item-img" alt="بستنی" />بستنی</div>
-    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/nctzZ5dy/6.png" class="cat-item-img" alt="میلک‌شیک" />میلک‌شیک</div>
-    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/FHVk2mNC/4.png" class="cat-item-img" alt="اسموتی" />اسموتی</div>
-    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/GpStCmNK/5.png" class="cat-item-img" alt="ماکتیل" />ماکتیل</div>
-    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/pV3jjqsC/2.png" class="cat-item-img" alt="نوشیدنی سنتی" />نوشیدنی سنتی</div>
-    <div class="menu-item"><img decoding="async" loading="lazy" src="https://i.postimg.cc/qMCRdrXX/1.png" class="cat-item-img" alt="نوشیدنی گرم" />نوشیدنی گرم</div>
-  </section>
-
-  <script>
-    const lampBtn = document.getElementById('lampBtn');
-    const voicePanel = document.getElementById('voice-panel');
-    const arrowUpBtn = document.getElementById('arrowUpBtn');
-    const arrowDownBtn = document.getElementById('arrowDownBtn');
-    const audios = document.querySelectorAll('audio');
-
-    voicePanel.classList.remove('closed');
-    arrowUpBtn.style.display = 'none';
-    arrowDownBtn.style.display = 'flex';
-    lampBtn.setAttribute('aria-expanded', 'true');
-
-    function setPanelState(open) {
-      if (open) {
-        voicePanel.classList.remove('closed');
-        voicePanel.setAttribute('aria-hidden', 'false');
-        arrowDownBtn.style.display = 'flex';
-        arrowUpBtn.style.display = 'none';
-        lampBtn.setAttribute('aria-expanded', 'true');
-        lampBtn.classList.add('glow');
-      } else {
-        voicePanel.classList.add('closed');
-        voicePanel.setAttribute('aria-hidden', 'true');
-        arrowDownBtn.style.display = 'none';
-        arrowUpBtn.style.display = 'flex';
-        lampBtn.setAttribute('aria-expanded', 'false');
-        lampBtn.classList.remove('glow');
-      }
-    }
-
-    function togglePanel() {
-      setPanelState(voicePanel.classList.contains('closed'));
-    }
-
-    lampBtn.addEventListener('click', togglePanel);
-    arrowUpBtn.addEventListener('click', togglePanel);
-    arrowDownBtn.addEventListener('click', togglePanel);
-
-    audios.forEach(a => {
-      a.addEventListener('play', () => a.classList.add('playing'));
-      a.addEventListener('pause', () => a.classList.remove('playing'));
-      a.addEventListener('ended', () => a.classList.remove('playing'));
-    });
-  </script>
+  <!-- لایه Coming Soon با لینک اینستاگرام -->
+  <div class="overlay" role="dialog" aria-modal="true" aria-label="Coming Soon">
+    <div class="card">
+      <h1>COMING SOON</h1>
+      <a href="https://instagram.com/cafe_holyshot" target="_blank" rel="noopener noreferrer">
+        Instagram : @holyshot
+      </a>
+    </div>
+  </div>
 
 </body>
 </html>
